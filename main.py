@@ -31,7 +31,7 @@ def crt(data):
 
 def get_tasks(session,skill_name):
     tasks = []
-    for k in range(0,4000):  
+    for k in range(0,6250):  
         url='https://www.curseofaros.com/highscores'
         tasks.append(asyncio.create_task(session.get(url+skill_name+'.json?p='+str(k))))
     return tasks
@@ -114,7 +114,7 @@ async def log(ctx):
         await ctx.send("logging failed")
     
 @bot.command()
-async def logi(ctx):
+async def logimage(ctx):
     if os.path.exists("logs.png"):
         os.remove("logs.png")
     await ctx.send("dataframing ...")
