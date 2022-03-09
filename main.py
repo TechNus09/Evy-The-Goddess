@@ -1,17 +1,12 @@
 import os
 import math
 import asyncio
-import discord as d
-from discord.ext import commands
 from datetime import date as dt
 from urllib.request import Request, urlopen
 import json
 import nest_asyncio
 import time
-import aiohttp  
-import pandas as pd
-import numpy as np
-import dataframe_image as dfi
+import aiohttp
 
 from db_helper import *
 from evy_helper import *
@@ -22,19 +17,8 @@ nest_asyncio.apply()
  
 event_log = {}
 #global lock_state
-#lock_state = True
+#lock_state = True     
 
-def crt(data):
-    log_file = open("data.json", "w")
-    log_file = json.dump(data, log_file, indent = 4)
-    return True     
-
-def get_tasks(session,skill_name):
-    tasks = []
-    for k in range(0,6250):  
-        url='https://www.curseofaros.com/highscores'
-        tasks.append(asyncio.create_task(session.get(url+skill_name+'.json?p='+str(k))))
-    return tasks
 
 
 async def makelog() :
@@ -51,11 +35,11 @@ async def makelog() :
             to_do = get_tasks(session, c_skill[skill_x])
             responses = await asyncio.gather(*to_do)
             for response in responses:
-                fdata = await response.json()
-                for i in range(0,20):
+                data = await response.json()
+                for fdata in data :
                     member_temp = { 'ign' : 'name' , 'mining_xp' : 0 , 'woodcutting_xp': 0 , 'total': 0}
-                    player_name = fdata[i]["name"]
-                    xp = fdata[i]["xp"]
+                    player_name = fdata["name"]
+                    xp = fdata["xp"]
                     tag = player_name.split()[0]                    
                     if tag.upper() == "OWO":
                         if player_name in name_list:
@@ -77,7 +61,7 @@ async def makelog() :
 
 
 
-bot = commands.Bot(command_prefix='&')
+bot = Client(token=TOKEN)
 
 bot.remove_command("help")
 bot.remove_command("date")
@@ -112,17 +96,9 @@ async def log(ctx):
         await ctx.channel.send('collected data!', file=d.File("data.json"))
     else:
         await ctx.send("logging failed")
-    
-@bot.command()
-async def logimage(ctx):
-    if os.path.exists("logs.png"):
-        os.remove("logs.png")
-    await ctx.send("dataframing ...")
-    df = pd.DataFrame.from_dict(event_log, orient="index")
-    df_styled = df.style.background_gradient()
-    await ctx.send("imagification ... ")
-    dfi.export(df_styled,"logs.png")
-    await ctx.channel.send('imagification completed', file=d.File("logs.png"))
+
+
+
 
 @bot.command()
 async def create(ctx):
@@ -224,4 +200,4 @@ async def event(ctx,skill='total'):
 
 
 
-bot.run(os.getenv("TOKEN"))
+bot.start()

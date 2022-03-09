@@ -75,3 +75,11 @@ def RankList(rl):
     return msg
 
 
+def get_tasks(session,skill_name):
+    tasks = []
+    for k in range(0,6250):  
+        url='https://www.curseofaros.com/highscores'
+        tasks.append(asyncio.create_task(session.get(url+skill_name+'.json?p='+str(k))))
+    return tasks
+    
+
