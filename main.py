@@ -64,32 +64,30 @@ async def on_ready():
 @bot.command(name="guildlb",
              description="Show Guild's Leaderboard In Total Xp Or Specific Skill",
              options=[
-                     	it.Option(
-                        		     name="Skill",
-                             	  description="The Leaderboard Skill",
-             		                type=it.OptionType.STRING,
-             		                required=True,
-             		                choices=[
-             			                       it.Choice(name="Total",value="total"),
-                	                       it.Choice(name="Combat",value="combat"),
-            	                           	it.Choice(name="Mining",value="mining"),
-           	                          		it.Choice(name="Smithinh",value="smithing"),
-             	                          	it.Choice(name="Woodcutting",value="woodcutting"),
-           	                           	it.Choice(name="Crafting",value="crafting"),              
-             	                          it.Choice(name="Fishing",value="fishing"),
-           	                           	it.Choice(name="Cooking",value="cooking"),
-             	                       			],
+                     it.Option(
+                               name="Skill",
+                               description="The Leaderboard Skill",
+             		       type=it.OptionType.STRING,
+             		       required=True,
+             		       choices=[
+             			        it.Choice(name="Total",value="total"),
+                	                it.Choice(name="Combat",value="combat"),
+            	                        it.Choice(name="Mining",value="mining"),
+           	                        it.Choice(name="Smithinh",value="smithing"),
+             	                        it.Choice(name="Woodcutting",value="woodcutting"),
+           	                        it.Choice(name="Crafting",value="crafting"),              
+             	                        it.Choice(name="Fishing",value="fishing"),
+           	                        it.Choice(name="Cooking",value="cooking"),
+             	                       ],
               	              	),
-              	       it.Option(
-              	       	         name="tag",
-              	       	         description="Guild Tag To Look For",
-              	       	         type=it.OptionType.STRING,
-              	       	         required=False,
-              	       	         ),
-              	       	         
-             		      ],
-             			
-           	)        
+              	     it.Option(
+              	       	       name="tag",
+              	       	       description="Guild Tag To Look For",
+              	       	       type=it.OptionType.STRING,
+              	       	       required=False,
+              	       	       ),   
+                     ],		
+              )        
 async def guildlb(ctx:CC,skill:str,tag:str="god"):
     await ctx.defer()
     g_tag = tag.upper()
