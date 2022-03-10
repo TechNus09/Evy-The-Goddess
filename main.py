@@ -102,11 +102,14 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
             e.insert(0,embeds[0])
         else :
             skill_order = skills.index(skill)
+            print("fetching")
             result = asyncio.run(searchtag(skill_afx[skill_order],g_tag))
+            print("making embed")
             embeds = makeEmbeds(result,g_tag,skill.capitalize())
+            print("embeds finished")
             e = embeds[1]
             e.insert(0,embeds[0])
-            
+        print("sending embeds")    
         await ctx.edit("Guild Leaderboard",embeds=e)
     
 
