@@ -339,7 +339,7 @@ async def searchtag(skill_name,guildtag):
                     tag = player_name.split()[0]
                     tag = tag.upper()
                     if tag == guildtag.upper():
-                        print(player_name)
+                        
                         if player_name in guildreg_names :
                             continue
                         else:
@@ -349,12 +349,16 @@ async def searchtag(skill_name,guildtag):
                 break 
     print("sorting ...")
     temp_dic = {k: v for k, v in sorted(guildreg_names.items(), key=lambda item: item[1],reverse=True)}
+    print("members unsorted")
+    print(temp_dict)
     members_sorted.clear()
     total_xp = 0
     for key, value in temp_dic.items():
         total_xp += value
         test = key + " -- " + "{:,}".format(value) +"\n [Lv."+str(tabfill(value)[0])+" ("+str(tabfill(value)[1])+"%)]"
         members_sorted.append(test)
+    print("members sorted")
+    print(member_sorted)
     mini_list = []
     for i in range(len(members_sorted)):
         mini_list.append(members_sorted[i])
