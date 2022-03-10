@@ -320,7 +320,7 @@ async def searchtag(skill_name,guildtag):
         responses = await asyncio.gather(*to_do)
         for response in responses:
             data = await response.json()
-            if data != []
+            if data != [] :
                 for fdata in data: 
                     player_name = fdata["name"]
                     xp = fdata["xp"]
