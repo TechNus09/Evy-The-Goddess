@@ -316,8 +316,11 @@ async def searchtag(skill_name,guildtag):
     guildreg_names = {}
     x = 0
     async with aiohttp.ClientSession() as session:
+        print("start aiohttp")
         to_do = get_tasks(session,skill_name)
+        print("finished aiohttp")
         responses = await asyncio.gather(*to_do)
+        print("checking responses")
         for response in responses:
             if x % 20 == 0 :
                 print("page"+str(x*20))
