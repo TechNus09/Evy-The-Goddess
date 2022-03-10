@@ -347,9 +347,11 @@ async def searchtag(skill_name,guildtag):
                             continue
             elif data == [] :
                 break 
+    print("members unsorted")
+    print(guildreg_names)
     print("sorting ...")
     temp_dic = {k: v for k, v in sorted(guildreg_names.items(), key=lambda item: item[1],reverse=True)}
-    print("members unsorted")
+    print("members sorted")
     print(temp_dict)
     members_sorted.clear()
     total_xp = 0
@@ -357,7 +359,7 @@ async def searchtag(skill_name,guildtag):
         total_xp += value
         test = key + " -- " + "{:,}".format(value) +"\n [Lv."+str(tabfill(value)[0])+" ("+str(tabfill(value)[1])+"%)]"
         members_sorted.append(test)
-    print("members sorted")
+    print("members styled")
     print(member_sorted)
     mini_list = []
     for i in range(len(members_sorted)):
