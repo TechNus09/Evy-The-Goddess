@@ -112,7 +112,7 @@ def makeEmbeds(result,tag,skill):
         embeds_list.append(embed)	   
         main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
         	                description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
-        	                fields=[]
+        	                fields=[],
         	                color=0x00ff00)        
     return main_embed, embeds_list	                  
             
