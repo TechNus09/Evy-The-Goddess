@@ -319,7 +319,7 @@ async def searchtag(skill_name,guildtag):
         to_do = get_tasks(session,skill_name)
         responses = await asyncio.gather(*to_do)
         for response in responses:
-            if x mod 20 == 0 :
+            if x % 20 == 0 :
                 print("page"+str(x*20))
             x += 1
             data = await response.json()
