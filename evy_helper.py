@@ -323,7 +323,7 @@ async def searchtag(skill_name,guildtag):
                 print("page"+str(x*20))
             x += 1
             data = await response.json()
-            print("page
+            
             if data != [] :
                 for fdata in data: 
                     player_name = fdata["name"]
