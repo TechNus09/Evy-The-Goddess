@@ -65,7 +65,7 @@ async def on_ready():
              description="Show Guild's Leaderboard In Total Xp Or Specific Skill",
              options=[
                      it.Option(
-                               name="Skill",
+                               name="skill",
                                description="The Leaderboard Skill",
              		       type=it.OptionType.STRING,
              		       required=True,
