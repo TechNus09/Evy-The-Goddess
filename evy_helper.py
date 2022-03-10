@@ -339,6 +339,7 @@ async def searchtag(skill_name,guildtag):
                     tag = player_name.split()[0]
                     tag = tag.upper()
                     if tag == guildtag.upper():
+                        print(player_name)
                         if player_name in guildreg_names :
                             continue
                         else:
