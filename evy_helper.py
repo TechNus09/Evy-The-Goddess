@@ -352,7 +352,7 @@ async def searchtag(skill_name,guildtag):
     print("sorting ...")
     temp_dic = {k: v for k, v in sorted(guildreg_names.items(), key=lambda item: item[1],reverse=True)}
     print("members sorted")
-    print(temp_dict)
+    print(temp_dic)
     members_sorted.clear()
     total_xp = 0
     for key, value in temp_dic.items():
