@@ -5,6 +5,10 @@ import time
 import math
 import copy
 import asyncio
+import aiohttp
+import nest_asyncio
+
+nest_asyncio.apply()
 
 
 def SortUp(old_log,new_log):
