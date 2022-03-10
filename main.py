@@ -101,7 +101,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
             e = embeds[1]
             e.insert(0,embeds[0])
         else :
-            skill_order = skills.index(skill)
+            skill_order = skills.index(skill.lower())
             print("fetching")
             result = asyncio.run(searchtag(skill_afx[skill_order],g_tag))
             print("making embed")
