@@ -94,7 +94,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
     if len(g_tag) > 5 or len(g_tag) < 2:
         ctx.send("Invalid tag.\nValid tags length is between 2-5")
     else :
-    	await ctx.send("Fetching Data ...")
+        await ctx.send("Fetching Data ...")
         if skill == "total":
             result = asyncio.run(searchtagtotal(g_tag)) 
             embeds = makeEmbeds(result,g_tag,skill.capitalize())
