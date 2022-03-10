@@ -73,7 +73,7 @@ async def on_ready():
              			        it.Choice(name="Total",value="total"),
                 	                it.Choice(name="Combat",value="combat"),
             	                        it.Choice(name="Mining",value="mining"),
-           	                        it.Choice(name="Smithinh",value="smithing"),
+           	                        it.Choice(name="Smithing",value="smithing"),
              	                        it.Choice(name="Woodcutting",value="woodcutting"),
            	                        it.Choice(name="Crafting",value="crafting"),              
              	                        it.Choice(name="Fishing",value="fishing"),
