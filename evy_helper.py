@@ -354,11 +354,15 @@ async def searchtag(skill_name,guildtag):
     print("members sorted")
     print(temp_dic)
     #members_sorted.clear()
-    print("styling ...")
     total_xp = 0
+    print("styling ...")
+    
     for key, value in temp_dic.items():
+        print(key)
         total_xp += value
+        print(str(total_xp))
         test = key + " -- " + "{:,}".format(value) +"\n [Lv."+str(tabfill(value)[0])+" ("+str(tabfill(value)[1])+"%)]"
+        print(test)
         members_sorted.append(test)
     print("members styled")
     print(member_sorted)
