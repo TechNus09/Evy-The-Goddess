@@ -336,6 +336,7 @@ async def searchtag(skill_name,guildtag):
     print("start fetching")
     members_sorted = []
     guildreg_names = {}
+    temp_dic = {}
     x = 0
     async with aiohttp.ClientSession() as session:
         print("start aiohttp")
@@ -361,31 +362,23 @@ async def searchtag(skill_name,guildtag):
             elif data == [] :
                 break 
     print("members unsorted")
-    #print(guildreg_names)
     print("sorting ...")
     temp_dic = {k: v for k, v in sorted(guildreg_names.items(), key=lambda item: item[1],reverse=True)}
     print("members sorted")
-    #print(temp_dic)
-    #members_sorted.clear()
     total_xp = 0
     print("styling ...")
     
     for key, value in temp_dic.items():
-        print(key)
         total_xp += value
-        print(str(total_xp))
         test = key + " -- " + "{:,}".format(value) +"\n [Lv."+str(tabfill(value)[0])+" ("+str(tabfill(value)[1])+"%)]"
-        print(test)
         members_sorted.append(test)
     print("members styled")
-    print(member_sorted)
-    mini_list = []
-    for i in range(len(members_sorted)):
-        mini_list.append(members_sorted[i])
-    members_sorted.clear()
-    temp_dic = {}
+    print(members_sorted)
+    #mini_list = []
+    #for i in range(len(members_sorted)):
+        #mini_list.append(members_sorted[i])
     print("finished")
-    return mini_list, total_xp
+    return members_sorted, total_xp
 
 #get guilds members rankings in total xp (20000)
 async def searchtagtotal(guildtag):
