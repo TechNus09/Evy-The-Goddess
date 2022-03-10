@@ -311,15 +311,19 @@ async def SearchEventTotal(old_log):
 ##############################################################################
 #get guild members rankings in a certain skill (20000)    
 async def searchtag(skill_name,guildtag):
-    start = time.time()
+    print("start fetching")
     members_sorted = []
     guildreg_names = {}
-    guildreg_ranks = {}
+    x = 0
     async with aiohttp.ClientSession() as session:
         to_do = get_tasks(session,skill_name)
         responses = await asyncio.gather(*to_do)
         for response in responses:
+            if x mod 20 == 0 :
+                print("page"+str(x*20))
+            x += 1
             data = await response.json()
+            print("page
             if data != [] :
                 for fdata in data: 
                     player_name = fdata["name"]
@@ -334,6 +338,7 @@ async def searchtag(skill_name,guildtag):
                             continue
             elif data == [] :
                 break 
+    print("sorting ...")
     temp_dic = {k: v for k, v in sorted(guildreg_names.items(), key=lambda item: item[1],reverse=True)}
     members_sorted.clear()
     total_xp = 0
@@ -346,6 +351,7 @@ async def searchtag(skill_name,guildtag):
         mini_list.append(members_sorted[i])
     members_sorted.clear()
     temp_dic = {}
+    print("finished")
     return mini_list, total_xp
 
 #get guilds members rankings in total xp (20000)
