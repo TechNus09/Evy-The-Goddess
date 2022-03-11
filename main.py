@@ -75,7 +75,7 @@ def pagerMaker(pos,count):
         rrank = i*20 + 1
         rankk = (i+1)*20 
         option = SelectOption(label=f"Page {i+1} (#{rrank}--#{rankk})",
-                              value=str(i+1),
+                              value=str(i),
                               )
         options_list.append(option)
     last_option = SelectOption(label=f"Page {leng} (#{(leng-1)*20+1}--#{count})",
@@ -201,7 +201,7 @@ async def first_response(ctx:it.ComponentContext):
 @bot.component("last_button")
 async def last_response(ctx:it.ComponentContext):               
     data = pager_reg[str(ctx.author.user.username)] 
-    chosen_page = len(data[2])
+    chosen_page = len(data[2]) - 1
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
@@ -231,7 +231,7 @@ async def forward_response(ctx:it.ComponentContext):
     if data[0]<len(data[2]):
         chosen_page = data[0]+1
     elif data[0] == len(data[2]):
-        chosen_page = len(data[2])
+        chosen_page = len(data[2]) - 1
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
