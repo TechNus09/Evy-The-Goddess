@@ -39,23 +39,23 @@ guilds_cooking = {}
 
 first_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name=":rewind:"), 
+                 emoji=it.Emoji(name=":rewind:")._json, 
                  custom_id="first_button", )               
 backward_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name=":arrow_backward:"), 
+                 emoji=it.Emoji(name=":arrow_backward:")._json, 
                  custom_id="backward_button", )
 stop_b = Button(
                  style=ButtonStyle.DANGER, 
-                 emoji=it.Emoji(name=":stop_button:"), 
+                 emoji=it.Emoji(name=":stop_button:")._json, 
                  custom_id="stop_button", )
 forward_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name=":arrow_forward:"), 
+                 emoji=it.Emoji(name=":arrow_forward:")._json, 
                  custom_id="forward_button", )
 last_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name=":fast_forward:"), 
+                 emoji=it.Emoji(name=":fast_forward:")._json, 
                  custom_id="last_button", )
 b_row = ActionRow(
                   components=[
@@ -72,13 +72,13 @@ def pagerMaker(pos,count):
     options_list = []
     leng = count // 20 + 1
     for i in range(leng-1):
-        rrank = i*20
-        rankk = (i+1)*20
+        rrank = i*20 + 1
+        rankk = (i+1)*20 + 1
         option = SelectOption(label=f"Page {i+1} (#{rrank}--#{rankk})",
                               value=str(i+1),
                               )
         options_list.append(option)
-    last_option = SelectOption(label=f"Page {leng} (#{leng*20}--#{count})",
+    last_option = SelectOption(label=f"Page {leng} (#{(leng-1)*20+1}--#{count})",
                                 value=str(leng+1),
                                 )
     options_list.append(last_option)
