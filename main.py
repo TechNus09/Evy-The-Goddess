@@ -12,7 +12,7 @@ from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, 
 from interactions import CommandContext as CC
 #from db_helper import *
 from evy_helper import *
-#import logging
+import logging
 
    
 nest_asyncio.apply()
@@ -40,7 +40,7 @@ guilds_cooking = {}
 
 
 bot = Client(os.getenv("TOKEN"))
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -94,7 +94,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
         ctx.send("Invalid tag.\nValid tags length is between 2-5")
     else :
         await ctx.send("Fetching Data ...")
-        if skill == "total":
+        if skill.lower() == "total":
             result = asyncio.run(searchtagtotal(g_tag)) 
             embeds = makeEmbeds(result,g_tag,"Total Xp")
            
