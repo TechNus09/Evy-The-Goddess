@@ -119,12 +119,13 @@ def get_tasks(session,skill_name):
 def makeEmbeds(result,tag,skill):
     embeds_list = []
     fields_list = []
+    last_fields_list = []
     print("start embeding ...")
     members_count = len(result[0]) 
     embeds_count = math.ceil(members_count/20)
     total_xp = "{:,}".format(result[1])
     print("got counts and total xp")
-    for i in range(embeds_count):
+    for i in range(embeds_count-1):
         print("embed "+str(i+1))
         fields_list = []
         for j in range(20):
@@ -137,7 +138,17 @@ def makeEmbeds(result,tag,skill):
         	                fields=fields_list,
         	                color=0x00ff00)
         print("finished embed "+str(i+1))
-        embeds_list.append(embed)	   
+        embeds_list.append(embed)
+    for j in range(members_count % 20):
+        print("field "+str(j+1))
+        rank = ((members_count-1)*20)+j+1
+        field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
+        last_fields_list.append(field)
+    last_embed = it.Embed(title="\u200b",
+                     description="\u200b",       
+                     fields=last_fields_list,                     color=0x00ff00)
+    print("finished last embed")
+    embeds_list.append(last_embed)   	   
     main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
         	          description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
         	          fields=[],
