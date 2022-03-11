@@ -79,7 +79,7 @@ def pagerMaker(pos,count):
                               )
         options_list.append(option)
     last_option = SelectOption(label=f"Page {leng} (#{(leng-1)*20+1}--#{count})",
-                                value=str(leng),
+                                value=str(leng-1),
                                 )
     options_list.append(last_option)
     pager_menu = SelectMenu(options=options_list,
@@ -231,7 +231,7 @@ async def backward_response(ctx:it.ComponentContext):
 @bot.component("forward_button")
 async def forward_response(ctx:it.ComponentContext):                 
     data = pager_reg[str(ctx.author.user.username)] 
-    if data[0]<len(data[2]):
+    if data[0]<len(data[2])-1:
         chosen_page = data[0] + 1
     elif data[0] == len(data[2]) - 1:
         chosen_page = len(data[2]) - 1
