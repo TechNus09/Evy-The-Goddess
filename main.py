@@ -39,23 +39,23 @@ guilds_cooking = {}
 
 first_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 label=":rewind:", 
+                 emoji=it.Emoji(name=":rewind:"), 
                  custom_id="first_button", )               
 backward_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 label=":arrow_backward:", 
+                 emoji=it.Emoji(name=":arrow_backward:"), 
                  custom_id="backward_button", )
 stop_b = Button(
                  style=ButtonStyle.DANGER, 
-                 label=":stop_button:", 
+                 emoji=it.Emoji(name=":stop_button:"), 
                  custom_id="stop_button", )
 forward_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 label=":arrow_forward:", 
+                 emoji=it.Emoji(name=":arrow_forward:"), 
                  custom_id="forward_button", )
 last_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 label=":fast_forward:", 
+                 emoji=it.Emoji(name=":fast_forward:"), 
                  custom_id="last_button", )
 b_row = ActionRow(
                   components=[
@@ -83,7 +83,7 @@ def pagerMaker(pos,count):
                                 )
     options_list.append(last_option)
     pager_menu = SelectMenu(options=options_list,
-	                           placeholder=f"Page ({pos}/{leng})",
+	                           placeholder=f"Page ({pos+1}/{leng})",
 	                           custom_id="pager_menu", )
     return pager_menu   
 
@@ -183,7 +183,7 @@ async def pager_response(ctx:it.ComponentContext,blah):
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
     pager_reg[str(ctx.author.user.username)][0]=chosen_page
-    n_pager = makePager(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(n_pager)
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
@@ -194,7 +194,7 @@ async def first_response(ctx:it.ComponentContext,blah):
     count = data[1]
     cur_embed = data[2][0]
     main_embed = data[3]
-    n_pager = makePager(0,count)
+    n_pager = pagerMaker(0,count)
     m_row = ActionRow(n_pager)
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
@@ -206,7 +206,7 @@ async def last_response(ctx:it.ComponentContext,blah):
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
-    n_pager = makePager(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(n_pager)
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
@@ -221,7 +221,7 @@ async def backward_response(ctx:it.ComponentContext,blah):
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
-    n_pager = makePager(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(n_pager)
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
@@ -236,7 +236,7 @@ async def forward_response(ctx:it.ComponentContext,blah):
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
-    n_pager = makePager(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(n_pager)
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
