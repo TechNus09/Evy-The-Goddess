@@ -58,7 +58,10 @@ def makeEmbeds(result,tag,skill):
         	                color=0x00ff00)
         print("finished embed "+str(i+1))
         embeds_list.append(embed)
-    for j in range(members_count % 20):
+    left = members_count % 20
+    start = len(embeds_list)*20
+    end = start + left
+    for j in range(start,end):
         print("field "+str(j+1))
         rank = ((members_count-1)*20)+j+1
         field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
