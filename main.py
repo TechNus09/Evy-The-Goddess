@@ -91,7 +91,7 @@ def pagerMaker(pos,count):
 
 
 bot = Client(os.getenv("TOKEN"))
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -178,6 +178,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
 @bot.component("pager_menu")
 async def pager_response(ctx:it.ComponentContext,blah): 
     chosen_page = int(ctx.data.values[0])
+    print(chosen_page)
     data = pager_reg[str(ctx.author.user.username)] 
     count = data[1]
     cur_embed = data[2][chosen_page]
@@ -202,6 +203,7 @@ async def first_response(ctx:it.ComponentContext):
 async def last_response(ctx:it.ComponentContext):               
     data = pager_reg[str(ctx.author.user.username)] 
     chosen_page = len(data[2]) - 1
+    print(chosen_page)
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
@@ -217,6 +219,7 @@ async def backward_response(ctx:it.ComponentContext):
         chosen_page = data[0]-1
     elif data[0] == 0:
         chosen_page = 0
+    print(chosen_page)
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
@@ -231,7 +234,8 @@ async def forward_response(ctx:it.ComponentContext):
     if data[0]<len(data[2]):
         chosen_page = data[0]+1
     elif data[0] == len(data[2]):
-        chosen_page = len(data[2]) - 1
+        chosen_page = len(data[2])
+    print(chosen_page)
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
