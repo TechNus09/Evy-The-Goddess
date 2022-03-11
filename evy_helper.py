@@ -7,6 +7,7 @@ import copy
 import asyncio
 import aiohttp
 import nest_asyncio
+import interactions as it
 
 nest_asyncio.apply()
 
