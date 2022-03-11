@@ -19,6 +19,7 @@ nest_asyncio.apply()
      
  
 event_log = {}
+pager_reg = {}
 #global lock_state
 #lock_state = True     
 
