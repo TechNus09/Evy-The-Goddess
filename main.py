@@ -63,6 +63,7 @@ def makeEmbeds(result,tag,skill):
     left = members_count % 20
     start = len(embeds_list)*20
     end = start + left
+    print("start " + str(start) + ", end "+str(end) +", left "+str(left))
     print("last embed")
     for j in range(start,end):
         print("field "+str(j+1))
