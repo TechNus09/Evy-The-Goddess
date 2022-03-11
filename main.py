@@ -220,7 +220,7 @@ async def backward_response(ctx:it.ComponentContext,blah):
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
 @bot.component("forward_button")
-async def backward_response(ctx:it.ComponentContext,blah):                 
+async def forward_response(ctx:it.ComponentContext,blah):                 
     data = pager_reg[str(ctx.author.user.username)] 
     if data[0]<len(data[2]):
         chosen_page = data[0]+1
