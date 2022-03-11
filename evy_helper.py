@@ -117,13 +117,18 @@ def get_tasks(session,skill_name):
     return tasks
 ##############Embeds Helper#############
 def makeEmbeds(result,tag,skill):
+    embeds_list = []
+    fields_list = []
+    print("start embeding ...")
     members_count = len(result[0]) 
     embeds_count = math.ceil(members_count/20)
     total_xp = "{:,}".format(result[1])
+    print("got counts and total xp")
     for i in range(embeds_count):
-        
+        print("embed "+str(i+1))
         fields_list = []
         for j in range(20):
+            print("field "+str(j+1))
             rank = (i*20)+j+1
             field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
             fields_list.append(field)
@@ -131,12 +136,13 @@ def makeEmbeds(result,tag,skill):
         	                description="\u200b",       
         	                fields=fields_list,
         	                color=0x00ff00)
-        
+        print("finished embed "+str(i+1))
         embeds_list.append(embed)	   
-        main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
-        	                description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
-        	                fields=[],
-        	                color=0x00ff00)        
+    main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
+        	          description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
+        	          fields=[],
+        	          color=0x00ff00)  
+    print("finished main embed")    
     return main_embed, embeds_list	                  
             
        
@@ -334,17 +340,13 @@ async def SearchEventTotal(old_log):
 ##############################################################################
 #get guild members rankings in a certain skill (20000)    
 async def searchtag(skill_name,guildtag):
-    print("start fetching")
     members_sorted = []
     guildreg_names = {}
     temp_dic = {}
     x = 0
     async with aiohttp.ClientSession() as session:
-        print("start aiohttp")
         to_do = get_tasks(session,skill_name)
-        print("finished aiohttp")
         responses = await asyncio.gather(*to_do)
-        print("checking responses")
         for response in responses:
             data = await response.json()
             if data != [] :
@@ -362,23 +364,12 @@ async def searchtag(skill_name,guildtag):
                             continue
             elif data == [] :
                 break 
-    print("members unsorted")
-    print("sorting ...")
     temp_dic = {k: v for k, v in sorted(guildreg_names.items(), key=lambda item: item[1],reverse=True)}
-    print("members sorted")
     total_xp = 0
-    print("styling ...")
-    
     for key, value in temp_dic.items():
         total_xp += value
         test = key + " -- " + "{:,}".format(value) +"\n [Lv."+str(tabfill(value)[0])+" ("+str(tabfill(value)[1])+"%)]"
         members_sorted.append(test)
-    print("members styled")
-    print(members_sorted)
-    #mini_list = []
-    #for i in range(len(members_sorted)):
-        #mini_list.append(members_sorted[i])
-    print("finished")
     return members_sorted, total_xp
 
 #get guilds members rankings in total xp (20000)
