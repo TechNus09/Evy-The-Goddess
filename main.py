@@ -176,7 +176,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
 
 
 @bot.component("pager_menu")
-async def pager_response(ctx:it.ComponentContext,blah): 
+async def pager_response(ctx:it.ComponentContext): 
     chosen_page = int(ctx.data.values[0])
     data = pager_reg[str(ctx.author.user.username)] 
     count = data[1]
@@ -184,22 +184,22 @@ async def pager_response(ctx:it.ComponentContext,blah):
     main_embed = data[3]
     pager_reg[str(ctx.author.user.username)][0]=chosen_page
     n_pager = pagerMaker(chosen_page,count)
-    m_row = ActionRow(n_pager)
+    m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
 @bot.component("first_button")
-async def first_response(ctx:it.ComponentContext,blah):                 
+async def first_response(ctx:it.ComponentContext):                 
     data = pager_reg[str(ctx.author.user.username)] 
     pager_reg[str(ctx.author.user.username)][0] = 0
     count = data[1]
     cur_embed = data[2][0]
     main_embed = data[3]
     n_pager = pagerMaker(0,count)
-    m_row = ActionRow(n_pager)
+    m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
 @bot.component("last_button")
-async def last_response(ctx:it.ComponentContext,blah):                 
+async def last_response(ctx:it.ComponentContext):                 
     data = pager_reg[str(ctx.author.user.username)] 
     chosen_page = len(data[2])
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
@@ -207,11 +207,11 @@ async def last_response(ctx:it.ComponentContext,blah):
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
     n_pager = pagerMaker(chosen_page,count)
-    m_row = ActionRow(n_pager)
+    m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
 @bot.component("backward_button")
-async def backward_response(ctx:it.ComponentContext,blah):                 
+async def backward_response(ctx:it.ComponentContext):                 
     data = pager_reg[str(ctx.author.user.username)] 
     if data[0]>0:
         chosen_page = data[0]-1
@@ -222,11 +222,11 @@ async def backward_response(ctx:it.ComponentContext,blah):
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
     n_pager = pagerMaker(chosen_page,count)
-    m_row = ActionRow(n_pager)
+    m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
 @bot.component("forward_button")
-async def forward_response(ctx:it.ComponentContext,blah):                 
+async def forward_response(ctx:it.ComponentContext):                 
     data = pager_reg[str(ctx.author.user.username)] 
     if data[0]<len(data[2]):
         chosen_page = data[0]+1
@@ -237,11 +237,11 @@ async def forward_response(ctx:it.ComponentContext,blah):
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
     n_pager = pagerMaker(chosen_page,count)
-    m_row = ActionRow(n_pager)
+    m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
 @bot.component("stop_button")
-async def stop_response(ctx:it.ComponentContext,blah):                 
+async def stop_response(ctx:it.ComponentContext):                 
     data = pager_reg[str(ctx.author.user.username)]
     cur_pos = data[0]
     cur_embed = data[2][cur_pos]
