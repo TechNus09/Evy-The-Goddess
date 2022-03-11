@@ -85,7 +85,6 @@ def pagerMaker(pos,count):
     pager_menu = SelectMenu(options=options_list,
 	                           placeholder=f"Page ({pos}/{leng})",
 	                           custom_id="pager_menu", )
-    print("Pager finished")
     return pager_menu   
 
 
@@ -167,7 +166,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
         print(pager_reg)
         pager_m = pagerMaker(0,m_count)
         m_row = ActionRow(components=[pager_m])
-        await ctx.edit("Finished !",embeds=[main_embed,embeds_list[0]],components=[m_row,b_row])
+        await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[m_row,b_row])
 
   
 
