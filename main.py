@@ -70,7 +70,7 @@ b_row = ActionRow(
 
 def pagerMaker(pos,count):
     options_list = []
-    leng = count // 2 + 1
+    leng = count // 20 + 1
     for i in range(leng-1):
         rrank = i*20
         rankk = (i+1)*20
