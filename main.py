@@ -91,7 +91,7 @@ def pagerMaker(pos,count):
 
 
 bot = Client(os.getenv("TOKEN"))
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
