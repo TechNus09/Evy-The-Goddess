@@ -73,7 +73,7 @@ def pagerMaker(pos,count):
     leng = count // 20 + 1
     for i in range(leng-1):
         rrank = i*20 + 1
-        rankk = (i+1)*20 + 1
+        rankk = (i+1)*20 
         option = SelectOption(label=f"Page {i+1} (#{rrank}--#{rankk})",
                               value=str(i+1),
                               )
@@ -176,7 +176,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
 
 
 @bot.component("pager_menu")
-async def pager_response(ctx:it.ComponentContext): 
+async def pager_response(ctx:it.ComponentContext,blah): 
     chosen_page = int(ctx.data.values[0])
     data = pager_reg[str(ctx.author.user.username)] 
     count = data[1]
@@ -199,7 +199,8 @@ async def first_response(ctx:it.ComponentContext):
     await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
 
 @bot.component("last_button")
-async def last_response(ctx:it.ComponentContext):                 
+async def last_response(ctx:it.ComponentContext):   
+    await ctx.defer()              
     data = pager_reg[str(ctx.author.user.username)] 
     chosen_page = len(data[2])
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
