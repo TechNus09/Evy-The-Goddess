@@ -12,7 +12,7 @@ from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, 
 from interactions import CommandContext as CC
 #from db_helper import *
 from evy_helper import *
-import logging
+#import logging
 
    
 nest_asyncio.apply()
@@ -35,55 +35,6 @@ guilds_fishing = {}
 guilds_cooking = {}
 
 
-
-
-def makeEmbeds(result,tag,skill):
-    embeds_list = []
-    fields_list = []
-    last_fields_list = []
-    print("start embeding ...")
-    members_count = len(result[0]) 
-    print(members_count)
-    embeds_count = math.ceil(members_count/20)
-    print(embeds_count)
-    total_xp = "{:,}".format(result[1])
-    print("got counts and total xp")
-    for i in range(embeds_count-1):
-        print("embed "+str(i+1))
-        fields_list = []
-        for j in range(20):
-            rank = (i*20)+j+1
-            field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
-            fields_list.append(field)
-        embed = it.Embed(title="\u200b",
-        	                description="\u200b",       
-        	                fields=fields_list,
-        	                color=0x00ff00)
-        print("finished embed "+str(i+1))
-        embeds_list.append(embed)
-    left = members_count % 20
-    start = len(embeds_list)*20
-    end = start + left
-    print("start " + str(start) + ", end "+str(end) +", left "+str(left))
-    print("last embed")
-    for j in range(start,end):
-        print("field "+str(j+1))
-        rank = j+1
-        print(rank)
-        print(result[0][rank-1])
-        field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
-        last_fields_list.append(field)
-    last_embed = it.Embed(title="\u200b",
-                     description="\u200b",       
-                     fields=last_fields_list,                     color=0x00ff00)
-    print("finished last embed")
-    embeds_list.append(last_embed)   	   
-    main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
-        	          description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
-        	          fields=[],
-        	          color=0x00ff00)  
-    print("finished main embed")    
-    return main_embed, embeds_list
 
 
 
@@ -145,24 +96,20 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
         await ctx.send("Fetching Data ...")
         if skill == "total":
             result = asyncio.run(searchtagtotal(g_tag)) 
-            embeds = makeEmbeds(result,g_tag,skill.capitalize())
-            e = embeds[1]
-            e.insert(0,embeds[0])
+            embeds = makeEmbeds(result,g_tag,"Total Xp")
+           
+            ranking_embeds = embeds[1]
+            main_embed = embeds[0]
         else :
             skill_order = skills.index(skill.lower())
-            print("fetching")
             result = asyncio.run(searchtag(skill_afx[skill_order],g_tag))
-            print("making embed")
             embeds = makeEmbeds(result,g_tag,skill.capitalize())
-            print("embeds finished")
-            e = embeds[1]
-            middle= len(e) // 2 + 1
-            first = e[:middle]
-            last = e[middle:]
-            first.insert(0,embeds[0])
-        print("sending embeds")    
-        await ctx.edit("Guild Leaderboard",embeds=first)
-        await ctx.send("last", embeds=last)
+            
+            ranking_embeds = embeds[1]
+            main_embed = embeds[0]
+        
+        await ctx.edit("Guild Leaderboard",embeds=[main_embed])
+
     
 
 
