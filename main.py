@@ -163,7 +163,7 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
         #print(ctx.author.user.username)
         user = ctx.author.user.username
         m_count = len(result[0])
-        pager_reg[str(user)]=[0,m_count,rankings_embeds,main_embed]
+        pager_reg[str(user)]=[0,m_count,ranking_embeds,main_embed]
         print(pager_reg)
         pager_m = pagerMaker(0,m_count)
         m_row = ActionRow(components=[pager_m])
