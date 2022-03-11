@@ -12,6 +12,7 @@ from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, 
 from interactions import CommandContext as CC
 #from db_helper import *
 from evy_helper import *
+import logging
 
    
 nest_asyncio.apply()
@@ -88,7 +89,7 @@ def makeEmbeds(result,tag,skill):
 
 
 bot = Client(os.getenv("TOKEN"))
-
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
