@@ -185,7 +185,7 @@ async def pager_response(ctx:it.ComponentContext,blah):
     pager_reg[str(ctx.author.user.username)][0]=chosen_page
     n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(components=[n_pager])
-    await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
 @bot.component("first_button")
 async def first_response(ctx:it.ComponentContext):                 
@@ -196,11 +196,10 @@ async def first_response(ctx:it.ComponentContext):
     main_embed = data[3]
     n_pager = pagerMaker(0,count)
     m_row = ActionRow(components=[n_pager])
-    await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
 @bot.component("last_button")
-async def last_response(ctx:it.ComponentContext):   
-    await ctx.defer()              
+async def last_response(ctx:it.ComponentContext):               
     data = pager_reg[str(ctx.author.user.username)] 
     chosen_page = len(data[2])
     pager_reg[str(ctx.author.user.username)][0] = chosen_page
@@ -209,7 +208,7 @@ async def last_response(ctx:it.ComponentContext):
     main_embed = data[3]
     n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(components=[n_pager])
-    await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
 @bot.component("backward_button")
 async def backward_response(ctx:it.ComponentContext):                 
@@ -224,7 +223,7 @@ async def backward_response(ctx:it.ComponentContext):
     main_embed = data[3]
     n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(components=[n_pager])
-    await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
 @bot.component("forward_button")
 async def forward_response(ctx:it.ComponentContext):                 
@@ -239,7 +238,7 @@ async def forward_response(ctx:it.ComponentContext):
     main_embed = data[3]
     n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(components=[n_pager])
-    await ctx.edit("Finished !",embeds=[main_embed,embeds_list[chosen_page]],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
 @bot.component("stop_button")
 async def stop_response(ctx:it.ComponentContext):                 
