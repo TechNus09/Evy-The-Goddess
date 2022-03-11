@@ -39,23 +39,23 @@ guilds_cooking = {}
 
 first_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name="rewind",animated=False)._json, 
+                 emoji="⏪", 
                  custom_id="first_button", )               
 backward_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name="arrow_backward",animated=False)._json, 
+                 emoji="◀", 
                  custom_id="backward_button", )
 stop_b = Button(
                  style=ButtonStyle.DANGER, 
-                 emoji=it.Emoji(name="stop_button",animated=False)._json, 
+                 emoji="◼",
                  custom_id="stop_button", )
 forward_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name="arrow_forward",animated=False)._json, 
+                 emoji="▶", 
                  custom_id="forward_button", )
 last_b = Button(
                  style=ButtonStyle.PRIMARY, 
-                 emoji=it.Emoji(name="fast_forward",animated=False)._json, 
+                 emoji="⏩", 
                  custom_id="last_button", )
 b_row = ActionRow(
                   components=[
