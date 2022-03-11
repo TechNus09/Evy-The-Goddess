@@ -85,13 +85,14 @@ def pagerMaker(pos,count):
     pager_menu = SelectMenu(options=options_list,
 	                           placeholder=f"Page ({pos}/{leng})",
 	                           custom_id="pager_menu", )
+    print("Pager finished")
     return pager_menu   
 
 
 
 
 bot = Client(os.getenv("TOKEN"))
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -148,19 +149,23 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
         if skill.lower() == "total":
             result = asyncio.run(searchtagtotal(g_tag)) 
             embeds = makeEmbeds(result,g_tag,"Total Xp")
-           
+            print("embeds finished")
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
         else :
             skill_order = skills.index(skill.lower())
             result = asyncio.run(searchtag(skill_afx[skill_order],g_tag))
+            print("fetching finished)
             embeds = makeEmbeds(result,g_tag,skill.capitalize())
-            
+            print("embeds finished")
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
+        print(ctx.author.user.username)
         user = ctx.author.user.username
+
         m_count = len(result[0])
         pager_reg[str(user)]=[0,m_count,rankings_embeds,main_embed]
+        print(pager_reg)
         await ctx.edit("Finished !",embeds=[main_embed,embeds_list[0]],components=[m_row,b_row])
 
   
