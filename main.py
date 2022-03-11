@@ -89,7 +89,7 @@ def makeEmbeds(result,tag,skill):
 
 
 bot = Client(os.getenv("TOKEN"))
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -156,9 +156,13 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
             embeds = makeEmbeds(result,g_tag,skill.capitalize())
             print("embeds finished")
             e = embeds[1]
-            e.insert(0,embeds[0])
+            middle= len(e) // 2 + 1
+            first = e[:middle]
+            last = e[middle:]
+            first.insert(0,embeds[0])
         print("sending embeds")    
-        await ctx.edit("Guild Leaderboard",embeds=e)
+        await ctx.edit("Guild Leaderboard",embeds=first)
+        await ctx.send("last", embeds=last)
     
 
 
