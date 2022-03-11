@@ -122,15 +122,10 @@ def makeEmbeds(result,tag,skill):
     embeds_list = []
     fields_list = []
     last_fields_list = []
-    print("start embeding ...")
     members_count = len(result[0]) 
-    print(members_count)
     embeds_count = math.ceil(members_count/20)
-    print(embeds_count)
     total_xp = "{:,}".format(result[1])
-    print("got counts and total xp")
     for i in range(embeds_count-1):
-        print("embed "+str(i+1))
         fields_list = []
         for j in range(20):
             rank = (i*20)+j+1
@@ -140,30 +135,23 @@ def makeEmbeds(result,tag,skill):
         	                description="\u200b",       
         	                fields=fields_list,
         	                color=0x00ff00)
-        print("finished embed "+str(i+1))
         embeds_list.append(embed)
     left = members_count % 20
     start = len(embeds_list)*20
     end = start + left
-    print("start " + str(start) + ", end "+str(end) +", left "+str(left))
-    print("last embed")
     for j in range(start,end):
-        print("field "+str(j+1))
         rank = j+1
-        print(rank)
-        print(result[0][rank-1])
-        field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
+        field = it.EmbedField(name=f"Rank#{rank}", value=result[0][j])
         last_fields_list.append(field)
     last_embed = it.Embed(title="\u200b",
-                     description="\u200b",       
-                     fields=last_fields_list,                     color=0x00ff00)
-    print("finished last embed")
+                          description="\u200b",       
+                          fields=last_fields_list,
+                          color=0x00ff00)
     embeds_list.append(last_embed)   	   
     main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
         	          description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
         	          fields=[],
-        	          color=0x00ff00)  
-    print("finished main embed")   
+        	          color=0x00ff00)   
     return main_embed, embeds_list
        
     
