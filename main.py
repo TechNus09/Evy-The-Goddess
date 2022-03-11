@@ -42,7 +42,9 @@ def makeEmbeds(result,tag,skill):
     last_fields_list = []
     print("start embeding ...")
     members_count = len(result[0]) 
+    print(members_count)
     embeds_count = math.ceil(members_count/20)
+    print(embeds_count)
     total_xp = "{:,}".format(result[1])
     print("got counts and total xp")
     for i in range(embeds_count-1):
@@ -61,9 +63,11 @@ def makeEmbeds(result,tag,skill):
     left = members_count % 20
     start = len(embeds_list)*20
     end = start + left
+    print("last embed")
     for j in range(start,end):
         print("field "+str(j+1))
         rank = ((members_count-1)*20)+j+1
+        print(result[0][rank-1])
         field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
         last_fields_list.append(field)
     last_embed = it.Embed(title="\u200b",
