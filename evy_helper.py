@@ -11,6 +11,8 @@ import interactions as it
 
 nest_asyncio.apply()
 
+skill_afx = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+skills = ['combat','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking']
 
 
 lvltab = [0,46,99,159,229,309,401,507,628,768,928,1112,1324,1567,1847,2168,2537,2961,3448,4008,4651,5389,6237,7212,8332,9618,11095,12792,14742,16982,19555,22510,25905,29805,34285,
@@ -115,9 +117,54 @@ def get_tasks(session,skill_name):
         url='https://www.curseofaros.com/highscores'
         tasks.append(asyncio.create_task(session.get(url+skill_name+'.json?p='+str(k))))
     return tasks
-##############Embeds Helper#############
-	                  
-            
+##############Embeds Helper######
+def makeEmbeds(result,tag,skill):
+    embeds_list = []
+    fields_list = []
+    last_fields_list = []
+    print("start embeding ...")
+    members_count = len(result[0]) 
+    print(members_count)
+    embeds_count = math.ceil(members_count/20)
+    print(embeds_count)
+    total_xp = "{:,}".format(result[1])
+    print("got counts and total xp")
+    for i in range(embeds_count-1):
+        print("embed "+str(i+1))
+        fields_list = []
+        for j in range(20):
+            rank = (i*20)+j+1
+            field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
+            fields_list.append(field)
+        embed = it.Embed(title="\u200b",
+        	                description="\u200b",       
+        	                fields=fields_list,
+        	                color=0x00ff00)
+        print("finished embed "+str(i+1))
+        embeds_list.append(embed)
+    left = members_count % 20
+    start = len(embeds_list)*20
+    end = start + left
+    print("start " + str(start) + ", end "+str(end) +", left "+str(left))
+    print("last embed")
+    for j in range(start,end):
+        print("field "+str(j+1))
+        rank = j+1
+        print(rank)
+        print(result[0][rank-1])
+        field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
+        last_fields_list.append(field)
+    last_embed = it.Embed(title="\u200b",
+                     description="\u200b",       
+                     fields=last_fields_list,                     color=0x00ff00)
+    print("finished last embed")
+    embeds_list.append(last_embed)   	   
+    main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
+        	          description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
+        	          fields=[],
+        	          color=0x00ff00)  
+    print("finished main embed")   
+    return main_embed, embeds_list
        
     
     
@@ -347,11 +394,11 @@ async def searchtag(skill_name,guildtag):
 
 #get guilds members rankings in total xp (20000)
 async def searchtagtotal(guildtag):
-    
     members_sorted = []
     guildreg = {}
+    temp_dic = {}
     
-    for skill_name in skill :
+    for skill_name in skill_afx :
         async with aiohttp.ClientSession() as session:
             to_do = get_tasks(session,skill_name)
             responses = await asyncio.gather(*to_do)
@@ -374,18 +421,12 @@ async def searchtagtotal(guildtag):
                 elif data == [] :
                     break
     temp_dic = {k: v for k, v in sorted(guildreg.items(), key=lambda item: item[1],reverse=True)}
-    members_sorted.clear()
     total_xp = 0
     for key, value in temp_dic.items():
         total_xp += value
         test = key + " -- " + "{:,}".format(value)
         members_sorted.append(test)
-    mini_list = []
-    for i in range(len(members_sorted)):
-        mini_list.append(members_sorted[i])
-    members_sorted.clear()
-    temp_dic = {}
-    return mini_list, total_xp
+    return members_sorted, total_xp
 
 
 
