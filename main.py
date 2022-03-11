@@ -56,11 +56,15 @@ last_b = Button(
                  style=ButtonStyle.PRIMARY, 
                  label=":fast_forward:", 
                  custom_id="last_button", )
-b_row = ActionRow(first_b,
-	          backward_b,
-	          stop_b,
-	          forward_b,
-	          last_b)
+b_row = ActionRow(
+                  components=[
+                              first_b,
+	                      backward_b,
+	                      stop_b,
+	                      forward_b,
+	                      last_b
+                             ]
+                 )
 
 
 def pagerMaker(pos,count):
