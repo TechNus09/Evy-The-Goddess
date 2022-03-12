@@ -173,24 +173,36 @@ async def gains(ctx:CC,skill:str):
     await ctx.defer()
     await ctx.send("Fetching newest records ...")
     old_record = retrieve("0000")
+    print('logs retrieved')
     a = asyncio.run(makelog('GOD'))
     new_record = a[0]
+    print('fetched new logs')
     unranked_data = SortUp(old_record,new_record)
+    print('sorted')
     if skill.lower() == 'total':
+        print(f'choosed {skill}')
         result = logger(unranked_data,skill.lower())
+        print('data sorted')
         embeds = makeEmbeds(result,"GoD","Total Xp")
+        print('embeds made')
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     else:
+        print(f'choosed {skill}')
         result = logger(unranked_data,skill.lower())
+        print('data sorted')
         embeds = makeEmbeds(result,"GoD",skill.capitalize())
+        print('embeds made')
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     user = ctx.author.user.username
     g_m_count = len(result[0])
     g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
+    print('making pager')
     g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
+    print('pager made')
     g_m_row = ActionRow(components=[g_pager_m])
+    print('sending')
     await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
 
 
