@@ -35,14 +35,20 @@ def createT():
 
 async def insert(t_date,e_log):
     con = conn()
+    print('connection created')
     cur = con.cursor()
+    print('cursor created')
     insert_query = """ 
                     INSERT INTO logs (DATE,LOG) 
                     VALUES (%s,%s)
                     """
+    print('query created')
     cur.execute(insert_query,(t_date,e_log,))
+    print('excuted')
     con.commit()
+    print('commited')
     cur.close()
+    print('connection closed')
     return True
 
 async def update(t_date,e_log,ctx):
