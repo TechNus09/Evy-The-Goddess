@@ -134,10 +134,11 @@ def makeEmbeds(result,tag,skill):
             rank = (i*20)+j+1
             field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
             fields_list.append(field)
-        embed = it.Embed(title="\u200b",
-        	                description="\u200b",       
-        	                fields=fields_list,
-        	                color=0x00ff00)
+        embed = it.Embed(
+                        title="\u200b",
+        	            description="\u200b",       
+        	            fields=fields_list,
+        	            color=0x00ff00)
         embeds_list.append(embed)
     left = members_count % 20
     start = len(embeds_list)*20
@@ -146,15 +147,17 @@ def makeEmbeds(result,tag,skill):
         rank = j+1
         field = it.EmbedField(name=f"Rank#{rank}", value=result[0][j])
         last_fields_list.append(field)
-    last_embed = it.Embed(title="\u200b",
-                          description="\u200b",       
-                          fields=last_fields_list,
-                          color=0x00ff00)
+    last_embed = it.Embed(
+                        title="\u200b",
+                        description="\u200b",       
+                        fields=last_fields_list,
+                        color=0x00ff00)
     embeds_list.append(last_embed)   	   
-    main_embed = it.Embed(title=f"{tag}'s {skill} Leaderboard",
-        	          description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
-        	          fields=[],
-        	          color=0x00ff00)   
+    main_embed = it.Embed(
+                            title=f"{tag}'s {skill} Leaderboard",
+        	                description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
+        	                fields=[],
+        	                color=0x00ff00)   
     return main_embed, embeds_list
 
 def pagerMaker(pos,count):

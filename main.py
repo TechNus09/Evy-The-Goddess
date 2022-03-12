@@ -74,7 +74,7 @@ b_row = ActionRow(
 
 
 bot = Client(os.getenv("TOKEN"))
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -131,22 +131,17 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
         if skill.lower() == "total":
             result = asyncio.run(searchtagtotal(g_tag)) 
             embeds = makeEmbeds(result,g_tag,"Total Xp")
-            print("embeds finished")
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
         else :
             skill_order = skills.index(skill.lower())
             result = asyncio.run(searchtag(skill_afx[skill_order],g_tag))
-            print("fetching finished")
             embeds = makeEmbeds(result,g_tag,skill.capitalize())
-            print("embeds finished")
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
-        #print(ctx.author.user.username)
         user = ctx.author.user.username
         m_count = len(result[0])
         pager_reg[str(user)]=[0,m_count,ranking_embeds,main_embed]
-        print(pager_reg)
         pager_m = pagerMaker(0,m_count)
         m_row = ActionRow(components=[pager_m])
         await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[m_row,b_row])
