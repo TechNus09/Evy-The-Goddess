@@ -155,6 +155,8 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
 
 @bot.component("pager_menu")
 async def pager_response(ctx:CPC,blah):
+    print(str(CPC.author.id))
+    print(str(CPC.message.interaction.user.id))
     if str(CPC.author.id) == str(CPC.message.interaction.user.id):
         chosen_page = int(ctx.data.values[0])
         data = pager_reg[str(ctx.author.user.username)] 
@@ -170,6 +172,8 @@ async def pager_response(ctx:CPC,blah):
 
 @bot.component("first_button")
 async def first_response(ctx:CPC):
+    print(str(CPC.author.id))
+    print(str(CPC.message.interaction.user.id))
     if str(CPC.author.id) == str(CPC.message.interaction.user.id):
         data = pager_reg[str(ctx.author.user.username)] 
         pager_reg[str(ctx.author.user.username)][0] = 0
@@ -184,7 +188,9 @@ async def first_response(ctx:CPC):
 
 
 @bot.component("last_button")
-async def last_response(ctx:CPC):  
+async def last_response(ctx:CPC):
+    print(str(CPC.author.id))
+    print(str(CPC.message.interaction.user.id))  
     if str(CPC.author.id) == str(CPC.message.interaction.user.id):
         data = pager_reg[str(ctx.author.user.username)] 
         chosen_page = len(data[2]) - 1
@@ -201,6 +207,8 @@ async def last_response(ctx:CPC):
 
 @bot.component("backward_button")
 async def backward_response(ctx:CPC):
+    print(str(CPC.author.id))
+    print(str(CPC.message.interaction.user.id))
     if str(CPC.author.id) == str(CPC.message.interaction.user.id):                   
         data = pager_reg[str(ctx.author.user.username)] 
         if data[0]>0:
@@ -219,6 +227,8 @@ async def backward_response(ctx:CPC):
 
 @bot.component("forward_button")
 async def forward_response(ctx:CPC):
+    print(str(CPC.author.id))
+    print(str(CPC.message.interaction.user.id))
     if str(CPC.author.id) == str(CPC.message.interaction.user.id):                 
         data = pager_reg[str(ctx.author.user.username)] 
         if data[0]<len(data[2])-1:
@@ -237,6 +247,8 @@ async def forward_response(ctx:CPC):
 
 @bot.component("stop_button")
 async def stop_response(ctx:CPC):
+    print(str(CPC.author.id))
+    print(str(CPC.message.interaction.user.id))
     if str(CPC.author.id) == str(CPC.message.interaction.user.id):  
         data = pager_reg[str(ctx.author.user.username)]
         cur_pos = data[0]
