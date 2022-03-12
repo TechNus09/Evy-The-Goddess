@@ -142,8 +142,8 @@ async def t_response(ctx:CPC):
 
 
 
-@bot.command(name='savelog',description='save init log')
-async def savelog(ctx):
+@bot.command(name='savelog',description='save init log',scope=839662151010353172)
+async def savelog(ctx:CC):
     log_file = open('data.json')
     init_log = json.load(log_file)
     ins = await insert('0000',init_log)
