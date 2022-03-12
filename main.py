@@ -112,7 +112,7 @@ sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
 
 
 bot = Client(os.getenv("TOKEN"))
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
