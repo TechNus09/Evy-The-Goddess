@@ -8,6 +8,9 @@ import asyncio
 import aiohttp
 import nest_asyncio
 import interactions as it
+from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
+from interactions import CommandContext as CC
+from interactions import ComponentContext as CPC
 
 nest_asyncio.apply()
 
@@ -153,10 +156,31 @@ def makeEmbeds(result,tag,skill):
         	          fields=[],
         	          color=0x00ff00)   
     return main_embed, embeds_list
-       
-    
-    
-    
+
+def pagerMaker(pos,count):
+    options_list = []
+    leng = count // 20 + 1
+    for i in range(leng-1):
+        rrank = i*20 + 1
+        rankk = (i+1)*20 
+        option = SelectOption(
+                                label=f"Page {i+1} (#{rrank}--#{rankk})",
+                                value=str(i),
+                                )
+        options_list.append(option)
+    last_option = SelectOption(
+                                label=f"Page {leng} (#{(leng-1)*20+1}--#{count})",
+                                value=str(leng-1),
+                                )
+    options_list.append(last_option)
+    pager_menu = SelectMenu(
+                            options=options_list,
+	                        placeholder=f"Page ({pos+1}/{leng})",
+	                        custom_id="pager_menu", )
+    return pager_menu   
+
+
+
 
         
         
