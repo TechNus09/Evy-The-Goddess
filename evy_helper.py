@@ -269,6 +269,7 @@ async def makelog(g_tag) :
     c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
 
     for skill_x in range(7):
+        print(c_xp[skill_x])
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
             to_do = get_tasks(session, c_skill[skill_x])
