@@ -227,8 +227,10 @@ async def backward_response(ctx:CPC):
 
 @bot.component("forward_button")
 async def forward_response(ctx:CPC):
-    print(str(CPC.author.id))
-    print(str(CPC.message.interaction.user.id))
+    ai = str(CPC.author.id)
+    await ctx.send(ai ,ephemeral=True)
+    ii = str(CPC.message.interaction.user.id)
+    await ctx.send(i ,ephemeral=True)
     if str(CPC.author.id) == str(CPC.message.interaction.user.id):                 
         data = pager_reg[str(ctx.author.user.username)] 
         if data[0]<len(data[2])-1:
