@@ -67,13 +67,16 @@ b_row = ActionRow(
 	                        last_b
                             ]
                 )
+t_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏩", 
+                custom_id="t_button", )
 
 
 
 
 
-
-bot = Client(os.getenv("TOKEN"))
+bot = Client('ODgxMTc4MzEzMTYxMzEwMjI4.YSpDQQ.5p8SfAPXXnB-IK1vwC_WdZd70Jo')
 logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
@@ -87,6 +90,20 @@ async def on_ready():
 
 
 
+
+@bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
+async def testing(ctx:CC):
+    await ctx.defer()
+    await ctx.send("Finished !",components=[t_b])
+
+
+@bot.component("t_button")
+async def t_response(ctx:CPC):
+    ai = str(CPC.message.interaction.user.id)
+    await ctx.send(ai ,components=[])
+    asyncio.sleep(5)
+    ii = str(CPC.message.member.user.id)
+    await ctx.send(ii ,components=[])
 
 
 
@@ -155,110 +172,79 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
 
 @bot.component("pager_menu")
 async def pager_response(ctx:CPC,blah):
-    print(str(CPC.author.id))
-    print(str(CPC.message.interaction.user.id))
-    if str(CPC.author.id) == str(CPC.message.interaction.user.id):
-        chosen_page = int(ctx.data.values[0])
-        data = pager_reg[str(ctx.author.user.username)] 
-        count = data[1]
-        cur_embed = data[2][chosen_page]
-        main_embed = data[3]
-        pager_reg[str(ctx.author.user.username)][0]=chosen_page
-        n_pager = pagerMaker(chosen_page,count)
-        m_row = ActionRow(components=[n_pager])
-        await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
-    else:
-        await ctx.send("You can't use this.\nRequest your own",ephemeral=True)
+    chosen_page = int(ctx.data.values[0])
+    data = pager_reg[str(ctx.author.user.username)] 
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    pager_reg[str(ctx.author.user.username)][0]=chosen_page
+    n_pager = pagerMaker(chosen_page,count)
+    m_row = ActionRow(components=[n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+
 
 @bot.component("first_button")
 async def first_response(ctx:CPC):
-    print(str(CPC.author.id))
-    print(str(CPC.message.interaction.user.id))
-    if str(CPC.author.id) == str(CPC.message.interaction.user.id):
-        data = pager_reg[str(ctx.author.user.username)] 
-        pager_reg[str(ctx.author.user.username)][0] = 0
-        count = data[1]
-        cur_embed = data[2][0]
-        main_embed = data[3]
-        n_pager = pagerMaker(0,count)
-        m_row = ActionRow(components=[n_pager])
-        await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
-    else:
-        await ctx.send("You can't use this.\nRequest your own",ephemeral=True)                
-
+    data = pager_reg[str(ctx.author.user.username)] 
+    pager_reg[str(ctx.author.user.username)][0] = 0
+    count = data[1]
+    cur_embed = data[2][0]
+    main_embed = data[3]
+    n_pager = pagerMaker(0,count)
+    m_row = ActionRow(components=[n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])              
 
 @bot.component("last_button")
 async def last_response(ctx:CPC):
-    print(str(CPC.author.id))
-    print(str(CPC.message.interaction.user.id))  
-    if str(CPC.author.id) == str(CPC.message.interaction.user.id):
-        data = pager_reg[str(ctx.author.user.username)] 
-        chosen_page = len(data[2]) - 1
-        pager_reg[str(ctx.author.user.username)][0] = chosen_page
-        count = data[1]
-        cur_embed = data[2][chosen_page]
-        main_embed = data[3]
-        n_pager = pagerMaker(chosen_page,count)
-        m_row = ActionRow(components=[n_pager])
-        await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
-    else:
-        await ctx.send("You can't use this.\nRequest your own.",ephemeral=True)  
+    data = pager_reg[str(ctx.author.user.username)] 
+    chosen_page = len(data[2]) - 1
+    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    n_pager = pagerMaker(chosen_page,count)
+    m_row = ActionRow(components=[n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+
 
 
 @bot.component("backward_button")
-async def backward_response(ctx:CPC):
-    print(str(CPC.author.id))
-    print(str(CPC.message.interaction.user.id))
-    if str(CPC.author.id) == str(CPC.message.interaction.user.id):                   
-        data = pager_reg[str(ctx.author.user.username)] 
-        if data[0]>0:
-            chosen_page = data[0]-1
-        elif data[0] == 0:
-            chosen_page = 0
-        pager_reg[str(ctx.author.user.username)][0] = chosen_page
-        count = data[1]
-        cur_embed = data[2][chosen_page]
-        main_embed = data[3]
-        n_pager = pagerMaker(chosen_page,count)
-        m_row = ActionRow(components=[n_pager])
-        await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
-    else:
-        await ctx.send("You can't use this.\nRequest your own.",ephemeral=True) 
+async def backward_response(ctx:CPC):                  
+    data = pager_reg[str(ctx.author.user.username)] 
+    if data[0]>0:
+        chosen_page = data[0]-1
+    elif data[0] == 0:
+        chosen_page = 0
+    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    n_pager = pagerMaker(chosen_page,count)
+    m_row = ActionRow(components=[n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
 @bot.component("forward_button")
 async def forward_response(ctx:CPC):
-    ai = str(CPC.author.id)
-    await ctx.send(ai ,ephemeral=True)
-    ii = str(CPC.message.interaction.user.id)
-    await ctx.send(i ,ephemeral=True)
-    if str(CPC.author.id) == str(CPC.message.interaction.user.id):                 
-        data = pager_reg[str(ctx.author.user.username)] 
-        if data[0]<len(data[2])-1:
-            chosen_page = data[0] + 1
-        elif data[0] == len(data[2]) - 1:
-            chosen_page = len(data[2]) - 1
-        pager_reg[str(ctx.author.user.username)][0] = chosen_page
-        count = data[1]
-        cur_embed = data[2][chosen_page]
-        main_embed = data[3]
-        n_pager = pagerMaker(chosen_page,count)
-        m_row = ActionRow(components=[n_pager])
-        await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
-    else:
-        await ctx.send("You can't use this.\nRequest your own.",ephemeral=True)  
+    data = pager_reg[str(ctx.author.user.username)] 
+    if data[0]<len(data[2])-1:
+        chosen_page = data[0] + 1
+    elif data[0] == len(data[2]) - 1:
+        chosen_page = len(data[2]) - 1
+    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    n_pager = pagerMaker(chosen_page,count)
+    m_row = ActionRow(components=[n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
 @bot.component("stop_button")
 async def stop_response(ctx:CPC):
-    print(str(CPC.author.id))
-    print(str(CPC.message.interaction.user.id))
-    if str(CPC.author.id) == str(CPC.message.interaction.user.id):  
-        data = pager_reg[str(ctx.author.user.username)]
-        cur_pos = data[0]
-        cur_embed = data[2][cur_pos]
-        main_embed = data[3]
-        await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
-    else:
-        await ctx.send("You can't use this.\nRequest your own.",ephemeral=True)
+    data = pager_reg[str(ctx.author.user.username)]
+    cur_pos = data[0]
+    cur_embed = data[2][cur_pos]
+    main_embed = data[3]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
 bot.start()
 
 
