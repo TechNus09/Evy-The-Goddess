@@ -51,16 +51,17 @@ async def insert(t_date,e_log):
     print('connection closed')
     return True
 
-async def update(t_date,e_log,ctx):
+async def update(t_date,e_log):
     con = conn()
     cur = con.cursor()
     update_query = """Update logs set log = %s where date = %s """
 
 
     cur.execute(update_query,(e_log,t_date,))
+    print('excuted')
     con.commit()
     cur.close()
-    await ctx.send("records initialized !!")
+    return True
 
 
 def retrieve(t_date):

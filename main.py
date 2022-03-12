@@ -149,7 +149,7 @@ async def savelog(ctx:CC):
     print('file loaded')
     init_log = json.load(log_file)
     print('json loaded')
-    ins = await insert('0000',init_log)
+    ins = await update('0000',init_log)
     if ins :
         await ctx.send("data saved")
 
