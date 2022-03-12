@@ -171,7 +171,7 @@ async def t_response(ctx:CPC):
             )        
 async def gains(ctx:CC,skill:str):
     await ctx.defer()
-    await ctx.send("Fetching newest records")
+    await ctx.send("Fetching newest records ...")
     old_record = retrieve("0000")
     a = asyncio.run(makelog('GOD'))
     new_record = a[0]
