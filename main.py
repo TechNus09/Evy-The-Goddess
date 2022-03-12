@@ -142,14 +142,14 @@ async def t_response(ctx:CPC):
 
 
 
-@bot.command(name='savelog',description='save init log',scope=839662151010353172)
+@bot.command(name='savelog',description='save init log')
 async def savelog(ctx:CC):
     await ctx.defer()
     log_file = open('data.json')
     print('file loaded')
     init_log = json.load(log_file)
     print('json loaded')
-    ins = await update('0000',init_log)
+    ins = await update('0000',json.dumps(init_log))
     if ins :
         await ctx.send("data saved")
 
