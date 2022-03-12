@@ -166,44 +166,32 @@ async def t_response(ctx:CPC):
              	                    it.Choice(name="Fishing",value="fishing"),
            	                        it.Choice(name="Cooking",value="cooking"),
              	                    ],
-              	              	),
-              	    it.Option(
-              	       	    name="tag",
-              	       	    description="Guild Tag To Look For",
-              	       	    type=it.OptionType.STRING,
-              	       	    required=False,
-              	       	    ),   
+              	              	),  
                     ],		
             )        
-async def gains(ctx:CC,skill:str,tag:str="god"):
+async def gains(ctx:CC,skill:str):
     await ctx.defer()
-    g_tag = tag.upper()
-    if len(g_tag) > 5 or len(g_tag) < 2:
-        ctx.send("Invalid tag.\nValid tags length is between 2-5")
+    await ctx.send("Fetching newest records")
+    old_record = retrieve("0000")
+    a = asyncio.run(makelog('GOD'))
+    new_record = a[0]
+    unranked_data = SortUp(old_record,new_record)
+    if skill.lower() == 'total':
+        result = logger(unranked_data,skill.lower())
+        embeds = makeEmbeds(result,g_tag,"Total Xp")
+        ranking_embeds = embeds[1]
+        main_embed = embeds[0]
     else:
-        await ctx.send("Fetching newest records")
-        old_record = retrieve("0000")
-        a = asyncio.run(makelog())
-        new_record = a[0]
-        unranked_data = SortUp(old_record,new_record)
-
-        if skill.lower() == 'total':
-            result = logger(unranked_data,skill.lower())
-            embeds = makeEmbeds(result,g_tag,"Total Xp")
-            ranking_embeds = embeds[1]
-            main_embed = embeds[0]
-        else:
-            result = logger(unranked_data,skill.lower())
-            embeds = makeEmbeds(result,g_tag,skill.capitalize())
-            ranking_embeds = embeds[1]
-            main_embed = embeds[0]
-
-        user = ctx.author.user.username
-        g_m_count = len(result[0])
-        g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
-        g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
-        g_m_row = ActionRow(components=[g_pager_m])
-        await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
+        result = logger(unranked_data,skill.lower())
+        embeds = makeEmbeds(result,g_tag,skill.capitalize())
+        ranking_embeds = embeds[1]
+        main_embed = embeds[0]
+    user = ctx.author.user.username
+    g_m_count = len(result[0])
+    g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
+    g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
+    g_m_row = ActionRow(components=[g_pager_m])
+    await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
 
 
 
