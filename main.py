@@ -11,7 +11,7 @@ import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
-#from db_helper import *
+from db_helper import *
 from evy_helper import *
 import logging
 
@@ -21,6 +21,7 @@ nest_asyncio.apply()
 
 event_log = {}
 pager_reg = {}
+g_pager_reg = {}
 #global lock_state
 #lock_state = True     
 
@@ -67,13 +68,47 @@ b_row = ActionRow(
 	                        last_b
                             ]
                 )
+
+
+g_first_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏪", 
+                custom_id="g_first_button", )               
+g_backward_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="◀", 
+                custom_id="g_backward_button", )
+g_stop_b = Button(
+                style=ButtonStyle.DANGER, 
+                label="◼",
+                custom_id="g_stop_button", )
+g_forward_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="▶", 
+                custom_id="g_forward_button", )
+g_last_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏩", 
+                custom_id="g_last_button", )
+g_b_row = ActionRow(
+                components=[
+                            g_first_b,
+	                        g_backward_b,
+	                        g_stop_b,
+	                        g_forward_b,
+	                        g_last_b
+                            ]
+                )
+
+
+
 t_b = Button(
                 style=ButtonStyle.PRIMARY, 
                 label="⏩", 
                 custom_id="t_button", )
 
 
-
+sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
 
 
 bot = Client(os.getenv("TOKEN"))
@@ -104,6 +139,167 @@ async def t_response(ctx:CPC):
     asyncio.sleep(5)
     ii = str(CPC.message.member.user.id)
     await ctx.send(ii ,components=[])
+
+
+
+
+
+
+
+
+
+@bot.command(name="gains",
+            description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
+            options=[
+                    it.Option(
+                            name="skill",
+                            description="The Leaderboard Skill",
+             		        type=it.OptionType.STRING,
+             		        required=True,
+             		        choices=[
+             			        it.Choice(name="Total",value="total"),
+                	                it.Choice(name="Combat",value="combat"),
+            	                    it.Choice(name="Mining",value="mining"),
+           	                        it.Choice(name="Smithing",value="smithing"),
+             	                    it.Choice(name="Woodcutting",value="woodcutting"),
+           	                        it.Choice(name="Crafting",value="crafting"),              
+             	                    it.Choice(name="Fishing",value="fishing"),
+           	                        it.Choice(name="Cooking",value="cooking"),
+             	                    ],
+              	              	),
+              	    it.Option(
+              	       	    name="tag",
+              	       	    description="Guild Tag To Look For",
+              	       	    type=it.OptionType.STRING,
+              	       	    required=False,
+              	       	    ),   
+                    ],		
+            )        
+async def gains(ctx:CC,skill:str,tag:str="god"):
+    await ctx.defer()
+    g_tag = tag.upper()
+    if len(g_tag) > 5 or len(g_tag) < 2:
+        ctx.send("Invalid tag.\nValid tags length is between 2-5")
+    else:
+        await ctx.send("Fetching newest records")
+        old_record = retrieve("0000")
+        a = asyncio.run(makelog())
+        new_record = a[0]
+        unranked_data = SortUp(old_record,new_record)
+
+        if skill.lower() == 'total':
+            result = logger(unranked_data,skill.lower())
+            embeds = makeEmbeds(result,g_tag,"Total Xp")
+            ranking_embeds = embeds[1]
+            main_embed = embeds[0]
+        else:
+            result = logger(unranked_data,skill.lower())
+            embeds = makeEmbeds(result,g_tag,skill.capitalize())
+            ranking_embeds = embeds[1]
+            main_embed = embeds[0]
+
+        user = ctx.author.user.username
+        g_m_count = len(result[0])
+        g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
+        g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
+        g_m_row = ActionRow(components=[g_pager_m])
+        await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
+
+
+
+
+@bot.component("g_pager_menu")
+async def g_pager_response(ctx:CPC,blah):
+    chosen_page = int(ctx.data.values[0])
+    data = g_pager_reg[str(ctx.author.user.username)] 
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    g_pager_reg[str(ctx.author.user.username)][0]=chosen_page
+    g_n_pager = pagerMaker(chosen_page,count,'g_pager_menu')
+    g_m_row = ActionRow(components=[g_n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[g_m_row,g_b_row])
+
+@bot.component("g_first_button")
+async def g_first_response(ctx:CPC):
+    data = g_pager_reg[str(ctx.author.user.username)] 
+    pager_reg[str(ctx.author.user.username)][0] = 0
+    count = data[1]
+    cur_embed = data[2][0]
+    main_embed = data[3]
+    g_n_pager = pagerMaker(0,count,'g_pager_menu')
+    g_m_row = ActionRow(components=[g_n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[g_m_row,g_b_row])              
+
+@bot.component("g_last_button")
+async def g_last_response(ctx:CPC):
+    data = g_pager_reg[str(ctx.author.user.username)] 
+    chosen_page = len(data[2]) - 1
+    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    g_n_pager = pagerMaker(chosen_page,count,'g_pager_menu')
+    g_m_row = ActionRow(components=[g_n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[g_m_row,g_b_row])
+
+@bot.component("g_backward_button")
+async def g_backward_response(ctx:CPC):                  
+    data = g_pager_reg[str(ctx.author.user.username)] 
+    if data[0]>0:
+        chosen_page = data[0]-1
+    elif data[0] == 0:
+        chosen_page = 0
+    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    g_n_pager = pagerMaker(chosen_page,count,'g_pager_menu')
+    g_m_row = ActionRow(components=[g_n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[g_m_row,g_b_row])
+
+@bot.component("g_forward_button")
+async def g_forward_response(ctx:CPC):
+    data = g_pager_reg[str(ctx.author.user.username)] 
+    if data[0]<len(data[2])-1:
+        chosen_page = data[0] + 1
+    elif data[0] == len(data[2]) - 1:
+        chosen_page = len(data[2]) - 1
+    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    count = data[1]
+    cur_embed = data[2][chosen_page]
+    main_embed = data[3]
+    g_n_pager = pagerMaker(chosen_page,count,'g_pager_menu')
+    g_m_row = ActionRow(components=[g_n_pager])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[g_m_row,g_b_row])
+
+@bot.component("g_stop_button")
+async def g_stop_response(ctx:CPC):
+    data = g_pager_reg[str(ctx.author.user.username)]
+    cur_pos = data[0]
+    cur_embed = data[2][cur_pos]
+    main_embed = data[3]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -159,16 +355,9 @@ async def guildlb(ctx:CC,skill:str,tag:str="god"):
         user = ctx.author.user.username
         m_count = len(result[0])
         pager_reg[str(user)]=[0,m_count,ranking_embeds,main_embed]
-        pager_m = pagerMaker(0,m_count)
+        pager_m = pagerMaker(0,m_count,"pager_menu")
         m_row = ActionRow(components=[pager_m])
         await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[m_row,b_row])
-
-
-
-
-
-
-
 
 @bot.component("pager_menu")
 async def pager_response(ctx:CPC,blah):
@@ -181,7 +370,6 @@ async def pager_response(ctx:CPC,blah):
     n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
-
 
 @bot.component("first_button")
 async def first_response(ctx:CPC):
@@ -205,8 +393,6 @@ async def last_response(ctx:CPC):
     n_pager = pagerMaker(chosen_page,count)
     m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
-
-
 
 @bot.component("backward_button")
 async def backward_response(ctx:CPC):                  
@@ -245,6 +431,7 @@ async def stop_response(ctx:CPC):
     cur_embed = data[2][cur_pos]
     main_embed = data[3]
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
+
 bot.start()
 
 

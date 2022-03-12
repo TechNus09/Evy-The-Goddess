@@ -32,7 +32,32 @@ lvldef = [46, 53, 60, 70, 80, 92, 106, 121, 140, 160, 184, 212, 243, 280, 321, 3
 48426151, 55627040, 63898689, 73400320, 84314826, 96852302, 111254081, 127797379, 146800640, 168629653, 193704605, 222508162, 255594759, 293601280, 337259307, 387409211, 445016324, 
 511189519, 587202560]
 
+skillsdic = {   'combat': 'combat_xp',
+                'mining': 'mining_xp',
+                'smithing': 'smithing_xp',
+                'woodcutting': 'woodcutting_xp',
+                'crafting': 'crafting_xp',
+                'fishing': 'fishing_xp',
+                'cooking': 'cooking_xp',
+                'total': 'total'
+            }
 
+def logger(log,c):#get full log, return ranked list of cetain skill
+    temp_dic = {}
+    em = {}
+    members_sorted = []
+    total_xp =0
+    for i in log:
+        em[i]=log[i][skillsdic[c]]
+    temp_dic = {k: v for k, v in sorted(em.items(), key=lambda item: item[1],reverse=True)}
+    for key, value in temp_dic.items():
+        if value != 0 :
+            total_xp += value
+            test = key + " -- " + "{:,}".format(value)
+            members_sorted.append(test)
+        else:
+            continue
+    return members_sorted, total_xp
 
 def SortUp(old_log,new_log):
     #sort data from old and new records to give xp gains of each player
@@ -160,7 +185,7 @@ def makeEmbeds(result,tag,skill):
         	                color=0x00ff00)   
     return main_embed, embeds_list
 
-def pagerMaker(pos,count):
+def pagerMaker(pos,count,id):
     options_list = []
     leng = count // 20 + 1
     for i in range(leng-1):
@@ -179,7 +204,7 @@ def pagerMaker(pos,count):
     pager_menu = SelectMenu(
                             options=options_list,
 	                        placeholder=f"Page ({pos+1}/{leng})",
-	                        custom_id="pager_menu", )
+	                        custom_id=id, )
     return pager_menu   
 
 
@@ -272,11 +297,7 @@ async def makelog(g_tag) :
     return event_log
 
 
-async def SearchEvent(skill_name):
-    global members_log, members_list, unsorted_lb
-    
-    
-
+async def SearchEvent(skill_name):#fetch specific guild xp gain in specific skill 
     log_file = members_log
     skills_list = skills_names_list
     skills_xp = skills_xp_list
