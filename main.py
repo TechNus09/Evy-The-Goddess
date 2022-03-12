@@ -76,7 +76,7 @@ t_b = Button(
 
 
 
-bot = Client('ODgxMTc4MzEzMTYxMzEwMjI4.YSpDQQ.5p8SfAPXXnB-IK1vwC_WdZd70Jo')
+bot = Client(os.getenv("TOKEN"))
 logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
