@@ -178,12 +178,12 @@ async def gains(ctx:CC,skill:str):
     unranked_data = SortUp(old_record,new_record)
     if skill.lower() == 'total':
         result = logger(unranked_data,skill.lower())
-        embeds = makeEmbeds(result,g_tag,"Total Xp")
+        embeds = makeEmbeds(result,"GoD","Total Xp")
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     else:
         result = logger(unranked_data,skill.lower())
-        embeds = makeEmbeds(result,g_tag,skill.capitalize())
+        embeds = makeEmbeds(result,"GoD",skill.capitalize())
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     user = ctx.author.user.username
