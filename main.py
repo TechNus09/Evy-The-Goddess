@@ -183,8 +183,7 @@ async def gains(ctx:CC,skill:str):
     await ctx.send("Fetching newest records ...")
     old_record = retrieve("0000")
     print('logs retrieved')
-    a = asyncio.run(makelog('GOD'))
-    new_record = a[0]
+    new_record = asyncio.run(makelog('GOD'))
     print('fetched new logs')
     unranked_data = SortUp(old_record,new_record)
     print('sorted')
