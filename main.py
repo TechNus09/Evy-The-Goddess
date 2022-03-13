@@ -190,7 +190,7 @@ async def gains(ctx:CC,skill:str):
     print('sorted')
     if skill.lower() == 'total':
         print(f'choosed {skill}')
-        result = logger(unranked_data,skill.lower())
+        result = logger(unranked_data[7],skill.lower())
         print('data sorted')
         embeds = makeEmbeds(result,"GoD","Total Xp")
         print('embeds made')
@@ -198,7 +198,7 @@ async def gains(ctx:CC,skill:str):
         main_embed = embeds[0]
     else:
         print(f'choosed {skill}')
-        result = logger(unranked_data,skill.lower())
+        result = logger(unranked_data[sl.index],skill.lower())
         print('data sorted')
         embeds = makeEmbeds(result,"GoD",skill.capitalize())
         print('embeds made')
