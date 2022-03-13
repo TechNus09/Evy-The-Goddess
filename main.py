@@ -186,6 +186,7 @@ async def gains(ctx:CC,skill:str):
     new_record = asyncio.run(makelog('GOD'))
     print('fetched new logs')
     unranked_data = SortUp(old_record,new_record)
+    print(unranked_data)
     print('sorted')
     if skill.lower() == 'total':
         print(f'choosed {skill}')
