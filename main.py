@@ -232,7 +232,7 @@ async def g_pager_response(ctx:CPC,blah):
 @bot.component("g_first_button")
 async def g_first_response(ctx:CPC):
     data = g_pager_reg[str(ctx.author.user.username)] 
-    pager_reg[str(ctx.author.user.username)][0] = 0
+    g_pager_reg[str(ctx.author.user.username)][0] = 0
     count = data[1]
     cur_embed = data[2][0]
     main_embed = data[3]
@@ -244,7 +244,7 @@ async def g_first_response(ctx:CPC):
 async def g_last_response(ctx:CPC):
     data = g_pager_reg[str(ctx.author.user.username)] 
     chosen_page = len(data[2]) - 1
-    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    g_pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
@@ -259,7 +259,7 @@ async def g_backward_response(ctx:CPC):
         chosen_page = data[0]-1
     elif data[0] == 0:
         chosen_page = 0
-    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    g_pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
@@ -274,7 +274,7 @@ async def g_forward_response(ctx:CPC):
         chosen_page = data[0] + 1
     elif data[0] == len(data[2]) - 1:
         chosen_page = len(data[2]) - 1
-    pager_reg[str(ctx.author.user.username)][0] = chosen_page
+    g_pager_reg[str(ctx.author.user.username)][0] = chosen_page
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
