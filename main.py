@@ -114,7 +114,7 @@ txt2 = it.TextInput(
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]))
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -134,8 +134,8 @@ async def on_ready():
 
 @bot.command(name="add_player",description="add new player to the event database",scope=922854662141526037)
 async def add_player(ctx:CC):
-    c = str(ctx)
-    await ctx.send(c)
+    print(ctx)
+    await ctx.send(ctx)
 
 
 
