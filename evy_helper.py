@@ -56,35 +56,6 @@ def listFormater(log):#get full log, return ranked list of cetain skill
             continue
     return members_sorted, total_xp
 
-def SortUpT(old_log,new_log):
-    #sort data from old and new records to give xp gains of each player
-    
-    skills = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
-    combat_unranked = {}
-    mining_unranked = {}
-    smithing_unranked = {}
-    wc_unranked = {}
-    crafting_unranked = {}
-    fishing_unranked = {}
-    cooking_unranked = {}
-    total_unranked = {}
-    unranked = [combat_unranked,mining_unranked,smithing_unranked,wc_unranked,crafting_unranked,fishing_unranked,cooking_unranked,total_unranked]
-
-    for i in range(7):
-        skill = skills[i]
-        for j in new_log :
-            if j in old_log :
-                new_xp = new_log[j][skill]
-                old_xp = old_log[j][skill]
-                xp = new_xp - old_xp
-                unranked[i][j]=xp
-                if i == 0 :
-                    unranked[7][j] = xp
-                else:
-                    unranked[7][j] += xp
-            else:
-                pass
-    return unranked #return list of dicts of unranked player:xp for ea skill
 
 def SortUp(skill_name,old_log,new_log):
     #sort data from old and new records to give xp gains of each player
