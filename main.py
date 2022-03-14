@@ -5,12 +5,11 @@ import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
-
+import time
 from db_helper import *
 from evy_helper import *
 import logging
 
-from perms import *
 
 
 nest_asyncio.apply()
@@ -126,7 +125,6 @@ async def on_ready():
 
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
-@has_permissions(Permissions.ADMINISTRATOR)
 async def testing(ctx:CC):
     await ctx.send("admin")
 
@@ -160,6 +158,7 @@ async def testing(ctx:CC):
             )        
 async def gains(ctx:CC,skill:str):
     await ctx.defer()
+    start = time.time()
     await ctx.send("Fetching newest records ...")
     old_record = retrieve("0000")
 
@@ -188,7 +187,9 @@ async def gains(ctx:CC,skill:str):
     g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
     g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
     g_m_row = ActionRow(components=[g_pager_m])
-    await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
+    end = time.time()
+    t = start-end
+    await ctx.edit(f"{t} !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
 
 @bot.component("g_pager_menu")
 async def g_pager_response(ctx:CPC,blah):

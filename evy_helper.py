@@ -323,13 +323,11 @@ async def makelogT(g_tag) :
                         tag = player_name.split()[0]                    
                         if tag.upper() == g_tag :
                             if player_name in name_list:
-                                event_log[player_name][c_xp[skill_x]]=xp
                                 event_log[player_name]["total"] += xp
                             else:
                                 name_list.append(player_name)
                                 event_log[player_name]=member_temp
                                 event_log[player_name]["ign"] = player_name
-                                event_log[player_name][c_xp[skill_x]]=xp
                                 event_log[player_name]["total"] += xp
                 elif data == []:
                     break
@@ -358,13 +356,11 @@ async def makelog(skill_name,g_tag) :
                     if tag.upper() == g_tag :
                         if player_name in name_list:
                             event_log[player_name][c_xp[skillsdic.index(skill_name)]]=xp
-                            event_log[player_name]["total"] += xp
                         else:
                             name_list.append(player_name)
                             event_log[player_name]=member_temp
                             event_log[player_name]["ign"] = player_name
                             event_log[player_name][c_xp[skillsdic.index(skill_name)]]=xp
-                            event_log[player_name]["total"] += xp
             elif data == []:
                 break
 
