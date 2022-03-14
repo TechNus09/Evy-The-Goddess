@@ -161,9 +161,9 @@ async def testing(ctx):
     await ctx.popup(modal)
 
 @bot.modal("mod_app_form")
-async def modal_response(ctx):
-    print(ctx.data.values)
-
+async def modal_response(ctx, response1,response2):
+    print(response1)
+    print(response2)
 
 
 
