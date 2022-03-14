@@ -127,18 +127,9 @@ async def on_ready():
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
 @has_permissions(Permissions.ADMINISTRATOR)
-async def testing(ctx):
-    modal = it.Modal(
-        title="Application Form",
-        custom_id="mod_app_form",
-        components=[txt, txt2],
-    )
-    await ctx.popup(modal)
+async def testing(ctx:CC):
+    await ctx.send("admin")
 
-@bot.modal("mod_app_form")
-async def modal_response(ctx, response1,response2):
-    print(response1)
-    print(response2)
 
 
 
