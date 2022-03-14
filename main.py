@@ -158,16 +158,16 @@ async def testing(ctx):
         custom_id="mod_app_form",
         components=row,
     )
-
     await ctx.popup(modal)
 
 
 
 
-@bot.component('mod_app_form')
-async def g_pager_response(ctx:CPC,blah):
-    print(str(ctx.data.values[0]))
-    await ctx.edit("Finished !")
+@bot.modal("mod_app_form")
+async def modal_response(ctx, response: str):
+    print(response)
+
+
 
 
 
