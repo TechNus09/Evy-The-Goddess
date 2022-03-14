@@ -42,13 +42,11 @@ skillsdic = [   'combat',
                 'total'
             ]
 
-def logger(log,c):#get full log, return ranked list of cetain skill
+def listFormater(log):#get full log, return ranked list of cetain skill
     temp_dic = {}
-    em = {}
     members_sorted = []
     total_xp =0
-    em=log[skillsdic.index(c)]
-    temp_dic = {k: v for k, v in sorted(em.items(), key=lambda item: item[1],reverse=True)}
+    temp_dic = {k: v for k, v in sorted(log.items(), key=lambda item: item[1],reverse=True)}
     for key, value in temp_dic.items():
         if value != 0 :
             total_xp += value
@@ -58,7 +56,7 @@ def logger(log,c):#get full log, return ranked list of cetain skill
             continue
     return members_sorted, total_xp
 
-def SortUp(old_log,new_log):
+def SortUpT(old_log,new_log):
     #sort data from old and new records to give xp gains of each player
     
     skills = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
@@ -87,6 +85,49 @@ def SortUp(old_log,new_log):
             else:
                 pass
     return unranked #return list of dicts of unranked player:xp for ea skill
+
+def SortUp(skill_name,old_log,new_log):
+    #sort data from old and new records to give xp gains of each player
+    
+    skills = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
+    combat_unranked = {}
+    mining_unranked = {}
+    smithing_unranked = {}
+    wc_unranked = {}
+    crafting_unranked = {}
+    fishing_unranked = {}
+    cooking_unranked = {}
+    unranked = [combat_unranked,mining_unranked,smithing_unranked,wc_unranked,crafting_unranked,fishing_unranked,cooking_unranked]
+    r_dict = {}
+    if skill_name.lower() == 'total' :
+        for i in range(7):
+            skill = skills[i]
+            for j in new_log :
+                if j in old_log :
+                    new_xp = new_log[j][skill]
+                    old_xp = old_log[j][skill]
+                    xp = new_xp - old_xp
+                    if i == 0 :
+                        unranked[7][j] = xp
+                    else:
+                        unranked[7][j] += xp
+                else:
+                    pass
+        r_dict = unranked[7]
+    else :
+        i = skills.index(skill_name.lower()+'_xp')
+        skill = skills[i]
+        for j in new_log :
+            if j in old_log :
+                new_xp = new_log[j][skill]
+                old_xp = old_log[j][skill]
+                xp = new_xp - old_xp
+                unranked[i][j]=xp
+            else:
+                pass
+        r_dict = unranked[i]
+    return r_dict #return list of dicts of unranked player:xp for ea skill
+
 
 def RankUp(unsortedlb):
     #make a rankings of players based on their xp gain
@@ -261,7 +302,7 @@ def rankk (rank):
     return rank_text
 
 #################xp getters###########
-async def makelog(g_tag) :
+async def makelogT(g_tag) :
     event_log = {}
     name_list = []
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
@@ -292,6 +333,40 @@ async def makelog(g_tag) :
                                 event_log[player_name]["total"] += xp
                 elif data == []:
                     break
+
+    return event_log
+
+
+async def makelog(skill_name,g_tag) :
+    event_log = {}
+    name_list = []
+    c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+    c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
+
+    #connector = aiohttp.TCPConnector(limit=80)
+    async with aiohttp.ClientSession() as session :
+        to_do = get_tasks(session, c_skill[skillsdic.index(skill_name)])
+        responses = await asyncio.gather(*to_do)
+        for response in responses:
+            data = await response.json()
+            if data != []:
+                for fdata in data :
+                    member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
+                    player_name = fdata["name"]
+                    xp = fdata["xp"]
+                    tag = player_name.split()[0]                    
+                    if tag.upper() == g_tag :
+                        if player_name in name_list:
+                            event_log[player_name][c_xp[skillsdic.index(skill_name)]]=xp
+                            event_log[player_name]["total"] += xp
+                        else:
+                            name_list.append(player_name)
+                            event_log[player_name]=member_temp
+                            event_log[player_name]["ign"] = player_name
+                            event_log[player_name][c_xp[skillsdic.index(skill_name)]]=xp
+                            event_log[player_name]["total"] += xp
+            elif data == []:
+                break
 
     return event_log
 

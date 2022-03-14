@@ -1,16 +1,11 @@
 import os
-import math
 import asyncio
-from datetime import date as dt
-from urllib.request import Request, urlopen
-import json
 import nest_asyncio
-import time
-import aiohttp
 import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
+
 from db_helper import *
 from evy_helper import *
 import logging
@@ -29,13 +24,6 @@ g_pager_reg = {}
 skill_afx = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
 skills = ['combat','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking']
 
-guilds_combat = {}
-guilds_mining = {}
-guilds_smithing = {}
-guilds_woodcutting = {}
-guilds_crafting = {}
-guilds_fishing = {}
-guilds_cooking = {}
 
 
 
@@ -121,10 +109,7 @@ txt2 = it.TextInput(
 
 
 
-
-sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
-
-presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.GAME)
+presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]))
 logging.basicConfig(level=logging.DEBUG)
 
@@ -136,9 +121,6 @@ async def on_ready():
     print("Logged in !")
     #settings = retrieve('settings')
     #lock_state = settings['lock']
-
-
-
 
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
@@ -159,7 +141,7 @@ async def modal_response(ctx, response1,response2):
 
 
 
-
+###############xp's gain leaderboard in skills########################
 
 @bot.command(name="gains",
             description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
@@ -186,15 +168,24 @@ async def gains(ctx:CC,skill:str):
     await ctx.defer()
     await ctx.send("Fetching newest records ...")
     old_record = retrieve("0000")
-    new_record = asyncio.run(makelog('GOD'))
-    unranked_data = SortUp(old_record,new_record)
+
+
+
     if skill.lower() == 'total':
-        result = logger(unranked_data,skill.lower())
+
+        new_record = asyncio.run(makelogT('GOD'))
+        unranked_data = SortUp('total',old_record,new_record)
+
+        result = listFormater(unranked_data)
         embeds = makeEmbeds(result,"GoD","Total Xp")
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     else:
-        result = logger(unranked_data,skill.lower())
+
+        new_record = asyncio.run(makelog(skill.lower(),'GOD'))
+        unranked_data = SortUp(skill.lower(),old_record,new_record)
+
+        result = listFormater(unranked_data)
         embeds = makeEmbeds(result,"GoD",skill.capitalize())
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
@@ -278,12 +269,7 @@ async def g_stop_response(ctx:CPC):
     main_embed = data[3]
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
 
-
-
-
-
-
-
+###############guild leaderboard in skills########################
 
 @bot.command(name="guildlb",
             description="Show Guild's Leaderboard In Total Xp Or Specific Skill",
