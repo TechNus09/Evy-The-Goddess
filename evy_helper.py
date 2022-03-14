@@ -88,8 +88,6 @@ def SortUpT(old_log,new_log):
 
 def SortUp(skill_name,old_log,new_log):
     #sort data from old and new records to give xp gains of each player
-    
-    skills = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
     r_dict = {}
     if skill_name.lower() == 'total' :
         for j in new_log :
@@ -110,7 +108,7 @@ def SortUp(skill_name,old_log,new_log):
                 r_dict[j]=xp
             else:
                 pass
-    return r_dict #return list of dicts of unranked player:xp for ea skill
+    return r_dict #return dict of unranked [player:xp] for given skill
 
 
 def RankUp(unsortedlb):
