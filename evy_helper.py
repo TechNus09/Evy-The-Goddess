@@ -98,7 +98,7 @@ def SortUp(skill_name,old_log,new_log):
                     new_xp = new_log[j][skill]
                     old_xp = old_log[j][skill]
                     xp = new_xp - old_xp
-                    if i == 0 :
+                    if skill == 'combat_xp' :
                         r_dict[j] = xp
                     else:
                         r_dict[j] += xp
