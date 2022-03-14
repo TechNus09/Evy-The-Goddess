@@ -92,7 +92,7 @@ g_b_row = ActionRow(
 
 sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
 
-presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.GAME)
+presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]))
 
 
