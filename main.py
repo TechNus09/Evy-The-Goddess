@@ -126,14 +126,35 @@ async def on_ready():
     #lock_state = settings['lock']
 
 
+#add add/delete player from db
+#retrieve log
+#look for new member name.lower()
+#add new member to log
+#update log db
+
+@bot.command(name="add_player",description="add new player to the event database",scope=922854662141526037)
+async def add_player(ctx:CC):
+    c = str(ctx)
+    await ctx.send(c)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
 async def testing(ctx:CC):
     await ctx.send("admin")
-
-
-
-
-
 
 ###############xp's gain leaderboard in skills########################
 
