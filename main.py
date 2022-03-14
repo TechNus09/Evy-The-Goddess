@@ -100,32 +100,22 @@ g_b_row = ActionRow(
                             ]
                 )
 
-app = it.TextInput(
-    style=it.TextStyleType.SHORT,
-    label="Let's get straight to it: what's 1 + 1?",
-    custom_id="text_input_response",
-    min_length=2,
-    max_length=3,
-)
+
 
 
 txt = it.TextInput(
-    style=it.TextStyleType.SHORT,
-    label="Let's get straight to it: what's 1 + 1?",
-    custom_id="text_input_1",
-    min_length=1,
-    max_length=3,
+    style=it.TextStyleType.PARAGRAPH,
+    label="Why you choosed our guild among the other guilds out there ?",
+    custom_id="join_reason",
+    min_length=3,
+    max_length=900,
 )
 txt2 = it.TextInput(
     style=it.TextStyleType.PARAGRAPH,
-    label="Let's get straight to it: what's 1 + 4?",
-    custom_id="text_input_2",
-    min_length=1,
-    max_length=100,
-)
-
-row = it.ActionRow(
-    components=[txt, txt2]
+    label="Explain your sense of humor : ",
+    custom_id="humore_sense",
+    min_length=3,
+    max_length=900,
 )
 
 
