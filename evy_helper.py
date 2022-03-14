@@ -90,14 +90,6 @@ def SortUp(skill_name,old_log,new_log):
     #sort data from old and new records to give xp gains of each player
     
     skills = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
-    combat_unranked = {}
-    mining_unranked = {}
-    smithing_unranked = {}
-    wc_unranked = {}
-    crafting_unranked = {}
-    fishing_unranked = {}
-    cooking_unranked = {}
-    unranked = [combat_unranked,mining_unranked,smithing_unranked,wc_unranked,crafting_unranked,fishing_unranked,cooking_unranked]
     r_dict = {}
     if skill_name.lower() == 'total' :
         for i in range(7):
@@ -108,24 +100,21 @@ def SortUp(skill_name,old_log,new_log):
                     old_xp = old_log[j][skill]
                     xp = new_xp - old_xp
                     if i == 0 :
-                        unranked[7][j] = xp
+                        r_dict[j] = xp
                     else:
-                        unranked[7][j] += xp
+                        r_dict[j] += xp
                 else:
                     pass
-        r_dict = unranked[7]
     else :
-        i = skills.index(skill_name.lower()+'_xp')
-        skill = skills[i]
+        skill = skills.index(skill_name.lower()+'_xp')
         for j in new_log :
             if j in old_log :
                 new_xp = new_log[j][skill]
                 old_xp = old_log[j][skill]
                 xp = new_xp - old_xp
-                unranked[i][j]=xp
+                r_dict[j]=xp
             else:
                 pass
-        r_dict = unranked[i]
     return r_dict #return list of dicts of unranked player:xp for ea skill
 
 

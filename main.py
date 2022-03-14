@@ -188,7 +188,7 @@ async def gains(ctx:CC,skill:str):
     g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
     g_m_row = ActionRow(components=[g_pager_m])
     end = time.time()
-    t = start-end
+    t = end - start
     await ctx.edit(f"{t} !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
 
 @bot.component("g_pager_menu")
