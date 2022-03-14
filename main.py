@@ -152,7 +152,7 @@ async def on_ready():
 
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
-async def testing(ctx:CC):
+async def testing(ctx):
     modal = it.Modal(
         title="Application Form",
         custom_id="mod_app_form",
