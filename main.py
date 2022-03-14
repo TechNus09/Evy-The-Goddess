@@ -134,8 +134,12 @@ async def on_ready():
 
 @bot.command(name="add_player",description="add new player to the event database",scope=922854662141526037)
 async def add_player(ctx:CC):
-    print(ctx.data)
+    print(ctx.data._json)
+    print("-------------------------------------------------------")
+    print(str(ctx.token))
+    print("-------------------------------------------------------")
     print(ctx._json)
+    print("-------------------------------------------------------")
     print(dir(ctx))
     await ctx.send("ctx")
 
