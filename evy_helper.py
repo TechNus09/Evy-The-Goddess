@@ -92,8 +92,7 @@ def SortUp(skill_name,old_log,new_log):
     skills = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
     r_dict = {}
     if skill_name.lower() == 'total' :
-        for i in range(7):
-            skill = skills[i]
+        for skill in skills :
             for j in new_log :
                 if j in old_log :
                     new_xp = new_log[j][skill]
