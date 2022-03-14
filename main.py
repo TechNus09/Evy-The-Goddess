@@ -6,6 +6,8 @@ from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, 
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
 import time
+import math
+
 from db_helper import *
 from evy_helper import *
 import logging
@@ -188,8 +190,8 @@ async def gains(ctx:CC,skill:str):
     g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
     g_m_row = ActionRow(components=[g_pager_m])
     end = time.time()
-    t = end - start
-    await ctx.edit(f"{t} !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
+    t = math.ceil(end - start)
+    await ctx.edit(f"Done in {t} seconds.",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
 
 @bot.component("g_pager_menu")
 async def g_pager_response(ctx:CPC,blah):

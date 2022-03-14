@@ -1,2 +1,1 @@
--split makelog to faster the solo skills search
 -add add/delete player from db

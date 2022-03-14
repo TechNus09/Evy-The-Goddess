@@ -101,7 +101,7 @@ def SortUp(skill_name,old_log,new_log):
             else:
                 pass
     else :
-        skill = skills.index(skill_name.lower()+'_xp')
+        skill = skill_name.lower()+'_xp'
         for j in new_log :
             if j in old_log :
                 new_xp = new_log[j][skill]
