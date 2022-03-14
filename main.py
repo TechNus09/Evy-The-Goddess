@@ -105,7 +105,7 @@ g_b_row = ActionRow(
 
 txt = it.TextInput(
     style=it.TextStyleType.PARAGRAPH,
-    label="Why you choosed our guild among the other guilds out there ?",
+    label="Why you chosed our guild among the others ?",
     custom_id="join_reason",
     min_length=3,
     max_length=900,
