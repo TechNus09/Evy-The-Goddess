@@ -164,7 +164,7 @@ async def testing(ctx:CC):
 
 
 
-@bot.component('text_input_response')
+@bot.component('mod_app_form')
 async def g_pager_response(ctx:CPC,blah):
     print(str(ctx.data.values[0]))
     await ctx.edit("Finished !")
