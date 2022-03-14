@@ -156,9 +156,11 @@ async def testing(ctx):
     modal = it.Modal(
         title="Application Form",
         custom_id="mod_app_form",
-        components=row,
+        components=[txt, txt2],
     )
     await ctx.popup(modal)
+
+
 
 
 
