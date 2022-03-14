@@ -109,10 +109,27 @@ app = it.TextInput(
 )
 
 
-t_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="⏩", 
-                custom_id="t_button", )
+txt = it.TextInput(
+    style=it.TextStyleType.SHORT,
+    label="Let's get straight to it: what's 1 + 1?",
+    custom_id="text_input_response",
+    min_length=1,
+    max_length=3,
+)
+txt2 = it.TextInput(
+    style=it.TextStyleType.SHORT,
+    label="Let's get straight to it: what's 1 + 4?",
+    custom_id="text_input_response",
+    min_length=1,
+    max_length=3,
+)
+
+row = it.ActionRow(
+    components=[txt, txt2]
+)
+
+
+
 
 
 sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
@@ -136,8 +153,13 @@ async def on_ready():
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
 async def testing(ctx:CC):
-    await ctx.defer()
-    await ctx.send("answer please",components=[app])
+    modal = it.Modal(
+        title="Application Form",
+        custom_id="mod_app_form",
+        components=row,
+    )
+
+    await ctx.popup(modal)
 
 
 
