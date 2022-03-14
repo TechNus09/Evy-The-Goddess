@@ -1,15 +1,19 @@
 import os
+import math
 import asyncio
 from datetime import date as dt
+from urllib.request import Request, urlopen
 import json
 import nest_asyncio
+import time
+import aiohttp
 import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
 from db_helper import *
 from evy_helper import *
-
+import logging
 
 
 nest_asyncio.apply()
@@ -18,12 +22,20 @@ nest_asyncio.apply()
 event_log = {}
 pager_reg = {}
 g_pager_reg = {}
+#global lock_state
+#lock_state = True     
 
 
 skill_afx = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
 skills = ['combat','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking']
 
-
+guilds_combat = {}
+guilds_mining = {}
+guilds_smithing = {}
+guilds_woodcutting = {}
+guilds_crafting = {}
+guilds_fishing = {}
+guilds_cooking = {}
 
 
 
@@ -88,17 +100,54 @@ g_b_row = ActionRow(
                             ]
                 )
 
+app = it.TextInput(
+    style=it.TextStyleType.SHORT,
+    label="Let's get straight to it: what's 1 + 1?",
+    custom_id="text_input_response",
+    min_length=2,
+    max_length=3,
+)
+
+
+t_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏩", 
+                custom_id="t_button", )
 
 
 sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
 
-presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
+presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.GAME)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]))
-
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
+    
+    #global lock_state
+    #print('Logging in as {0.user}'.format(bot))
     print("Logged in !")
+    #settings = retrieve('settings')
+    #lock_state = settings['lock']
+
+
+
+
+
+@bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
+async def testing(ctx:CC):
+    await ctx.defer()
+    await ctx.send("answer please",components=[app])
+
+
+
+
+@bot.component('text_input_response')
+async def g_pager_response(ctx:CPC,blah):
+    print(str(ctx.data.values[0]))
+    await ctx.edit("Finished !")
+
+
 
 
 
