@@ -121,7 +121,7 @@ txt2 = it.TextInput(
     label="Let's get straight to it: what's 1 + 4?",
     custom_id="text_input_2",
     min_length=1,
-    max_length=3,
+    max_length=100,
 )
 
 row = it.ActionRow(
