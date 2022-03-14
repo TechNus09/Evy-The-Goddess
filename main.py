@@ -112,14 +112,14 @@ app = it.TextInput(
 txt = it.TextInput(
     style=it.TextStyleType.SHORT,
     label="Let's get straight to it: what's 1 + 1?",
-    custom_id="text_input_response",
+    custom_id="text_input_1",
     min_length=1,
     max_length=3,
 )
 txt2 = it.TextInput(
-    style=it.TextStyleType.SHORT,
+    style=it.TextStyleType.PARAGRAPH,
     label="Let's get straight to it: what's 1 + 4?",
-    custom_id="text_input_response",
+    custom_id="text_input_2",
     min_length=1,
     max_length=3,
 )
