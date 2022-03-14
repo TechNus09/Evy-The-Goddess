@@ -1,19 +1,15 @@
 import os
-import math
 import asyncio
 from datetime import date as dt
-from urllib.request import Request, urlopen
 import json
 import nest_asyncio
-import time
-import aiohttp
 import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
 from db_helper import *
 from evy_helper import *
-import logging
+
 
 
 nest_asyncio.apply()
@@ -22,20 +18,12 @@ nest_asyncio.apply()
 event_log = {}
 pager_reg = {}
 g_pager_reg = {}
-#global lock_state
-#lock_state = True     
 
 
 skill_afx = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
 skills = ['combat','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking']
 
-guilds_combat = {}
-guilds_mining = {}
-guilds_smithing = {}
-guilds_woodcutting = {}
-guilds_crafting = {}
-guilds_fishing = {}
-guilds_cooking = {}
+
 
 
 
@@ -102,58 +90,15 @@ g_b_row = ActionRow(
 
 
 
-t_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="⏩", 
-                custom_id="t_button", )
-
-
 sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
 
+presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.GAME)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]))
 
-bot = Client(os.getenv("TOKEN"))
-#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
-    #global lock_state
-    #print('Logging in as {0.user}'.format(bot))
     print("Logged in !")
-    #settings = retrieve('settings')
-    #lock_state = settings['lock']
-
-
-
-
-
-@bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
-async def testing(ctx:CC):
-    await ctx.defer()
-    await ctx.send("Finished !",components=[t_b])
-
-
-@bot.component("t_button")
-async def t_response(ctx:CPC):
-    ai = str(CPC.message.interaction.user.id)
-    await ctx.send(ai ,components=[])
-    asyncio.sleep(5)
-    ii = str(CPC.message.member.user.id)
-    await ctx.send(ii ,components=[])
-
-
-
-@bot.command(name='savelog',description='save init log')
-async def savelog(ctx:CC):
-    await ctx.defer()
-    log_file = open('data.json')
-    print('file loaded')
-    init_log = json.load(log_file)
-    print('json loaded')
-    ins = await update('0000',json.dumps(init_log))
-    if ins :
-        await ctx.send("data saved")
-
-
 
 
 
@@ -182,40 +127,24 @@ async def gains(ctx:CC,skill:str):
     await ctx.defer()
     await ctx.send("Fetching newest records ...")
     old_record = retrieve("0000")
-    print('logs retrieved')
     new_record = asyncio.run(makelog('GOD'))
-    print('fetched new logs')
     unranked_data = SortUp(old_record,new_record)
-    print(unranked_data)
-    print('sorted')
     if skill.lower() == 'total':
-        print(f'choosed {skill}')
         result = logger(unranked_data,skill.lower())
-        print('data sorted')
         embeds = makeEmbeds(result,"GoD","Total Xp")
-        print('embeds made')
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     else:
-        print(f'choosed {skill}')
         result = logger(unranked_data,skill.lower())
-        print('data sorted')
         embeds = makeEmbeds(result,"GoD",skill.capitalize())
-        print('embeds made')
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     user = ctx.author.user.username
     g_m_count = len(result[0])
     g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
-    print('making pager')
     g_pager_m = pagerMaker(0,g_m_count,"g_pager_menu")
-    print('pager made')
     g_m_row = ActionRow(components=[g_pager_m])
-    print('sending')
     await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
-
-
-
 
 @bot.component("g_pager_menu")
 async def g_pager_response(ctx:CPC,blah):
@@ -289,25 +218,6 @@ async def g_stop_response(ctx:CPC):
     cur_embed = data[2][cur_pos]
     main_embed = data[3]
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
