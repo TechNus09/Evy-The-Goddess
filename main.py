@@ -376,7 +376,7 @@ async def pager_response(ctx:CPC,blah):
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
     pager_reg[str(ctx.author.user.username)][0]=chosen_page
-    n_pager = pagerMaker(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count,"pager_menu")
     m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
@@ -387,7 +387,7 @@ async def first_response(ctx:CPC):
     count = data[1]
     cur_embed = data[2][0]
     main_embed = data[3]
-    n_pager = pagerMaker(0,count)
+    n_pager = pagerMaker(0,count,"pager_menu")
     m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])              
 
@@ -399,7 +399,7 @@ async def last_response(ctx:CPC):
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
-    n_pager = pagerMaker(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count,"pager_menu")
     m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
@@ -414,7 +414,7 @@ async def backward_response(ctx:CPC):
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
-    n_pager = pagerMaker(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count,"pager_menu")
     m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
@@ -429,7 +429,7 @@ async def forward_response(ctx:CPC):
     count = data[1]
     cur_embed = data[2][chosen_page]
     main_embed = data[3]
-    n_pager = pagerMaker(chosen_page,count)
+    n_pager = pagerMaker(chosen_page,count,"pager_menu")
     m_row = ActionRow(components=[n_pager])
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
 
