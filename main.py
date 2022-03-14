@@ -10,6 +10,8 @@ from db_helper import *
 from evy_helper import *
 import logging
 
+from perms import *
+
 
 nest_asyncio.apply()
 
@@ -124,6 +126,7 @@ async def on_ready():
 
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
+@has_permissions(Permissions.ADMINISTRATOR)
 async def testing(ctx):
     modal = it.Modal(
         title="Application Form",
