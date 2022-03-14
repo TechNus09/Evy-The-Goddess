@@ -136,7 +136,7 @@ sl = ['combat','mining','smithing','woodcutting','crafting','fishing','cooking']
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.GAME)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]))
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
