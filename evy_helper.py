@@ -391,7 +391,7 @@ async def checkName(name):
 
 async def getPlayer(name):
     print(f"started searching for {name} ...")
-    updated = False
+    
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
     c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
     member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
@@ -422,7 +422,12 @@ async def getPlayer(name):
                             pass
     log = retrieve('0000')
     log[name]=member_temp
-    updated = update('0000',log)
+    print("finished")
+    res = update('0000',log)
+    if res:
+        updated = True
+    else:
+        updated = False
     print(updated)
     return updated
 
