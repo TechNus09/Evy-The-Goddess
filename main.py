@@ -20,6 +20,8 @@ nest_asyncio.apply()
 event_log = {}
 pager_reg = {}
 g_pager_reg = {}
+add_reg = {}
+delete_reg = {}
 #global lock_state
 #lock_state = True     
 
@@ -92,7 +94,35 @@ g_b_row = ActionRow(
                 )
 
 
+add_row = ActionRow(
+                components=[
+                            Button(
+                                style=ButtonStyle.PRIMARY, 
+                                label="Yes", 
+                                custom_id="add_yes_button", 
+                                    ),
+	                        Button(
+                                style=ButtonStyle.DANGER, 
+                                label="No", 
+                                custom_id="add_no_button", 
+                                    )
+                            ]
+                )
 
+delete_row = ActionRow(
+                components=[
+                            Button(
+                                style=ButtonStyle.PRIMARY, 
+                                label="Yes", 
+                                custom_id="delete_yes_button", 
+                                    ),
+	                        Button(
+                                style=ButtonStyle.DANGER, 
+                                label="No", 
+                                custom_id="delete_no_button", 
+                                    )
+                            ]
+                )
 
 txt = it.TextInput(
     style=it.TextStyleType.PARAGRAPH,
@@ -129,37 +159,99 @@ async def on_ready():
     #lock_state = settings['lock']
 
 
-#add add/delete player from db
-#retrieve log
-#look for new member name.lower()
-#add new member to log
-#update log db
+@bot.command(   name="add_player",
+                description="add new player to the event database",
+                scope=922854662141526037,
+                options=[
+                    it.Option(
+                            name="player_name",
+                            description="player's name to add the database",
+             		        type=it.OptionType.STRING,
+             		        required=True,
+              	              	),  
+                    ],		)
+async def add_player(ctx:CC,player_name:str):
+    exist = False
+    await ctx.send(f'checking if {player_name} exist ...')
+    log = retrieve('0000')
+    for player in log:
+        if player.lower() == player_name.lower():
+            exist = True
+            await ctx.edit(f"{player} already exist in database")
+            break
+        else :
+            pass
+    if not exist:
+        name = asyncio.run(checkName(player_name.lower()))
+        if name == 'none':
+            await ctx.edit(f"Player {name} not found.\nMake sure the pronounciation is correct.")
+        else :
+            add_reg[str(ctx.user.username)]=name
+            await ctx.edit(f"found player {name}\nWanna add him/her to event database ?",components=add_row)
 
-@bot.command(name="add_player",description="add new player to the event database",scope=922854662141526037)
-async def add_player(ctx:CC):
-    m = "id : "+str(ctx.id)
-    await ctx.send(m,components=[tt_b])
-    await asyncio.sleep(5)
-    await ctx.edit(m)
-    await asyncio.sleep(5)
-    await ctx.edit(m)
+@bot.command(   name="delete_player",
+                description="delete player  the event database",
+                scope=922854662141526037,
+                options=[
+                    it.Option(
+                            name="player_name",
+                            description="player's name to detele from database",
+             		        type=it.OptionType.STRING,
+             		        required=True,
+              	              	),  
+                    ],		)
+async def delete_player(ctx:CC,player_name:str):
+    await ctx.send(f'checking if {player_name} exist ...')
+    log = retrieve('0000')
+    exist = False
+    for player in log:
+        if player.lower() == player_name.lower():
+            delete_reg[str(ctx.author.user.username)]=player
+            exist = True
+            await ctx.edit(f"found player {player_name}\nWanna add him/her to event database ?",components=delete_row)
+            break
+        else :
+            pass
+    if not exist :
+        await ctx.edit(f"Player {player_name} not found.\nMake sure the pronounciation is correct.")
 
-@bot.component("tt_b")
-async def tt_reponse(ctx:CPC):
-    print(str(ctx.id))
-    print(str(ctx.data._json))
-    
+@bot.component("add_yes_button")
+async def add_yes(ctx:CPC):
+    added = False
+    player_name = add_reg[ctx.user.username]
+    add_reg.pop(str(ctx.author.user.username))
+    await ctx.edit(f"adding player {player_name} ....",components=[])
+    added = getPlayer(player_name)
+    if added :
+        await ctx.edit(f"playerlayer {player_name} added successfully",components=[])
+    else:
+        await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+    add_reg.pop(str(ctx.author.user.username))
 
+@bot.component("add_no_button")
+async def add_no(ctx:CPC):
+    player_name = add_reg[ctx.user.username]
+    add_reg.pop(str(ctx.author.user.username))
+    await ctx.edit(f"you canceled adding player {player_name} ",components=[])
 
+@bot.component("delete_yes_button")
+async def delete_yes(ctx:CPC):
+    player_name = delete_reg[str(ctx.author.user.username)]    
+    delete_reg.pop(str(ctx.author.user.username))
+    await ctx.edit(f"deleting player {player_name} ....",components=[])
+    log = retrieve('0000')
+    log.pop(player_name)
+    state = update('0000',log)
+    if state :
+        await ctx.edit(f"player {player_name} deleted successfully",components=[])
+    else:
+        await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
 
-
-
-
-
-
-
-
-
+@bot.component("delete_no_button")
+async def delete_no(ctx:CPC):
+    player_name = delete_reg[str(ctx.author.user.username)]
+    delete_reg.pop(str(ctx.author.user.username))
+    await ctx.edit(f"you canceled deleting player {player_name} ",components=[])
 
 
 

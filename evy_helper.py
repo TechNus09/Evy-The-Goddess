@@ -12,6 +12,8 @@ from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, 
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
 
+from db_helper import *
+
 nest_asyncio.apply()
 
 skill_afx = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
@@ -200,11 +202,6 @@ def pagerMaker(pos,count,id):
 	                        custom_id=id, )
     return pager_menu   
 
-
-
-
-        
-        
 def ToZero(dicc):
     for key in dicc:
         dicc[key]=0  
@@ -259,8 +256,6 @@ async def makelogT(g_tag) :
     event_log = {}
     name_list = []
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
-    c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
-
     for skill_x in range(7):
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
@@ -367,19 +362,39 @@ async def SearchEvent(skill_name):#fetch specific guild xp gain in specific skil
 
 
 
-async def SearchEventTotal(old_log):
-   
-    log_file = members_log
-    skills_list = skills_names_list
-    skills_xp = skills_xp_list
-    sorted_lb ={}
-    temp_dic = {}
-    members_sorted = []
-    unsortedl = {}
+async def checkName(name):
+    rname = 'none'
+    c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+    c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
+    member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
     for skill_x in range(7):
         async with aiohttp.ClientSession() as session:
-            
-            to_do = get_tasks(session,skill[skill_x])
+            to_do = get_tasks(session,c_skill[skill_x])
+            responses = await asyncio.gather(*to_do)
+            for response in responses:
+                data = await response.json()
+                if data != [] :
+                    for fdata in data :
+                        player_name = fdata["name"]
+                        #xp = fdata["xp"]
+                        if player_name.lower() == name :
+                            rname = player_name
+                            break
+                        else:
+                            continue
+                elif data == [] :
+                    break
+    return rname
+
+async def getPlayer(name):
+    updated = False
+    c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+    c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
+    member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
+    member_temp['ign']=name
+    for skill_x in range(7):
+        async with aiohttp.ClientSession() as session:
+            to_do = get_tasks(session,c_skill[skill_x])
             responses = await asyncio.gather(*to_do)
             for response in responses:
                 data = await response.json()
@@ -387,34 +402,17 @@ async def SearchEventTotal(old_log):
                     for fdata in data :
                         player_name = fdata["name"]
                         xp = fdata["xp"]
-                        tag = player_name.split()[0]
-                        tag = tag.upper()
-                        if player_name in namelist :
-                            name_order = namelist.index(player_name)
-                            old_xp = log_file[name_order][skills_xp[skill_x]]
-                            new_xp = xp
-                            xp_diff = new_xp - old_xp
-                            if player_name in unsortedl:
-                                unsortedl[player_name] += xp_diff
-                            else:
-                                unsortedl[player_name] = xp_diff
+                        if player_name.lower() == name :
+                            member_temp[c_xp[skill_x]]=xp
+                            break
+                        else:
                             continue
                 elif data == [] :
                     break
-    temp_dic = {k: v for k, v in sorted(unsortedl.items(), key=lambda item: item[1],reverse=True)}
-    members_sorted.clear()
-    total_xp = 0
-    for key, value in temp_dic.items():
-        if value != 0 :
-            total_xp += value
-            test = key + " <> " + "{:,}".format(value)
-            members_sorted.append(test)
-        else:
-            continue
-    mini_list = []
-    mini_list = members_sorted
-    return mini_list, total_xp
-
+    log = retrieve('0000')
+    log[name]=member_temp
+    updated = update('0000',log)
+    return updated
 
 ##############################################################################
 #get guild members rankings in a certain skill (20000)    
