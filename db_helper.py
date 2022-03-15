@@ -41,15 +41,23 @@ def createT():
 
 def insert(t_date,e_log):
     con = conn()
+    print("con created")
     cur = con.cursor()
+    print("cur created")
     insert_query = """ 
                     INSERT INTO logs (DATE,LOG) 
                     VALUES (%s,%s)
                     """
+    
+    print("query created")
     cur.execute(insert_query,(t_date,e_log,))
+    print("query excuted")
     con.commit()
+    print("cur commited")
     cur.close()
+    print("cur closed")
     con.close()
+    print("con closed")
     return True
 
 def update(e_log,t_date):
