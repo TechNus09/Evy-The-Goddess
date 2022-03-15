@@ -148,6 +148,7 @@ async def add_player(ctx:CC):
 async def tt_reponse(ctx:CPC):
     print(str(ctx.id))
     print(str(ctx.data._json))
+    
 
 
 
