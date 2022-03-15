@@ -392,30 +392,34 @@ async def checkName(name):
 async def getPlayer(name):
     print("started searching ...")
     updated = False
+    
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
     c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
     member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
     member_temp['ign']=name
     for skill_x in range(7):
+        s_found = False
         print(c_xp[skill_x])
         async with aiohttp.ClientSession() as session:
             to_do = get_tasks(session,c_skill[skill_x])
             responses = await asyncio.gather(*to_do)
             for response in responses:
                 data = await response.json()
-                if data != [] :
+                if s_found or data == [] :
+                    break
+                elif data != [] :
                     for fdata in data :
                         player_name = fdata["name"]
                         xp = fdata["xp"]
                         if player_name.lower() == name :
                             member_temp[c_xp[skill_x]]=xp
+                            if skill_x == 0:
+                                member_temp['total']=xp
+                            else:
+                                member_temp['total']+=xp
+                            s_found = True
+                            print(c_xp[skill_x]+str(xp))
                             break
-                    else:
-                        continue
-                elif data == [] :
-                    break
-            else:
-                        continue
     log = retrieve('0000')
     print(member_temp)
     log[name]=member_temp
