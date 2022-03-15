@@ -66,7 +66,7 @@ def insert(t_date,e_log):
     con.close()
     return True
 
-def update(e_log,t_date):
+def update(t_date,e_log):
     r = False
     con = conn()
     print("con created")
@@ -110,3 +110,8 @@ def retrieve(t_date):
     con.close()
     return dict(log[0])
 
+#member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
+#
+#s = update('9999',member_temp)
+#if s:
+#    print("updated")
