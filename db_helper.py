@@ -67,8 +67,8 @@ def update(e_log,t_date):
         print("query excuted")
         con.commit()
         print("cur commited")
-    except psycopg2.OperationalError as e:
-        print('error occured\n{0}').format(e)
+    except psycopg2.Error as e:
+        print(f'error occured\n{e}')
     else:
         r = True
         cur.close()
