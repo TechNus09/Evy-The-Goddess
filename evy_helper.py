@@ -390,7 +390,7 @@ async def checkName(name):
     return rname
 
 async def getPlayer(name):
-    print("started searching ...")
+    print(f"started searching for {name} ...")
     updated = False
     
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
@@ -414,12 +414,12 @@ async def getPlayer(name):
                         xp = fdata["xp"]
                         if player_name.lower() == name :
                             member_temp[c_xp[skill_x]]=xp
+                            s_found = True
+                            print(c_xp[skill_x]+str(xp))
                             if skill_x == 0:
                                 member_temp['total']=xp
                             else:
                                 member_temp['total']+=xp
-                            s_found = True
-                            print(c_xp[skill_x]+str(xp))
                             break
                         else:
                             pass
