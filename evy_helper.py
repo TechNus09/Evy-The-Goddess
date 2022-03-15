@@ -399,7 +399,6 @@ async def getPlayer(name):
     member_temp['ign']=name
     for skill_x in range(7):
         s_found = False
-        print(c_xp[skill_x])
         async with aiohttp.ClientSession() as session:
             to_do = get_tasks(session,c_skill[skill_x])
             responses = await asyncio.gather(*to_do)
@@ -414,7 +413,6 @@ async def getPlayer(name):
                         if player_name == name :
                             member_temp[c_xp[skill_x]]=xp
                             s_found = True
-                            print(c_xp[skill_x]+" : "+str(xp))
                             if skill_x == 0:
                                 member_temp['total']=xp
                             else:
@@ -423,8 +421,10 @@ async def getPlayer(name):
                         else:
                             pass
     log = retrieve('0000')
+    print(log)
     print(member_temp)
     log[name]=member_temp
+    print(log)
     updated = update('0000',log)
     print(updated)
     return updated

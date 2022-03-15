@@ -223,6 +223,7 @@ async def add_yes(ctx:CPC):
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"adding player {player_name} ....",components=[])
     added = asyncio.run(getPlayer(player_name))
+    print("finished looking "+str(added))
     if added :
         await ctx.edit(f"playerlayer {player_name} added successfully")
     else:
