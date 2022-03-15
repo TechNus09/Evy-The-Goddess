@@ -89,6 +89,7 @@ def update(t_date,e_log):
         print("cur closed")
         con.close()
         print("con closed")
+    print(f" updated : "+str(r))
     return r
 
 
