@@ -372,7 +372,9 @@ async def checkName(name):
             responses = await asyncio.gather(*to_do)
             for response in responses:
                 data = await response.json()
-                if data != [] :
+                if data == [] :
+                    break
+                else:
                     for fdata in data :
                         player_name = fdata["name"]
                         #xp = fdata["xp"]
@@ -380,10 +382,6 @@ async def checkName(name):
                             rname = player_name
                             print(f'found {rname}')
                             break
-                        else:
-                            continue
-                elif data == [] :
-                    break
     return rname
 
 async def getPlayer(name):
