@@ -222,12 +222,21 @@ async def add_yes(ctx:CPC):
     player_name = add_reg[str(ctx.author.user.username)]
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"adding player {player_name} ....",components=[])
-    added = asyncio.run(getPlayer(player_name))
+    member_log = asyncio.run(getPlayer(player_name))
     print("finished looking "+str(added))
-    if added :
-        await ctx.edit(f"playerlayer {player_name} added successfully")
-    else:
-        await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+    try:
+        log = retrieve('0000')
+        log[player_name]=member_log
+        print("finished")
+        res = update("'0000'",log)
+    except :
+        print('error while updating')
+    else :
+        if res:
+            await ctx.edit(f"playerlayer {player_name} added successfully")
+        else:
+            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+
 
 @bot.component("add_no_button")
 async def add_no(ctx:CPC):

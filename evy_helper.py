@@ -420,16 +420,8 @@ async def getPlayer(name):
                             break
                         else:
                             pass
-    log = retrieve('0000')
-    log[name]=member_temp
-    print("finished")
-    res = update("'0000'",log)
-    if res:
-        updated = True
-    else:
-        updated = False
-    print(updated)
-    return updated
+
+    return member_temp
 
 ##############################################################################
 #get guild members rankings in a certain skill (20000)    
