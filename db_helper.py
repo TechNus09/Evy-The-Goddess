@@ -39,7 +39,7 @@ def createT():
 
 
 
-async def insert(t_date,e_log):
+def insert(t_date,e_log):
     con = conn()
     cur = con.cursor()
     insert_query = """ 
@@ -52,7 +52,7 @@ async def insert(t_date,e_log):
     con.close()
     return True
 
-async def update(t_date,e_log):
+def update(t_date,e_log):
     con = conn()
     cur = con.cursor()
     update_query =   """Update logs 
