@@ -227,7 +227,6 @@ async def add_yes(ctx:CPC):
         await ctx.edit(f"playerlayer {player_name} added successfully",components=[])
     else:
         await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
-    add_reg.pop(str(ctx.author.user.username))
 
 @bot.component("add_no_button")
 async def add_no(ctx:CPC):
