@@ -400,6 +400,7 @@ async def getPlayer(name):
     for skill_x in range(7):
         s_found = False
         print(c_xp[skill_x])
+        print(member_temp)
         async with aiohttp.ClientSession() as session:
             to_do = get_tasks(session,c_skill[skill_x])
             responses = await asyncio.gather(*to_do)
