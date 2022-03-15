@@ -416,6 +416,7 @@ async def getPlayer(name):
                     break
                 break
     log = retrieve('0000')
+    print(member_temp)
     log[name]=member_temp
     updated = update('0000',log)
     return updated
