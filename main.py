@@ -181,7 +181,7 @@ async def add_player(ctx:CC,player_name:str):
             break
         else :
             pass
-    await ctx.send(f'checking if {player_name} exist in website ...')
+    await ctx.edit(f'checking if {player_name} exist in website ...')
     if not exist:
         name = asyncio.run(checkName(player_name.lower()))
         if name == 'none':

@@ -365,9 +365,8 @@ async def SearchEvent(skill_name):#fetch specific guild xp gain in specific skil
 async def checkName(name):
     rname = 'none'
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
-    c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
-    member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
     for skill_x in range(7):
+        print(skillsdic[skill_x])
         async with aiohttp.ClientSession() as session:
             to_do = get_tasks(session,c_skill[skill_x])
             responses = await asyncio.gather(*to_do)
@@ -379,6 +378,7 @@ async def checkName(name):
                         #xp = fdata["xp"]
                         if player_name.lower() == name :
                             rname = player_name
+                            print(f'found {rname}')
                             break
                         else:
                             continue
