@@ -5,20 +5,34 @@ from urllib.parse import urlparse
 
 
 # Connect to an existing database
-db_url = os.environ.get("DATABASE_URL")
-result = urlparse(db_url)
-username = result.username
-password = result.password
-database = result.path[1:]
-hostname = result.hostname
-port = result.port
+#db_url = os.environ.get("DATABASE_URL")
+#result = urlparse(db_url)
+#username = result.username
+#password = result.password
+#database = result.path[1:]
+#hostname = result.hostname
+#port = result.port
+#def conn():
+#    connection = psycopg2.connect(
+#                                    database = database,
+#                                    user = username,
+#                                    password = password,
+#                                    host = hostname,
+#                                    port = port
+#                                )
+#    return connection
+db_user = os.environ.get("DB_USER")
+db_pw = os.environ.get("DB_PW")
+db_host = os.environ.get("DB_HOST")
+db_port = os.environ.get("DB_PORT")
+db_name = os.environ.get("DB_NAME")
 def conn():
     connection = psycopg2.connect(
-                                    database = database,
-                                    user = username,
-                                    password = password,
-                                    host = hostname,
-                                    port = port
+                                user=db_user,
+                                password=db_pw,
+                                host=db_host,
+                                port=db_port,
+                                database=db_name
                                 )
     return connection
 
