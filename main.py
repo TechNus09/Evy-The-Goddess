@@ -224,7 +224,7 @@ async def add_yes(ctx:CPC):
     await ctx.edit(f"adding player {player_name} ....",components=[])
     added = asyncio.run(getPlayer(player_name))
     if added :
-        await ctx.edit(f"playerlayer {player_name} added successfully",components=[])
+        await ctx.edit(f"playerlayer {player_name} added successfully")
     else:
         await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
 

@@ -414,7 +414,7 @@ async def getPlayer(name):
                         if player_name == name :
                             member_temp[c_xp[skill_x]]=xp
                             s_found = True
-                            print(c_xp[skill_x]+str(xp))
+                            print(c_xp[skill_x]+" : "+str(xp))
                             if skill_x == 0:
                                 member_temp['total']=xp
                             else:
@@ -426,6 +426,7 @@ async def getPlayer(name):
     print(member_temp)
     log[name]=member_temp
     updated = update('0000',log)
+    print(updated)
     return updated
 
 ##############################################################################
