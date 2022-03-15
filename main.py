@@ -139,14 +139,14 @@ async def on_ready():
 async def add_player(ctx:CC):
     m = "id : "+str(ctx.id)
     await ctx.send(m,components=[tt_b])
-    asyncio.sleep(5)
+    await asyncio.sleep(5)
     await ctx.edit(m)
-    asyncio.sleep(5)
+    await asyncio.sleep(5)
     await ctx.edit(m)
 
 @bot.component("tt_b")
 async def tt_reponse(ctx:CPC):
-    print(dir(ctx))
+    print(str(ctx.id))
 
 
 
