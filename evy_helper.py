@@ -414,7 +414,8 @@ async def getPlayer(name):
                         continue
                 elif data == [] :
                     break
-                break
+            else:
+                        continue
     log = retrieve('0000')
     print(member_temp)
     log[name]=member_temp
