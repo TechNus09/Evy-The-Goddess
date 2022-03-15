@@ -3,3 +3,6 @@ member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_x
 member_temp['ign']='owo technus09'
 
 print(member_temp)
+
+x = 000
+print(x)

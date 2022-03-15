@@ -63,7 +63,7 @@ def update(e_log,t_date):
                         where date = %s """
     print("query created")
     try:
-        cur.execute(update_query,(e_log,t_date))
+        cur.execute(update_query,(e_log,t_date,))
         print("query excuted")
         con.commit()
         print("cur commited")
