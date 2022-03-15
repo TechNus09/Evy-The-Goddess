@@ -172,7 +172,7 @@ async def on_ready():
                     ],		)
 async def add_player(ctx:CC,player_name:str):
     exist = False
-    await ctx.send(f'checking if {player_name} exist ...')
+    await ctx.send(f'checking if {player_name} already exist in database ...')
     log = retrieve('0000')
     for player in log:
         if player.lower() == player_name.lower():
@@ -181,6 +181,7 @@ async def add_player(ctx:CC,player_name:str):
             break
         else :
             pass
+    await ctx.send(f'checking if {player_name} exist in website ...')
     if not exist:
         name = asyncio.run(checkName(player_name.lower()))
         if name == 'none':
