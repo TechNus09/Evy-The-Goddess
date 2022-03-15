@@ -408,7 +408,7 @@ async def getPlayer(name):
                 data = await response.json()
                 if s_found or data == [] :
                     break
-                elif data != [] :
+                else:
                     for fdata in data :
                         player_name = fdata["name"]
                         xp = fdata["xp"]
@@ -421,6 +421,8 @@ async def getPlayer(name):
                             s_found = True
                             print(c_xp[skill_x]+str(xp))
                             break
+                        else:
+                            pass
     log = retrieve('0000')
     print(member_temp)
     log[name]=member_temp
