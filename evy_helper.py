@@ -364,24 +364,29 @@ async def SearchEvent(skill_name):#fetch specific guild xp gain in specific skil
 
 async def checkName(name):
     rname = 'none'
+    found = False
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
     for skill_x in range(7):
-        print(skillsdic[skill_x])
-        async with aiohttp.ClientSession() as session:
-            to_do = get_tasks(session,c_skill[skill_x])
-            responses = await asyncio.gather(*to_do)
-            for response in responses:
-                data = await response.json()
-                if data == [] :
-                    break
-                else:
-                    for fdata in data :
-                        player_name = fdata["name"]
-                        #xp = fdata["xp"]
-                        if player_name.lower() == name :
-                            rname = player_name
-                            print(f'found {rname}')
-                            break
+        if not found:
+            print(skillsdic[skill_x])
+            async with aiohttp.ClientSession() as session:
+                to_do = get_tasks(session,c_skill[skill_x])
+                responses = await asyncio.gather(*to_do)
+                for response in responses:
+                    data = await response.json()
+                    if data == [] :
+                        break
+                    else:
+                        for fdata in data :
+                            player_name = fdata["name"]
+                            #xp = fdata["xp"]
+                            if player_name.lower() == name :
+                                rname = player_name
+                                print(f'found {rname}')
+                                found=True
+                                break
+        else:
+            break
     return rname
 
 async def getPlayer(name):
