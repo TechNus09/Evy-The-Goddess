@@ -385,6 +385,8 @@ async def checkName(name):
                                 print(f'found {rname}')
                                 found=True
                                 break
+                        if found:
+                            break
         else:
             break
     return rname
