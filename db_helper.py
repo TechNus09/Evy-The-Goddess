@@ -52,13 +52,13 @@ def insert(t_date,e_log):
     con.close()
     return True
 
-def update(t_date,e_log):
+def update(e_log,t_date):
     con = conn()
     cur = con.cursor()
     update_query =   """Update logs 
                         set log = %s 
                         where date = %s """
-    cur.execute(update_query,(e_log,t_date,))
+    cur.execute(update_query,(e_log,t_date))
     print('excuted')
     con.commit()
     cur.close()
