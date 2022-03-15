@@ -368,7 +368,6 @@ async def checkName(name):
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
     for skill_x in range(7):
         if not found:
-            print(skillsdic[skill_x])
             async with aiohttp.ClientSession() as session:
                 to_do = get_tasks(session,c_skill[skill_x])
                 responses = await asyncio.gather(*to_do)
@@ -382,7 +381,6 @@ async def checkName(name):
                             #xp = fdata["xp"]
                             if player_name.lower() == name :
                                 rname = player_name
-                                print(f'found {rname}')
                                 found=True
                                 break
                         if found:
@@ -392,12 +390,14 @@ async def checkName(name):
     return rname
 
 async def getPlayer(name):
+    print("started searching ...")
     updated = False
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
     c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
     member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
     member_temp['ign']=name
     for skill_x in range(7):
+        print(c_xp[skill_x])
         async with aiohttp.ClientSession() as session:
             to_do = get_tasks(session,c_skill[skill_x])
             responses = await asyncio.gather(*to_do)
@@ -410,10 +410,13 @@ async def getPlayer(name):
                         if player_name.lower() == name :
                             member_temp[c_xp[skill_x]]=xp
                             break
-                        else:
-                            continue
+                    else:
+                        continue
                 elif data == [] :
                     break
+            else:
+                continue
+            break
     log = retrieve('0000')
     log[name]=member_temp
     updated = update('0000',log)

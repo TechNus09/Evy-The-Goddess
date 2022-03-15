@@ -219,7 +219,7 @@ async def delete_player(ctx:CC,player_name:str):
 @bot.component("add_yes_button")
 async def add_yes(ctx:CPC):
     added = False
-    player_name = add_reg[ctx.author.user.username]
+    player_name = add_reg[str(ctx.author.user.username)]
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"adding player {player_name} ....",components=[])
     added = getPlayer(player_name)
