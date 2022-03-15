@@ -46,7 +46,7 @@ def insert(t_date,e_log):
                     INSERT INTO logs (DATE,LOG) 
                     VALUES (%s,%s)
                     """
-    cur.execute(insert_query,(t_date,[e_log,],))
+    cur.execute(insert_query,(t_date,e_log,))
     con.commit()
     cur.close()
     con.close()
@@ -63,7 +63,7 @@ def update(e_log,t_date):
                         where date = %s """
     print("query created")
     try:
-        cur.execute(update_query,([e_log,],t_date))
+        cur.execute(update_query,(e_log,t_date))
         print("query excuted")
         con.commit()
         print("cur commited")
