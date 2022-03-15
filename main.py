@@ -228,7 +228,7 @@ async def add_yes(ctx:CPC):
         log = retrieve('0000')
         log[player_name]=member_log
         print("finished")
-        res = update("'0000'",log)
+        res = update('0000',log)
     except :
         print('error while updating')
     else :
