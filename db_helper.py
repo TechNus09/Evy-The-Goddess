@@ -54,15 +54,15 @@ def insert(t_date,e_log):
 
 def update(e_log,t_date):
     r = False
+    con = conn()
+    print("con created")
+    cur = con.cursor()
+    print("cur created")
+    update_query =   """Update logs 
+                        set log = %s 
+                        where date = %s """
+    print("query created")
     try:
-        con = conn()
-        print("con created")
-        cur = con.cursor()
-        print("cur created")
-        update_query =   """Update logs 
-                            set log = %s 
-                            where date = %s """
-        print("query created")
         cur.execute(update_query,(e_log,t_date))
         print("query excuted")
         con.commit()
