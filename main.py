@@ -147,6 +147,7 @@ async def add_player(ctx:CC):
 @bot.component("tt_b")
 async def tt_reponse(ctx:CPC):
     print(str(ctx.id))
+    print(str(ctx.data._json))
 
 
 
