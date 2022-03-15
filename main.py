@@ -138,7 +138,7 @@ async def on_ready():
 
 @bot.command(name="add_player",description="add new player to the event database",scope=922854662141526037)
 async def add_player(ctx:CC):
-    await ctx.send(str(ctx.token),compoenets=[t_b])
+    await ctx.send(str(ctx.token),components=[t_b])
 
 @bot.component("tt_button")
 async def tt_response(ctx:CPC):
