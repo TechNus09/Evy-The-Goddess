@@ -53,10 +53,10 @@ def insert(t_date,e_log):
     return True
 
 def update(e_log,t_date):
-    print("con created")
     con = conn()
-    print("cur created")
+    print("con created")
     cur = con.cursor()
+    print("cur created")
     update_query =   """Update logs 
                         set log = %s 
                         where date = %s """

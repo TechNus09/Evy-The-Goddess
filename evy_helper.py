@@ -423,7 +423,7 @@ async def getPlayer(name):
     log = retrieve('0000')
     log[name]=member_temp
     print("finished")
-    res = update('0000',log)
+    res = update("'0000'",log)
     if res:
         updated = True
     else:
