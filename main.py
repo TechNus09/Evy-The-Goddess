@@ -109,7 +109,10 @@ txt2 = it.TextInput(
     max_length=900,
 )
 
-
+tt_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="update id", 
+                custom_id="tt_b", )
 
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
@@ -134,13 +137,16 @@ async def on_ready():
 
 @bot.command(name="add_player",description="add new player to the event database",scope=922854662141526037)
 async def add_player(ctx:CC):
-    print(str(ctx.id))
-    print("-------------------------------------------------------")
-    print(ctx._json)
-    print("-------------------------------------------------------")
-    print(dir(ctx))
-    await ctx.send("ctx")
+    m = "id : "+str(ctx.id)
+    await ctx.send(m,components=[tt_b])
+    asyncio.sleep(5)
+    await ctx.edit(m)
+    asyncio.sleep(5)
+    await ctx.edit(m)
 
+@bot.component("tt_b")
+async def tt_reponse(ctx:CPC):
+    print(dir(ctx))
 
 
 
