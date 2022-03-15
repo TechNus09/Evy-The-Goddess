@@ -187,7 +187,7 @@ async def add_player(ctx:CC,player_name:str):
         if name == 'none':
             await ctx.edit(f"Player {name} not found.\nMake sure the pronounciation is correct.")
         else :
-            add_reg[str(ctx.user.username)]=name
+            add_reg[str(ctx.author.user.username)]=name
             await ctx.edit(f"found player {name}\nWanna add him/her to event database ?",components=add_row)
 
 @bot.command(   name="delete_player",
@@ -219,7 +219,7 @@ async def delete_player(ctx:CC,player_name:str):
 @bot.component("add_yes_button")
 async def add_yes(ctx:CPC):
     added = False
-    player_name = add_reg[ctx.user.username]
+    player_name = add_reg[ctx.author.user.username]
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"adding player {player_name} ....",components=[])
     added = getPlayer(player_name)
@@ -231,7 +231,7 @@ async def add_yes(ctx:CPC):
 
 @bot.component("add_no_button")
 async def add_no(ctx:CPC):
-    player_name = add_reg[ctx.user.username]
+    player_name = add_reg[ctx.author.user.username]
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"you canceled adding player {player_name} ",components=[])
 
