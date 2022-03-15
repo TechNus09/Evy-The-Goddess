@@ -109,6 +109,10 @@ txt2 = it.TextInput(
     max_length=900,
 )
 
+t_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="Test", 
+                custom_id="tt_button", )
 
 
 
@@ -134,7 +138,11 @@ async def on_ready():
 
 @bot.command(name="add_player",description="add new player to the event database",scope=922854662141526037)
 async def add_player(ctx:CC):
-    await ctx.send(str(ctx.token))
+    await ctx.send(str(ctx.token),compoenets=[t_b])
+
+@bot.component("tt_button")
+async def tt_response(ctx:CPC):
+    await ctx.edit(str(ctx.token))
 
 
 
