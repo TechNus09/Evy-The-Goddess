@@ -21,6 +21,7 @@ from urllib.parse import urlparse
 #                                    port = port
 #                                )
 #    return connection
+
 db_user = os.environ.get("DB_USER")
 db_pw = os.environ.get("DB_PW")
 db_host = os.environ.get("DB_HOST")
@@ -36,7 +37,6 @@ def conn():
                                 )
     return connection
 
-
 def createT():
     con = conn()
     cur = con.cursor()
@@ -51,47 +51,42 @@ def createT():
     con.close()
     return True
 
-
-
 def insert(t_date,e_log):
+    inserted = False
     con = conn()
     cur = con.cursor()
-    insert_query = """ 
+    insert_query =  """ 
                     INSERT INTO logs (DATE,LOG) 
                     VALUES (%s,%s)
                     """
-    cur.execute(insert_query,(t_date,e_log,))
-    con.commit()
-    cur.close()
-    con.close()
-    return True
+    try:
+        cur.execute(insert_query,(t_date,e_log,))
+        con.commit()
+    except psycopg2.Error as error:
+        print(f'error occured\n{error}')
+    else:
+        inserted = True
+        cur.close()
+        con.close()
+    return inserted
 
 def update(t_date,e_log):
-    r = False
+    updated = False
     con = conn()
-    print("con created")
     cur = con.cursor()
-    print("cur created")
     update_query =   """Update logs 
                         set log = %s 
                         where date = %s """
-    print("query created")
     try:
         cur.execute(update_query,(e_log,t_date,))
-        print("query excuted")
         con.commit()
-        print("cur commited")
-    except psycopg2.Error as e:
-        print(f'error occured\n{e}')
+    except psycopg2.Error as error:
+        print(f'error occured\n{error}')
     else:
-        r = True
+        updated = True
         cur.close()
-        print("cur closed")
         con.close()
-        print("con closed")
-    print(f" updated : "+str(r))
-    return r
-
+    return updated
 
 def retrieve(t_date):
     con = conn()

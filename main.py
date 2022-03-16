@@ -211,7 +211,7 @@ async def delete_player(ctx:CC,player_name:str):
         if player.lower() == player_name.lower():
             delete_reg[str(ctx.author.user.username)]=player
             exist = True
-            await ctx.edit(f"found player {player}\nWanna add him/her to event database ?",components=delete_row)
+            await ctx.edit(f"found player {player}\nWanna remove him/her from event database ?",components=delete_row)
             break
         else :
             pass
