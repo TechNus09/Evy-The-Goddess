@@ -230,11 +230,12 @@ async def add_yes(ctx:CPC):
         updated_log = jsing(log)
         print("finished")
         res = update('0000',updated_log)
-    except not res :
-        await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later.")
-    else :
         if res:
             await ctx.edit(f"playerlayer {player_name} added successfully")
+        else:
+            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later.")
+    except :
+        print('an error happened')
 
 
 @bot.component("add_no_button")
@@ -254,11 +255,13 @@ async def delete_yes(ctx:CPC):
         log.pop(player_name)
         updated_log = jsing(log)
         state = update('0000',updated_log)
-    except:
-        await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later.")
-    else:
-        if state :
+        if state:
             await ctx.edit(f"player {player_name} deleted successfully")
+        else:
+            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later.")
+    except :
+            print("an error happened")
+            
         
 
             
