@@ -179,7 +179,6 @@ async def add_player(ctx:CC,player_name:str):
         if player.lower() == player_name.lower():
             exist = True
             break
-
     if exist:
         await ctx.edit(f"{player} already exist in database")
     else:
@@ -231,15 +230,12 @@ async def add_yes(ctx:CPC):
         updated_log = jsing(log)
         print("finished")
         res = update('0000',updated_log)
-    except :
-        print('error while updating')
+    except not res :
+        await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later.")
     else :
-        print("added successfully")
-    finally:
         if res:
             await ctx.edit(f"playerlayer {player_name} added successfully")
-        else:
-            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later.")
+
 
 @bot.component("add_no_button")
 async def add_no(ctx:CPC):
@@ -259,14 +255,13 @@ async def delete_yes(ctx:CPC):
         updated_log = jsing(log)
         state = update('0000',updated_log)
     except:
-        print('error while updating')
+        await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later.")
     else:
-        print("deleted successfully")
-    finally:
         if state :
             await ctx.edit(f"player {player_name} deleted successfully")
-        else:
-            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later.")
+        
+
+            
 
 @bot.component("delete_no_button")
 async def delete_no(ctx:CPC):
