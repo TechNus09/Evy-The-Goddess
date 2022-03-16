@@ -220,12 +220,10 @@ async def delete_player(ctx:CC,player_name:str):
 
 @bot.component("add_yes_button")
 async def add_yes(ctx:CPC):
-    added = False
     player_name = add_reg[str(ctx.author.user.username)]
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"adding player {player_name} ....",components=[])
     member_log = asyncio.run(getPlayer(player_name))
-    print("finished looking "+str(added))
     try:
         log = retrieve('0000')
         log[player_name]=member_log
@@ -251,13 +249,17 @@ async def delete_yes(ctx:CPC):
     player_name = delete_reg[str(ctx.author.user.username)]    
     delete_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"deleting player {player_name} ....",components=[])
-    log = retrieve('0000')
-    log.pop(player_name)
-    state = update('0000',log)
-    if state :
-        await ctx.edit(f"player {player_name} deleted successfully",components=[])
+    try:
+        log = retrieve('0000')
+        log.pop(player_name)
+        state = update('0000',log)
+    except:
+        print('error while updating')
     else:
-        await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
+        if state :
+            await ctx.edit(f"player {player_name} deleted successfully",components=[])
+        else:
+            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
 
 @bot.component("delete_no_button")
 async def delete_no(ctx:CPC):
