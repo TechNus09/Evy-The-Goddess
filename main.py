@@ -159,7 +159,7 @@ async def on_ready():
     #lock_state = settings['lock']
 
 
-@bot.command(  name="add_player",
+@bot.command(name="add_player",
             description="add new player to the event database",
             scope=922854662141526037,
             options=[
