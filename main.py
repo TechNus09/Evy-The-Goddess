@@ -177,12 +177,12 @@ async def add_player(ctx:CC,player_name:str):
     for player in log:
         if player.lower() == player_name.lower():
             exist = True
-            await ctx.edit(f"{player} already exist in database")
             break
-        else :
-            pass
-    await ctx.edit(f'checking if {player_name} exist in website ...')
-    if not exist:
+
+    if exist:
+        await ctx.edit(f"{player} already exist in database")
+    else:
+        await ctx.edit(f'checking if {player_name} exist in website ...')
         name = asyncio.run(checkName(player_name.lower()))
         if name == 'none':
             await ctx.edit(f"Player {name} not found.\nMake sure the pronounciation is correct.")
