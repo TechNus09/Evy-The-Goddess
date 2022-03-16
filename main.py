@@ -159,17 +159,18 @@ async def on_ready():
     #lock_state = settings['lock']
 
 
-@bot.command(   name="add_player",
-                description="add new player to the event database",
-                scope=922854662141526037,
-                options=[
-                    it.Option(
-                            name="player_name",
-                            description="player's name to add the database",
-             		        type=it.OptionType.STRING,
-             		        required=True,
-              	              	),  
-                    ],		)
+@bot.command(  name="add_player",
+            description="add new player to the event database",
+            scope=922854662141526037,
+            options=[
+                it.Option(
+                        name="player_name",
+                        description="player's name to add the database",
+            	        type=it.OptionType.STRING,
+            	        required=True,
+                          	),  
+                ],		
+            )
 async def add_player(ctx:CC,player_name:str):
     exist = False
     await ctx.send(f'checking if {player_name} already exist in database ...')
@@ -190,17 +191,18 @@ async def add_player(ctx:CC,player_name:str):
             add_reg[str(ctx.author.user.username)]=name
             await ctx.edit(f"found player {name}\nWanna add him/her to event database ?",components=add_row)
 
-@bot.command(   name="delete_player",
-                description="delete player  the event database",
-                scope=922854662141526037,
-                options=[
-                    it.Option(
-                            name="player_name",
-                            description="player's name to detele from database",
-             		        type=it.OptionType.STRING,
-             		        required=True,
-              	              	),  
-                    ],		)
+@bot.command(name="delete_player",
+            description="delete player  the event database",
+            scope=922854662141526037,
+            options=[
+                it.Option(
+                        name="player_name",
+                        description="player's name to detele from database",
+         		        type=it.OptionType.STRING,
+         		        required=True,
+          	              	),  
+                    ],
+    		)
 async def delete_player(ctx:CC,player_name:str):
     await ctx.send(f'checking if {player_name} exist ...')
     log = retrieve('0000')
@@ -209,7 +211,7 @@ async def delete_player(ctx:CC,player_name:str):
         if player.lower() == player_name.lower():
             delete_reg[str(ctx.author.user.username)]=player
             exist = True
-            await ctx.edit(f"found player {player_name}\nWanna add him/her to event database ?",components=delete_row)
+            await ctx.edit(f"found player {player}\nWanna add him/her to event database ?",components=delete_row)
             break
         else :
             pass
