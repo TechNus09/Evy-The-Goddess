@@ -1,6 +1,5 @@
 import os
 import asyncio
-from matplotlib.pyplot import plot_date
 import nest_asyncio
 import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
