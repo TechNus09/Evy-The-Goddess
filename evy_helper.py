@@ -420,7 +420,8 @@ async def getPlayer(name):
                             break
                         else:
                             pass
-
+    print('we got him')
+    print(member_temp)
     return member_temp
 
 ##############################################################################
