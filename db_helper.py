@@ -57,7 +57,8 @@ def createT():
         created = True
         cur.close()
         con.close()
-    return created
+    finally:
+        return created
 
 
 def insert(t_date,e_log):
@@ -77,7 +78,8 @@ def insert(t_date,e_log):
         inserted = True
         cur.close()
         con.close()
-    return inserted
+    finally:
+        return inserted
 
 def update(t_date,e_log):
     updated = False
@@ -95,7 +97,8 @@ def update(t_date,e_log):
         updated = True
         cur.close()
         con.close()
-    return updated
+    finally:
+        return updated
 
 def retrieve(t_date):
     con = conn()
