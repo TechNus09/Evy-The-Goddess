@@ -230,7 +230,7 @@ async def add_yes(ctx:CPC):
         log[player_name]=member_log
         updated_log = jsing(log)
         print("finished")
-        state = update('0000',updated_log)
+        res = update('0000',updated_log)
     except :
         print('error while updating')
     else :
