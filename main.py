@@ -252,7 +252,8 @@ async def delete_yes(ctx:CPC):
     try:
         log = retrieve('0000')
         log.pop(player_name)
-        state = update('0000',log)
+        updated_log = jsing(log)
+        state = update('0000',updated_log)
     except:
         print('error while updating')
     else:
