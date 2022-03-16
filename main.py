@@ -224,18 +224,15 @@ async def add_yes(ctx:CPC):
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"adding player {player_name} ....",components=[])
     member_log = asyncio.run(getPlayer(player_name))
-    try:
-        log = retrieve('0000')
-        log[player_name]=member_log
-        updated_log = jsing(log)
-        print("finished")
-        res = update('0000',updated_log)
-        if res:
-            await ctx.edit(f"playerlayer {player_name} added successfully")
-        else:
-            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later.")
-    except :
-        print('an error happened')
+    await ctx.edit(f'saving player {player_name} to db')
+    log = retrieve('0000')
+    log[player_name]=member_log
+    updated_log = jsing(log)
+    res = update('0000',updated_log)
+    if res:
+        await ctx.edit(f"playerlayer {player_name} added successfully")
+    else:
+        await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later.")
 
 
 @bot.component("add_no_button")
@@ -250,17 +247,14 @@ async def delete_yes(ctx:CPC):
     player_name = delete_reg[str(ctx.author.user.username)]    
     delete_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"deleting player {player_name} ....",components=[])
-    try:
-        log = retrieve('0000')
-        log.pop(player_name)
-        updated_log = jsing(log)
-        state = update('0000',updated_log)
-        if state:
-            await ctx.edit(f"player {player_name} deleted successfully")
-        else:
-            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later.")
-    except :
-            print("an error happened")
+    log = retrieve('0000')
+    log.pop(player_name)
+    updated_log = jsing(log)
+    state = update('0000',updated_log)
+    if state:
+        await ctx.edit(f"player {player_name} deleted successfully")
+    else:
+        await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later.")
             
         
 
