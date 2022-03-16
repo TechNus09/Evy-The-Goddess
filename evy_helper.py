@@ -252,7 +252,7 @@ def rankk (rank):
     return rank_text
 
 #################xp getters###########
-async def makelogT(g_tag) :
+async def makelogT(members) :
     event_log = {}
     name_list = []
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
@@ -267,9 +267,8 @@ async def makelogT(g_tag) :
                     for fdata in data :
                         member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
                         player_name = fdata["name"]
-                        xp = fdata["xp"]
-                        tag = player_name.split()[0]                    
-                        if tag.upper() == g_tag :
+                        xp = fdata["xp"]                  
+                        if player_name  in members :
                             if player_name in name_list:
                                 event_log[player_name]["total"] += xp
                             else:
@@ -283,7 +282,7 @@ async def makelogT(g_tag) :
     return event_log
 
 
-async def makelog(skill_name,g_tag) :
+async def makelog(skill_name,members) :
     event_log = {}
     name_list = []
     c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
@@ -299,9 +298,8 @@ async def makelog(skill_name,g_tag) :
                 for fdata in data :
                     member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
                     player_name = fdata["name"]
-                    xp = fdata["xp"]
-                    tag = player_name.split()[0]                    
-                    if tag.upper() == g_tag :
+                    xp = fdata["xp"]                  
+                    if player_name in members:
                         if player_name in name_list:
                             event_log[player_name][c_xp[skillsdic.index(skill_name)]]=xp
                         else:

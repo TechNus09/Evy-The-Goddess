@@ -1,5 +1,6 @@
 import os
 import asyncio
+from matplotlib.pyplot import plot_date
 import nest_asyncio
 import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
@@ -238,7 +239,6 @@ async def add_yes(ctx:CPC):
         else:
             await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
 
-
 @bot.component("add_no_button")
 async def add_no(ctx:CPC):
     player_name = add_reg[ctx.author.user.username]
@@ -299,12 +299,14 @@ async def gains(ctx:CC,skill:str):
     start = time.time()
     await ctx.send("Fetching newest records ...")
     old_record = retrieve("0000")
-
-
-
+    players_list = []
+    for i in old_record:
+        players_list.append(i)
     if skill.lower() == 'total':
-
-        new_record = asyncio.run(makelogT('GOD'))
+        if players_list != []:
+            new_record = asyncio.run(makelogT(players_list))
+        else :
+            new_record = old_record
         unranked_data = SortUp('total',old_record,new_record)
 
         result = listFormater(unranked_data)
@@ -312,8 +314,10 @@ async def gains(ctx:CC,skill:str):
         ranking_embeds = embeds[1]
         main_embed = embeds[0]
     else:
-
-        new_record = asyncio.run(makelog(skill.lower(),'GOD'))
+        if players_list != [] :
+            new_record = asyncio.run(makelog(skill.lower(),players_list))
+        else:
+            new_record = old_record
         unranked_data = SortUp(skill.lower(),old_record,new_record)
 
         result = listFormater(unranked_data)
