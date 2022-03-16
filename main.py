@@ -234,6 +234,8 @@ async def add_yes(ctx:CPC):
     except :
         print('error while updating')
     else :
+        print("added successfully")
+    finally:
         if res:
             await ctx.edit(f"playerlayer {player_name} added successfully")
         else:
@@ -259,6 +261,8 @@ async def delete_yes(ctx:CPC):
     except:
         print('error while updating')
     else:
+        print("deleted successfully")
+    finally:
         if state :
             await ctx.edit(f"player {player_name} deleted successfully")
         else:
