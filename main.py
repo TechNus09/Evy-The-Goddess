@@ -220,6 +220,7 @@ async def delete_player(ctx:CC,player_name:str):
 
 @bot.component("add_yes_button")
 async def add_yes(ctx:CPC):
+    res = False
     player_name = add_reg[str(ctx.author.user.username)]
     add_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"adding player {player_name} ....",components=[])
@@ -229,14 +230,14 @@ async def add_yes(ctx:CPC):
         log[player_name]=member_log
         updated_log = jsing(log)
         print("finished")
-        res = update('0000',updated_log)
+        state = update('0000',updated_log)
     except :
         print('error while updating')
     else :
         if res:
             await ctx.edit(f"playerlayer {player_name} added successfully")
         else:
-            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later.")
 
 @bot.component("add_no_button")
 async def add_no(ctx:CPC):
@@ -246,6 +247,7 @@ async def add_no(ctx:CPC):
 
 @bot.component("delete_yes_button")
 async def delete_yes(ctx:CPC):
+    state = False
     player_name = delete_reg[str(ctx.author.user.username)]    
     delete_reg.pop(str(ctx.author.user.username))
     await ctx.edit(f"deleting player {player_name} ....",components=[])
@@ -258,9 +260,9 @@ async def delete_yes(ctx:CPC):
         print('error while updating')
     else:
         if state :
-            await ctx.edit(f"player {player_name} deleted successfully",components=[])
+            await ctx.edit(f"player {player_name} deleted successfully")
         else:
-            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
+            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later.")
 
 @bot.component("delete_no_button")
 async def delete_no(ctx:CPC):

@@ -37,7 +37,10 @@ def conn():
                                 )
     return connection
 
+
+
 def createT():
+    created = False
     con = conn()
     cur = con.cursor()
     create_table = """
@@ -45,11 +48,17 @@ def createT():
                     (DATE    TEXT    PRIMARY KEY    NOT NULL,
                     LOG    JSONB    NOT NULL);
                     """
-    cur.execute(create_table)
-    con.commit()
-    cur.close()
-    con.close()
-    return True
+    try:
+        cur.execute(create_table)
+        con.commit()
+    except psycopg2.Error as error:
+        print(f'error occured\n{error}')
+    else:
+        created = True
+        cur.close()
+        con.close()
+    return created
+
 
 def insert(t_date,e_log):
     inserted = False
