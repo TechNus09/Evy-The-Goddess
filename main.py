@@ -26,8 +26,8 @@ delete_reg = {}
 #lock_state = True     
 
 
-skill_afx = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
-skills = ['combat','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking']
+skill_afx = ["",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
+skills = ['melee','magic','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking','tailoring']
 
 
 
@@ -284,13 +284,15 @@ async def testing(ctx:CC):
              		        required=True,
              		        choices=[
              			        it.Choice(name="Total",value="total"),
-                	                it.Choice(name="Combat",value="combat"),
+                	                it.Choice(name="Melee",value="melee"),
+                	                it.Choice(name="Magic",value="magic"),
             	                    it.Choice(name="Mining",value="mining"),
            	                        it.Choice(name="Smithing",value="smithing"),
              	                    it.Choice(name="Woodcutting",value="woodcutting"),
            	                        it.Choice(name="Crafting",value="crafting"),              
              	                    it.Choice(name="Fishing",value="fishing"),
            	                        it.Choice(name="Cooking",value="cooking"),
+                	                it.Choice(name="Tailoring",value="tailoring"),
              	                    ],
               	              	),  
                     ],		
@@ -419,24 +421,26 @@ async def g_stop_response(ctx:CPC):
              		        required=True,
              		        choices=[
              			        it.Choice(name="Total",value="total"),
-                	                it.Choice(name="Combat",value="combat"),
+                	                it.Choice(name="Melee",value="melee"),
+                                    it.Choice(name="Magic",value="magic"),
             	                    it.Choice(name="Mining",value="mining"),
            	                        it.Choice(name="Smithing",value="smithing"),
              	                    it.Choice(name="Woodcutting",value="woodcutting"),
            	                        it.Choice(name="Crafting",value="crafting"),              
              	                    it.Choice(name="Fishing",value="fishing"),
            	                        it.Choice(name="Cooking",value="cooking"),
+                                    it.Choice(name="Tailoring",value="tailoring"),
              	                    ],
               	              	),
               	    it.Option(
               	       	    name="tag",
               	       	    description="Guild Tag To Look For",
               	       	    type=it.OptionType.STRING,
-              	       	    required=False,
+              	       	    required=True,
               	       	    ),   
                     ],		
             )        
-async def guildlb(ctx:CC,skill:str,tag:str="god"):
+async def guildlb(ctx:CC,skill:str,tag:str):
     await ctx.defer()
     g_tag = tag.upper()
     if len(g_tag) > 5 or len(g_tag) < 2:
