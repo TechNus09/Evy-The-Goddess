@@ -35,7 +35,7 @@ lvldef = [46, 53, 60, 70, 80, 92, 106, 121, 140, 160, 184, 212, 243, 280, 321, 3
 511189519, 587202560]
 
 skillsdic = [   'melee',
-                'magic,
+                'magic',
                 'mining',
                 'smithing',
                 'woodcutting',
