@@ -5,6 +5,7 @@ class League:
     LEAGUES_NAMES=["Yekzer","Panda","Aj"]
     def __init__(self,log,skill):
         self.log = log
+        self.members_count = len(log)
         self.skill = skill
         self.players_list = {}
         self.total_xp = 0
