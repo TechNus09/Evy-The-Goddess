@@ -7,6 +7,7 @@ import copy
 import asyncio
 import aiohttp
 import nest_asyncio
+
 import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
@@ -255,11 +256,11 @@ def rankk (rank):
     return rank_text
 
 #################xp getters###########
-async def makelogT(members) :
+async def makelogT(guild_tag) :
     event_log = {}
     name_list = []
-    c_skill = ["-melee",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
-    for skill_x in range(7):
+    c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
+    for skill_x in range(9):
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
             to_do = get_tasks(session, c_skill[skill_x])
@@ -270,8 +271,11 @@ async def makelogT(members) :
                     for fdata in data :
                         member_temp = { 'ign' : 'name' , 'melee_xp' : 0 , 'magic_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'tailoring_xp' : 0 , 'total': 0}
                         player_name = fdata["name"]
-                        xp = fdata["xp"]                  
-                        if player_name  in members :
+                        xp = fdata["xp"]   
+                        tag = player_name.split()[0]
+                        tag = tag.upper()
+           
+                        if tag == guild_tag.upper() :
                             if player_name in name_list:
                                 event_log[player_name]["total"] += xp
                             else:
@@ -366,7 +370,7 @@ async def SearchEvent(skill_name):#fetch specific guild xp gain in specific skil
 async def checkName(name):
     rname = 'none'
     found = False
-    c_skill = ["-melee",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+    c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking' ,'-tailoring']
     for skill_x in range(7):
         if not found:
             async with aiohttp.ClientSession() as session:

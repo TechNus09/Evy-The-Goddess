@@ -5,11 +5,13 @@ import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
+
 import time
 import math
 
 from db_helper import *
 from evy_helper import *
+from test_helper import *
 import logging
 
 
@@ -20,6 +22,7 @@ nest_asyncio.apply()
 event_log = {}
 pager_reg = {}
 g_pager_reg = {}
+leag_reg = {}
 add_reg = {}
 delete_reg = {}
 #global lock_state
@@ -145,8 +148,40 @@ tt_b = Button(
                 custom_id="tt_b", )
 
 
+l_first_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏪", 
+                custom_id="l_first_button", )               
+l_backward_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="◀", 
+                custom_id="l_backward_button", )
+l_stop_b = Button(
+                style=ButtonStyle.DANGER, 
+                label="◼",
+                custom_id="l_stop_button", )
+l_forward_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="▶", 
+                custom_id="l_forward_button", )
+l_last_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏩", 
+                custom_id="l_last_button", )
+l_b_row = ActionRow(
+                components=[
+                          l_first_b,
+                          l_backward_b,
+                          l_stop_b,
+                          l_forward_b,
+                          l_last_b
+                            ]
+                )
+
+
+
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]))
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
 #logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
@@ -157,6 +192,118 @@ async def on_ready():
     print("Logged in !")
     #settings = retrieve('settings')
     #lock_state = settings['lock']
+
+
+
+
+
+
+
+
+
+@bot.command(
+             name="leagues",
+             description="Show members devided into leagues based on their xp"
+            )        
+async def leagues(ctx:CC):
+    await ctx.defer()
+    
+    await ctx.send("Fetching Data ...")
+
+    members_log = asyncio.run(makelogT("OWO"))
+    l1 = League(members_log,"total")
+    l1.sort_by_avg()
+    embeded_leag = LeagueHelper(l1)
+    embededs = embeded_leag.make_embeds()
+    l_pager = embeded_leag.leagues_pager()
+
+
+    user = ctx.author.user.username
+    m_count = len(result[0])
+    l_row = ActionRow(components=[l_pager])
+    leag_reg[str(user)]=[0,0,l_row,embededs]
+    await ctx.edit("Finished !",embeds=[embededs[0][0],embededs[0][1]],components=[l_row,l_b_row])
+
+@bot.component("l_pager_menu")
+async def l_pager_response(ctx:CPC,blah):
+    cur_leag = int(ctx.data.values[0])
+    data = leag_reg[str(ctx.author.user.username)] 
+    main_embed = data[3][cur_leag][0]
+    cur_embed_num = data[0]
+    cur_embed = data[3][cur_leag][1][cur_embed_num]
+    leag_reg[str(ctx.author.user.username)][1]=cur_leag
+    m_row = data[2]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+
+@bot.component("l_first_button")
+async def l_first_response(ctx:CPC):
+    data = leag_reg[str(ctx.author.user.username)] 
+    leag_reg[str(ctx.author.user.username)][0] = 0
+    cur_leag = data[2]
+    cur_embed =  data[3][cur_leag][1][0]
+    main_embed = data[3][cur_leag][0]
+    m_row = data[2]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])              
+
+@bot.component("l_last_button")
+async def l_last_response(ctx:CPC):
+    data = leag_reg[str(ctx.author.user.username)] 
+    cur_leag = data[1]
+    last_embed_num = len(data[3][cur_leag][1]) - 1
+    leag_reg[str(ctx.author.user.username)][0] = last_embed_num
+    cur_embed =  data[3][cur_leag][1][last_embed_num]
+    main_embed = data[3][cur_leag][0]
+    m_row = data[2]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+
+@bot.component("l_backward_button")
+async def l_backward_response(ctx:CPC):                  
+    data = leag_reg[str(ctx.author.user.username)] 
+    if data[0]>0:
+        cur_embed_num = data[0]-1
+    elif data[0] == 0:
+        cur_embed_num = 0
+    leag_reg[str(ctx.author.user.username)][0] = cur_embed_num
+    cur_leag = data[1]
+    cur_embed =  data[3][cur_leag][1][cur_embed_num]
+    main_embed = data[3][cur_leag][0]
+    m_row = data[2]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+
+@bot.component("l_forward_button")
+async def l_forward_response(ctx:CPC):
+    data = leag_reg[str(ctx.author.user.username)] 
+    cur_leag = data[1]
+    if data[0]<len(data[3][cur_leag][1])-1:
+        cur_embed_num = data[0] + 1
+    elif data[0] == len(data[3][cur_leag][1])-1:
+        cur_embed_num = data[0]
+    leag_reg[str(ctx.author.user.username)][0] = cur_embed_num
+    cur_embed =  data[3][cur_leag][1][cur_embed_num]
+    main_embed = data[3][cur_leag][0]
+    m_row = data[2]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+
+@bot.component("l_stop_button")
+async def l_stop_response(ctx:CPC):
+    data = leag_reg[str(ctx.author.user.username)]
+    cur_leag = data[1]
+    cur_embed_num = data[0]
+    cur_embed =  data[3][cur_leag][1][cur_embed_num]
+    main_embed = data[3][cur_leag][0]
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @bot.command(name="add_player",
@@ -274,6 +421,7 @@ async def testing(ctx:CC):
 
 ###############xp's gain leaderboard in skills########################
 
+"""
 @bot.command(name="gains",
             description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
             options=[
@@ -335,6 +483,7 @@ async def gains(ctx:CC,skill:str):
     end = time.time()
     t = math.ceil(end - start)
     await ctx.edit(f"Done in {t} seconds.",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,g_b_row])
+"""
 
 @bot.component("g_pager_menu")
 async def g_pager_response(ctx:CPC,blah):
