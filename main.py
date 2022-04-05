@@ -182,7 +182,7 @@ l_b_row = ActionRow(
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -211,27 +211,17 @@ async def leagues(ctx:CC):
     await ctx.send("Fetching Data ...")
 
     members_log = asyncio.run(makelogT("OWO"))
-    print("finished logging")
     l1 = League(members_log,"total")
-    print("leagues obj created")
     l1.sort_by_avg()
-    print("leagues sorted")
-    print(l1.leagues[0])
     embeded_leag = LeagueHelper(l1)
-    print("embeded obj created")
     embededs = embeded_leag.make_embeds()
-    print("embeds created")
     
     l_pager = embeded_leag.leagues_pager("l_pager_menu")
-    print("pager created")
 
 
     user = ctx.author.user.username
-    print(str(user))
     l_row = ActionRow(components=[l_pager])
-    print("pager row created")
     leag_reg[str(user)]=[0,0,l_row,embededs]
-    print("register created")
     await ctx.edit("Finished !",embeds=[embededs[0][0],embededs[0][1][0]],components=[l_row,l_b_row])
 
 @bot.component("l_pager_menu")
