@@ -58,24 +58,25 @@ class League:
 class LeagueHelper:
     def __init__(self,leagues_obj):
         self.leagues=leagues_obj.leagues
-        self.league_name=leagues_obj.LEAGUES_NAMES
+        self.leagues_names=leagues_obj.LEAGUES_NAMES
         self.members_count=leagues_obj.members_count
-        self.xp=league_obj.total_xp
+        self.xp=leagues_obj.total_xp
         self.avg_xp=leagues_obj.avg_xp
         self.embeded_leagues = []
         
     def make_embeds(self):
+        order = 0
         for league in self.leagues: 
             embeds_list = []                 
             fields_list = []
             last_fields_list = []
-            embeds_count = math.ceil(len(self.league)/20)
+            embeds_count = math.ceil(len(league)/20)
             total_xp = "{:,}".format(self.xp)
             for i in range(embeds_count-1):
                 fields_list = []
                 for j in range(20):
                     rank = (i*20)+j+1
-                    field = it.EmbedField(name=f"Rank#{rank}", value=self.league[rank-1])
+                    field = it.EmbedField(name=f"Rank#{rank}", value=league[rank-1])
                     fields_list.append(field)
                 embed = it.Embed(
                              title="\u200b",
@@ -87,7 +88,7 @@ class LeagueHelper:
             end = start + (members_count % 20)
             for j in range(start,end):
                 rank = j+1
-                field = it.EmbedField(name=f"Rank#{rank}", value=self.league[j])
+                field = it.EmbedField(name=f"Rank#{rank}", value=league[j])
                 last_fields_list.append(field)
             last_embed = it.Embed(
                             title="\u200b",
@@ -97,10 +98,11 @@ class LeagueHelper:
             embeds_list.append(last_embed)   	   
             main_embed = it.Embed(
                               title=f"OwO",
-                              description=f"Members Count : {members_count}\nTotal Xp : {total_xp}\nAverage Xp : {avg_xp}\n{league_name}'s League",       
+                              description=f"Members Count : {self.members_count}\nTotal Xp : {self.total_xp}\nAverage Xp : {self.avg_xp}\n{self.leagues_names[order]}'s League",       
                               fields=[],
                               color=0x00ff00)   
             self.embeded_leagues.append([main_embed,embeds_list])
+            order+=1
 
         return self.embeded_leagues
     

@@ -216,10 +216,12 @@ async def leagues(ctx:CC):
     print("leagues obj created")
     l1.sort_by_avg()
     print("leagues sorted")
+    print(l1.leagues[0])
     embeded_leag = LeagueHelper(l1)
     print("embeded obj created")
     embededs = embeded_leag.make_embeds()
     print("embeds created")
+    
     l_pager = embeded_leag.leagues_pager()
     print("pager created")
 
