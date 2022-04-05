@@ -73,36 +73,52 @@ class LeagueHelper:
             last_fields_list = []
             embeds_count = math.ceil(len(league)/20)
             total_xp = "{:,}".format(self.xp)
-            print("1")
-            for i in range(embeds_count-1):
-                print("1.0")
+            if embeds_count == 1 :
+                print("0.0")
                 fields_list = []
-                for j in range(20):
-                    rank = (i*20)+j+1
-                    field = it.EmbedField(name=f"Rank#{rank}", value=league[rank-1])
+                for j in range(len(league)):                    
+                    field = it.EmbedField(name=f"Rank#{j+1}", value=league[j])
                     fields_list.append(field)
-                    print("1.1")
+                    print("0.1")
                 embed = it.Embed(
                              title="\u200b",
                              description="\u200b",     
                              fields=fields_list,
                              color=0x00ff00)
                 embeds_list.append(embed)
-                print("1.2")
-            start = len(embeds_list)*20
-            end = start + (members_count % 20)
-            print("2.0")
-            for j in range(start,end):
-                rank = j+1
-                field = it.EmbedField(name=f"Rank#{rank}", value=league[j])
-                last_fields_list.append(field)
-            print("2.1")
-            last_embed = it.Embed(
-                            title="\u200b",
-                            description="\u200b",       
-                            fields=last_fields_list,
-                            color=0x00ff00)
-            embeds_list.append(last_embed)  
+               
+            else:
+                
+                print("1")
+                for i in range(embeds_count-1):
+                    print("1.0")
+                    fields_list = []
+                    for j in range(20):
+                        rank = (i*20)+j+1
+                        field = it.EmbedField(name=f"Rank#{rank}", value=league[rank-1])
+                        fields_list.append(field)
+                        print("1.1")
+                    embed = it.Embed(
+                                 title="\u200b",
+                                 description="\u200b",     
+                                 fields=fields_list,
+                                 color=0x00ff00)
+                    embeds_list.append(embed)
+                    print("1.2")
+                start = len(embeds_list)*20
+                end = start + (members_count % 20)
+                print("2.0")
+                for j in range(start,end):
+                    rank = j+1
+                    field = it.EmbedField(name=f"Rank#{rank}", value=league[j])
+                    last_fields_list.append(field)
+                print("2.1")
+                last_embed = it.Embed(
+                                title="\u200b",
+                                description="\u200b",       
+                                fields=last_fields_list,
+                                color=0x00ff00)
+                embeds_list.append(last_embed)  
             print("3")
             main_embed = it.Embed(
                               title=f"OwO",
