@@ -1,13 +1,1 @@
-#add add/delete player from db
-#retrieve log
-#look for new member name.lower()
-#add new member to log
-#update log db
-
-i'll make add_player / remove_player 
-
--delete
-1-retrieve log
-2-look for new member name.lower()
-3-pop new member from log
-4-update log db
+cleared
