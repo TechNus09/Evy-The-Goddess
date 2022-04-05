@@ -61,7 +61,7 @@ class LeagueHelper:
         self.leagues_names=leagues_obj.LEAGUES_NAMES
         self.members_count=leagues_obj.members_count
         self.xp=leagues_obj.total_xp
-        self.avg_xp=leagues_obj.avg_xp
+        self.avg=leagues_obj.avg_xp
         self.embeded_leagues = []
         
     def make_embeds(self):
@@ -72,6 +72,7 @@ class LeagueHelper:
             last_fields_list = []
             embeds_count = math.ceil(len(league)/20)
             total_xp = "{:,}".format(self.xp)
+            avg_xp = "{:,}".format(self.avg)
             if embeds_count == 1 :
                 fields_list = []
                 for j in range(len(league)):                    
@@ -111,7 +112,7 @@ class LeagueHelper:
                 embeds_list.append(last_embed)  
             main_embed = it.Embed(
                               title=f"OwO",
-                              description=f"Members Count : {self.members_count}\nTotal Xp : {total_xp}\nAverage Xp : {self.avg_xp}\n{self.leagues_names[order]}'s League",       
+                              description=f"Members Count : {self.members_count}\nTotal Xp : {total_xp}\nAverage Xp : {avg_xp}\n{self.leagues_names[order]}'s League",       
                               fields=[],
                               color=0x00ff00)   
             self.embeded_leagues.append([main_embed,embeds_list])

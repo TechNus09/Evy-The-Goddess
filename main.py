@@ -182,7 +182,7 @@ l_b_row = ActionRow(
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -272,6 +272,7 @@ async def l_backward_response(ctx:CPC):
 
 @bot.component("l_forward_button")
 async def l_forward_response(ctx:CPC):
+    print(leag_reg)
     data = leag_reg[str(ctx.author.user.username)] 
     cur_leag = data[1]
     if data[0]<len(data[3][cur_leag][1])-1:
@@ -279,6 +280,7 @@ async def l_forward_response(ctx:CPC):
     elif data[0] == len(data[3][cur_leag][1])-1:
         cur_embed_num = data[0]
     leag_reg[str(ctx.author.user.username)][0] = cur_embed_num
+    print(leag_reg)
     cur_embed =  data[3][cur_leag][1][cur_embed_num]
     main_embed = data[3][cur_leag][0]
     m_row = data[2]
