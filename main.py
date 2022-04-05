@@ -233,7 +233,7 @@ async def l_pager_response(ctx:CPC,blah):
     cur_embed = data[3][cur_leag][1][cur_embed_num]
     leag_reg[str(ctx.author.user.username)][1]=cur_leag
     m_row = data[2]
-    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,l_b_row])
 
 @bot.component("l_first_button")
 async def l_first_response(ctx:CPC):
@@ -243,7 +243,7 @@ async def l_first_response(ctx:CPC):
     cur_embed =  data[3][cur_leag][1][0]
     main_embed = data[3][cur_leag][0]
     m_row = data[2]
-    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])              
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,l_b_row])              
 
 @bot.component("l_last_button")
 async def l_last_response(ctx:CPC):
@@ -254,7 +254,7 @@ async def l_last_response(ctx:CPC):
     cur_embed =  data[3][cur_leag][1][last_embed_num]
     main_embed = data[3][cur_leag][0]
     m_row = data[2]
-    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,l_b_row])
 
 @bot.component("l_backward_button")
 async def l_backward_response(ctx:CPC):                  
@@ -268,7 +268,7 @@ async def l_backward_response(ctx:CPC):
     cur_embed =  data[3][cur_leag][1][cur_embed_num]
     main_embed = data[3][cur_leag][0]
     m_row = data[2]
-    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,l_b_row])
 
 @bot.component("l_forward_button")
 async def l_forward_response(ctx:CPC):
@@ -284,7 +284,7 @@ async def l_forward_response(ctx:CPC):
     cur_embed =  data[3][cur_leag][1][cur_embed_num]
     main_embed = data[3][cur_leag][0]
     m_row = data[2]
-    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,b_row])
+    await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,l_b_row])
 
 @bot.component("l_stop_button")
 async def l_stop_response(ctx:CPC):
