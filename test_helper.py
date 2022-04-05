@@ -107,11 +107,16 @@ class LeagueHelper:
                     print("1.2")
                 start = len(embeds_list)*20
                 end = start + (self.members_count % 20)
+                print(f"start : {start} , end : {end} , count : {self.members_count}")
                 print("2.0")
                 for j in range(start,end):
+                    print("2.0.0")
                     rank = j+1
+                    print("2.0.1")
                     field = it.EmbedField(name=f"Rank#{rank}", value=league[j])
+                    print("2.0.2")
                     last_fields_list.append(field)
+                    print("2.0.3")
                 print("2.1")
                 last_embed = it.Embed(
                                 title="\u200b",
