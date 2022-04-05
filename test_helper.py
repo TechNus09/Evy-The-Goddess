@@ -122,11 +122,12 @@ class LeagueHelper:
             print("3")
             main_embed = it.Embed(
                               title=f"OwO",
-                              description=f"Members Count : {self.members_count}\nTotal Xp : {self.total_xp}\nAverage Xp : {self.avg_xp}\n{self.leagues_names[order]}'s League",       
+                              description=f"Members Count : {self.members_count}\nTotal Xp : {total_xp}\nAverage Xp : {self.avg_xp}\n{self.leagues_names[order]}'s League",       
                               fields=[],
                               color=0x00ff00)   
             self.embeded_leagues.append([main_embed,embeds_list])
             order+=1
+            print("3.0")
         print("4")
         return self.embeded_leagues
     
