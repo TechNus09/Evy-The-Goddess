@@ -371,7 +371,7 @@ async def checkName(name):
     rname = 'none'
     found = False
     c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking' ,'-tailoring']
-    for skill_x in range(7):
+    for skill_x in range(9):
         if not found:
             async with aiohttp.ClientSession() as session:
                 to_do = get_tasks(session,c_skill[skill_x])
@@ -401,7 +401,7 @@ async def getPlayer(name):
     c_xp = ['melee_xp','magic_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
     member_temp = { 'ign' : 'name' , 'melee_xp' : 0 , 'magic_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'tailoring_xp' : 0 , 'total': 0}
     member_temp['ign']=name
-    for skill_x in range(7):
+    for skill_x in range(9):
         print(c_xp[skill_x])
         s_found = False
         async with aiohttp.ClientSession() as session:

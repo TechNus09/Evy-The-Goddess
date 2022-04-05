@@ -1,5 +1,4 @@
 
-from data_log import log
 import math
 import interactions as it
 class League:
@@ -117,20 +116,4 @@ class LeagueHelper:
         	                       placeholder=f"Leagues",
         	                       custom_id=id, )
         return pager_menu  
-
-
-
-l1 = League(log,"total")
-leagues_names = l1.LEAGUES_NAMES
-l1.sort_by_avg()
-print(l1.total_xp)
-print(l1.avg_xp)
-print("------------------------")
-embeded_leag = LeagueHelper(l1)
-embededs = embeded_leag.make_embeds()
-l_pager = embeded_leag.leagues_pager()
-
-
-
-
 
