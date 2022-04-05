@@ -249,7 +249,7 @@ async def l_pager_response(ctx:CPC,blah):
 async def l_first_response(ctx:CPC):
     data = leag_reg[str(ctx.author.user.username)] 
     leag_reg[str(ctx.author.user.username)][0] = 0
-    cur_leag = data[2]
+    cur_leag = data[1]
     cur_embed =  data[3][cur_leag][1][0]
     main_embed = data[3][cur_leag][0]
     m_row = data[2]
@@ -509,6 +509,7 @@ async def g_pager_response(ctx:CPC,blah):
 
 @bot.component("g_first_button")
 async def g_first_response(ctx:CPC):
+    print(str(ctx._json))
     data = g_pager_reg[str(ctx.author.user.username)] 
     g_pager_reg[str(ctx.author.user.username)][0] = 0
     count = data[1]
