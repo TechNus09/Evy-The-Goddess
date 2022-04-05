@@ -106,7 +106,7 @@ class LeagueHelper:
                     embeds_list.append(embed)
                     print("1.2")
                 start = len(embeds_list)*20
-                end = start + (members_count % 20)
+                end = start + (self.members_count % 20)
                 print("2.0")
                 for j in range(start,end):
                     rank = j+1
