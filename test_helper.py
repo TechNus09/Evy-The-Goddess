@@ -68,7 +68,6 @@ class LeagueHelper:
         order = 0
         print("0")
         for league in self.leagues: 
-            print(league)
             embeds_list = []                 
             fields_list = []
             last_fields_list = []
@@ -106,10 +105,10 @@ class LeagueHelper:
                     embeds_list.append(embed)
                     print("1.2")
                 start = len(embeds_list)*20
-                end = start + (self.members_count % 20)
-                print(f"start : {start} , end : {end} , count : {self.members_count}")
+                end = start + (len(league) % 20)
+                print(f"start : {start} , end : {end} , count : {len(league)}")
                 print("2.0")
-                for j in range(start,end):
+                for j in range(start,end-1):
                     print("2.0.0")
                     rank = j+1
                     print("2.0.1")
