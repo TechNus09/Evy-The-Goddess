@@ -229,8 +229,8 @@ async def l_pager_response(ctx:CPC,blah):
     cur_leag = int(ctx.data.values[0])
     data = leag_reg[str(ctx.author.user.username)] 
     main_embed = data[3][cur_leag][0]
-    cur_embed_num = data[0]
-    cur_embed = data[3][cur_leag][1][cur_embed_num]
+    #cur_embed_num = data[0]
+    cur_embed = data[3][cur_leag][1][0]
     leag_reg[str(ctx.author.user.username)][1]=cur_leag
     m_row = data[2]
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[m_row,l_b_row])
