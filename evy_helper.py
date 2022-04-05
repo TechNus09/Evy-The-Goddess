@@ -261,6 +261,7 @@ async def makelogT(guild_tag) :
     name_list = []
     c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
     for skill_x in range(9):
+        print(c_skill[skill_x])
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
             to_do = get_tasks(session, c_skill[skill_x])

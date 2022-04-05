@@ -211,15 +211,20 @@ async def leagues(ctx:CC):
     await ctx.send("Fetching Data ...")
 
     members_log = asyncio.run(makelogT("OWO"))
+    print("finished logging")
     l1 = League(members_log,"total")
+    print("leagues obj created")
     l1.sort_by_avg()
+    print("leagues sorted")
     embeded_leag = LeagueHelper(l1)
+    print("embeded obj created")
     embededs = embeded_leag.make_embeds()
+    print("embeds created")
     l_pager = embeded_leag.leagues_pager()
+    print("pager created")
 
 
     user = ctx.author.user.username
-    m_count = len(result[0])
     l_row = ActionRow(components=[l_pager])
     leag_reg[str(user)]=[0,0,l_row,embededs]
     await ctx.edit("Finished !",embeds=[embededs[0][0],embededs[0][1]],components=[l_row,l_b_row])
