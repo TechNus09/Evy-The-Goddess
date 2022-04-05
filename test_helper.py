@@ -138,12 +138,12 @@ class LeagueHelper:
     def leagues_pager(self,id):
         options_list = []
         for i in range(len(self.leagues_names)):
-            option = SelectOption(
+            option = it.SelectOption(
                                   label=f"{self.leagues_names[i]}",
                                   value=str(i),
                                   )
             options_list.append(option)
-        pager_menu = SelectMenu(
+        pager_menu = it.SelectMenu(
         	                       options=options_list,
         	                       placeholder=f"Leagues",
         	                       custom_id=id, )
