@@ -222,7 +222,7 @@ async def leagues(ctx:CC):
     embededs = embeded_leag.make_embeds()
     print("embeds created")
     
-    l_pager = embeded_leag.leagues_pager()
+    l_pager = embeded_leag.leagues_pager("l_pager_menu")
     print("pager created")
 
 
