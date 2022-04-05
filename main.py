@@ -227,9 +227,12 @@ async def leagues(ctx:CC):
 
 
     user = ctx.author.user.username
+    print(str(user))
     l_row = ActionRow(components=[l_pager])
+    print("pager row created")
     leag_reg[str(user)]=[0,0,l_row,embededs]
-    await ctx.edit("Finished !",embeds=[embededs[0][0],embededs[0][1]],components=[l_row,l_b_row])
+    print("register created")
+    await ctx.edit("Finished !",embeds=[embededs[0][0],embededs[0][1][0]],components=[l_row,l_b_row])
 
 @bot.component("l_pager_menu")
 async def l_pager_response(ctx:CPC,blah):
