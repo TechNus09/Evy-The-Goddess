@@ -19,14 +19,14 @@ class League:
         
 
     def pick_total(self,skill):
-        for player in self.log:
-            self.players_list[player]=self.log[player][skill]
-        return
+         return
         
         
         
     def sort_by_avg(self):
-        pick_total(self.skill) 
+        for player in self.log:
+            self.players_list[player]=self.log[player][self.skill]
+       
         #get total/avg xp
         for i in self.players_list:
             self.total_xp+=self.players_list[i]
