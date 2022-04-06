@@ -419,7 +419,7 @@ async def delete_no(ctx:CPC):
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
 async def testing(ctx:CC):
-    guilds =  await bot._http.get_self_guilds()
+    guilds = bot.guilds()
     for guild in guilds:
         await ctx.send(str(guild))
     #await ctx.send("admin")
