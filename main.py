@@ -182,7 +182,7 @@ l_b_row = ActionRow(
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
@@ -421,6 +421,9 @@ async def delete_no(ctx:CPC):
 async def testing(ctx:CC):
     guilds = bot.guilds()
     for guild in guilds:
+        print(dir(guild))
+        print("///////////////")
+        print(guild._json)
         await ctx.send(str(guild))
     #await ctx.send("admin")
 
