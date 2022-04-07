@@ -419,15 +419,19 @@ async def delete_no(ctx:CPC):
 
 @bot.command(name="testing",description="test 1 2 3",scope=839662151010353172)
 async def testing(ctx:CC):
-    guilds = bot.guilds
+    guilds = bot._http.cache.guilds
+    msg=""
     x=1
-    for guild in guilds:
+    for guild in guilds.values:
+        guild_obj = guilds.values[guild]
+        await ctx.send(str(guild.owner_id))
         print(x)
         x+=1
-        print(dir(guild))
+        await ctx.send(str(dir(guild)))
         print("///////////////")
-        print(guild._json)
+        #print(guild._json)
         await ctx.send("done")
+        
     #await ctx.send("admin")
 
 ###############xp's gain leaderboard in skills########################
