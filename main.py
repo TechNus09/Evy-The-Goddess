@@ -198,7 +198,7 @@ async def on_ready():
 async def on_ready():
     print("Logged in discord.py!")
 
-
+id()
 
 
 
@@ -453,7 +453,15 @@ async def log(ctx):
         await ctx.channel.send('collected data!', file=discord.File("data.json"))
     else:
         await msg.delete()
-        await ctx.send("logs file doesn't exist")
+        msg2 = await ctx.send("logs file doesn't exist\ngetting file feom DB")
+        log = retrieve("0000")
+        created = create_file(log)
+        if created :
+            await msg2.delete()
+            await ctx.channel.send("members log",file=discord.File("data.json"))
+        else:
+            await msg2.delete()
+            await ctx.send("an error happened while creating file")
 
 
 

@@ -307,9 +307,9 @@ class Ranking(interactions.Extension):
         await ctx.send("logging members xp ... ")
 
         _logs = asyncio.run(self.initLog("OwO"))
-        if os.path.exists("logs.json"):
+        if os.path.exists("data.json"):
             print("file exist")
-            os.remove("logs.json")
+            os.remove("data.json")
             print("file removed")
         else:
             await ctx.edit("logging failed.")
