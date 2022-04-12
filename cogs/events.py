@@ -107,12 +107,49 @@ class Ranking(interactions.Extension):
 
         return event_log
 
-    async def makelogT(self,guild_tag) :
+    async def makelogT(self,players_list) :
         event_log = {}
         name_list = []
         c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
         c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
         for skill_x in range(9):
+            print(c_skill[skill_x])
+            #connector = aiohttp.TCPConnector(limit=80)
+            async with aiohttp.ClientSession() as session :
+                to_do = self.get_tasks(session, Ranking.skill_afx[skill_x])
+                responses = await asyncio.gather(*to_do)
+                for response in responses:
+                    data = await response.json()
+                    if data != []:
+                        for fdata in data :
+                            member_temp = { 'ign' : 'name' , 'melee_xp' : 0 , 'magic_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'tailoring_xp' : 0 , 'total': 0}
+                            player_name = fdata["name"]
+                            xp = fdata["xp"]   
+                            tag = player_name.split()[0]
+                            tag = tag.upper()
+
+                            if player_name in players_list:
+                                if player_name in name_list:
+                                    event_log[player_name][c_xp[skill_x]]= xp
+                                    event_log[player_name]["total"] += xp
+                                else:
+                                    name_list.append(player_name)
+                                    event_log[player_name]=member_temp
+                                    event_log[player_name]["ign"] = player_name
+                                    event_log[player_name][c_xp[skill_x]]= xp
+                                    event_log[player_name]["total"] += xp
+                    elif data == []:
+                        break
+            print("skill done")
+        return event_log
+
+async def initLog(self,guild_tag) :
+        event_log = {}
+        name_list = []
+        c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
+        c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
+        for skill_x in range(9):
+            print(c_skill[skill_x])
             #connector = aiohttp.TCPConnector(limit=80)
             async with aiohttp.ClientSession() as session :
                 to_do = self.get_tasks(session, Ranking.skill_afx[skill_x])
@@ -139,7 +176,7 @@ class Ranking(interactions.Extension):
                                     event_log[player_name]["total"] += xp
                     elif data == []:
                         break
-
+            print("skill done")
         return event_log
 
     def SortUp(self,skill_name,old_log,new_log):
@@ -268,7 +305,7 @@ class Ranking(interactions.Extension):
         await ctx.defer()
         await ctx.send("logging members xp ... ")
 
-        _logs = asyncio.run(self.makelogT("OwO"))
+        _logs = asyncio.run(self.initLog("OwO"))
         if os.path.exists("logs.json"):
             print("file exist")
             os.remove("logs.json")
@@ -291,6 +328,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
                 name="gains",
                 description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
+                scope=839662151010353172,
                 options=[
                         it.Option(
                                 name="skill",
@@ -314,7 +352,7 @@ class Ranking(interactions.Extension):
                 )
     async def gains(self,ctx:CC,skill:str):
         await ctx.defer()
-        start = time.time()
+        
         await ctx.send("Fetching newest records ...")
         try:
             old_record = retrieve("0000")
@@ -329,13 +367,13 @@ class Ranking(interactions.Extension):
             print("total xp")
             if players_list != []:
                 print("fetching new records")
-                new_record = asyncio.run(self.makelogT(self,players_list))
+                new_record = asyncio.run(self.makelogT(players_list))
                 print("fetched new records")
             else :
                 print("fetching new records failed")
                 new_record = old_record
             print("sorting")
-            unranked_data = self.SortUp(self,'total',old_record,new_record)
+            unranked_data = self.SortUp('total',old_record,new_record)
             print("listifying")
             result = self.listFormater(unranked_data)
             print("making embeds")
@@ -367,9 +405,9 @@ class Ranking(interactions.Extension):
         self.g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
         g_pager_m = self.pagerMaker(0,g_m_count,"g_pager_menu")
         g_m_row = ActionRow(components=[g_pager_m])
-        end = time.time()
-        t = math.ceil(end - start)
-        await ctx.edit(f"Done in {t} seconds.",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,self.g_b_row])
+        #end = time.time()
+        #t = math.ceil(end - start)
+        await ctx.edit(f"Done !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,self.g_b_row])
 
     @interactions.extension_component("g_pager_menu")
     async def g_pager_response(self,ctx:CPC,blah):
