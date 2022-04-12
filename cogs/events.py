@@ -74,6 +74,7 @@ class Ranking(interactions.Extension):
         return tasks
 
     async def makelog(self,skill_name,members) :
+        print("001")
         event_log = {}
         name_list = []
         c_skill = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
@@ -81,8 +82,10 @@ class Ranking(interactions.Extension):
 
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
-            to_do = self.get_tasks(self,session, c_skill[Ranking.skillsdic.index(skill_name)])
+            to_do = self.get_tasks(session, c_skill[Ranking.skillsdic.index(skill_name)])
+            print("002")
             responses = await asyncio.gather(*to_do)
+            print("003")
             for response in responses:
                 data = await response.json()
                 if data != []:
@@ -91,6 +94,7 @@ class Ranking(interactions.Extension):
                         player_name = fdata["name"]
                         xp = fdata["xp"]                  
                         if player_name in members:
+                            print(playet_name)
                             if player_name in name_list:
                                 event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
                             else:
@@ -284,7 +288,8 @@ class Ranking(interactions.Extension):
 
 
 
-    @interactions.extension_command(name="gains",
+    @interactions.extension_command(
+                name="gains",
                 description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
                 options=[
                         it.Option(
@@ -348,7 +353,7 @@ class Ranking(interactions.Extension):
                 print("fetching failed")
                 new_record = old_record
             unranked_data = self.SortUp(skill.lower(),old_record,new_record)
-            print("sorted")
+            print("sorted")# 
 
             result = self.listFormater(unranked_data)
             print("listefied")
