@@ -4,6 +4,6 @@ nest-asyncio==1.5.1
 asyncio==3.4.3
 aiohttp
 psycopg2==2.9.3
-discord.py==1.7.3
-discord==1.7.3
+discord.py
+discord
 
