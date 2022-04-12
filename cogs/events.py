@@ -315,27 +315,37 @@ class Ranking(interactions.Extension):
         for i in old_record:
             players_list.append(i)
         if skill.lower() == 'total':
+            print("1")
             if players_list != []:
+                print("10")
                 new_record = asyncio.run(self.makelogT(self,players_list))
             else :
+                print("11")
                 new_record = old_record
+            print("12")
             unranked_data = self.SortUp(self,'total',old_record,new_record)
 
             result = self.listFormater(self,unranked_data)
             embeds = self.embedsMaker(self,result,"GoD","Total Xp")
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
+            print("13")
         else:
+            print("2")
             if players_list != [] :
+                print("20")
                 new_record = asyncio.run(self.makelog(self,skill.lower(),players_list))
             else:
+                print("21")
                 new_record = old_record
             unranked_data = self.SortUp(self,skill.lower(),old_record,new_record)
+            print("22")
 
             result = self.listFormater(self,unranked_data)
             embeds = self.embedsMaker(self,result,"OwO",skill.capitalize())
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
+            print("23")
         user = ctx.author.user.username
         g_m_count = len(result[0])
         self.g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
