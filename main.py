@@ -224,7 +224,7 @@ async def start(ctx:CC):
     print("file created")
     if logging:
         await ctx.edit("Logging finished.\Saving to DB")
-        saved = insert("0000",logs)
+        saved = insert("0000",jsing(logs))
         if saved:
             await ctx.edit("Saved.")
         else:
