@@ -13,21 +13,21 @@ class League:
         self.players_sorted = []
         self.ranking = [[],[],[]]
         self.leagues = [[],[],[]]
-        self.leagues_d = {"Yekzer":{},
-                          "Panda":{},
-                          "Aj":{}
-                          }
+        self.leagues_d = {  "Yekzer":{},
+                            "Panda":{},
+                            "Aj":{}
+                            }
         
 
     def pick_total(self,skill):
-         return
+        return
         
         
         
     def sort_by_avg(self):
         for player in self.log:
             self.players_list[player]=self.log[player][self.skill]
-       
+        
         #get total/avg xp
         for i in self.players_list:
             self.total_xp+=self.players_list[i]
@@ -79,12 +79,12 @@ class LeagueHelper:
                     field = it.EmbedField(name=f"Rank#{j+1}", value=league[j])
                     fields_list.append(field)
                 embed = it.Embed(
-                             title="\u200b",
-                             description="\u200b",     
-                             fields=fields_list,
-                             color=0x00ff00)
+                                title="\u200b",
+                                description="\u200b",     
+                                fields=fields_list,
+                                color=0x00ff00)
                 embeds_list.append(embed)
-               
+                
             else:
                 for i in range(embeds_count-1):
                     fields_list = []
@@ -93,10 +93,10 @@ class LeagueHelper:
                         field = it.EmbedField(name=f"Rank#{rank}", value=league[rank-1])
                         fields_list.append(field)
                     embed = it.Embed(
-                                 title="\u200b",
-                                 description="\u200b",     
-                                 fields=fields_list,
-                                 color=0x00ff00)
+                                    title="\u200b",
+                                    description="\u200b",     
+                                    fields=fields_list,
+                                    color=0x00ff00)
                     embeds_list.append(embed)
                 start = len(embeds_list)*20
                 end = start + (len(league) % 20)
@@ -111,10 +111,10 @@ class LeagueHelper:
                                 color=0x00ff00)
                 embeds_list.append(last_embed)  
             main_embed = it.Embed(
-                              title=f"OwO",
-                              description=f"Members Count : {self.members_count}\nTotal Xp : {total_xp}\nAverage Xp : {avg_xp}\n{self.leagues_names[order]}'s League",       
-                              fields=[],
-                              color=0x00ff00)   
+                                title=f"OwO",
+                                description=f"Members Count : {self.members_count}\nTotal Xp : {total_xp}\nAverage Xp : {avg_xp}\n{self.leagues_names[order]}'s League",       
+                                fields=[],
+                                color=0x00ff00)   
             self.embeded_leagues.append([main_embed,embeds_list])
             order+=1
             
@@ -124,13 +124,13 @@ class LeagueHelper:
         options_list = []
         for i in range(len(self.leagues_names)):
             option = it.SelectOption(
-                                  label=f"{self.leagues_names[i]}",
-                                  value=str(i),
-                                  )
+                                    label=f"{self.leagues_names[i]}",
+                                    value=str(i),
+                                    )
             options_list.append(option)
         pager_menu = it.SelectMenu(
-        	                       options=options_list,
-        	                       placeholder=f"Leagues",
-        	                       custom_id=id, )
+                                    options=options_list,
+                                    placeholder=f"Leagues",
+                                    custom_id=id, )
         return pager_menu  
 

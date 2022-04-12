@@ -19,7 +19,17 @@ nest_asyncio.apply()
 
 skill_afx = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
 skills = ['melee','magic','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking','tailoring']
-
+skillsdic = [   'melee',
+                'magic',
+                'mining',
+                'smithing',
+                'woodcutting',
+                'crafting',
+                'fishing',
+                'cooking',
+                'tailoring'
+                'total'
+            ]
 
 
 lvltab = [0,46,99,159,229,309,401,507,628,768,928,1112,1324,1567,1847,2168,2537,2961,3448,4008,4651,5389,6237,7212,8332,9618,11095,12792,14742,16982,19555,22510,25905,29805,34285,
@@ -36,17 +46,7 @@ lvldef = [46, 53, 60, 70, 80, 92, 106, 121, 140, 160, 184, 212, 243, 280, 321, 3
 48426151, 55627040, 63898689, 73400320, 84314826, 96852302, 111254081, 127797379, 146800640, 168629653, 193704605, 222508162, 255594759, 293601280, 337259307, 387409211, 445016324, 
 511189519, 587202560]
 
-skillsdic = [   'melee',
-                'magic',
-                'mining',
-                'smithing',
-                'woodcutting',
-                'crafting',
-                'fishing',
-                'cooking',
-                'tailoring'
-                'total'
-            ]
+
 
 def listFormater(log):#get full log, return ranked list of cetain skill
     temp_dic = {}
@@ -261,7 +261,7 @@ async def makelogT(guild_tag) :
     name_list = []
     c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
     for skill_x in range(9):
-        
+        print(skill_x)
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
             to_do = get_tasks(session, c_skill[skill_x])
@@ -275,7 +275,7 @@ async def makelogT(guild_tag) :
                         xp = fdata["xp"]   
                         tag = player_name.split()[0]
                         tag = tag.upper()
-           
+            
                         if tag == guild_tag.upper() :
                             if player_name in name_list:
                                 event_log[player_name]["total"] += xp
