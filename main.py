@@ -447,10 +447,12 @@ async def stop_response(ctx:CPC):
 
 @client.command()
 async def log(ctx):
-    await ctx.send("logging members xp ... ")
+    msg = await ctx.send("getting xp log... ")
     if os.path.exists("data.json"):
+        await msg.delete()
         await ctx.channel.send('collected data!', file=discord.File("data.json"))
     else:
+        await msg.delete()
         await ctx.send("logs file doesn't exist")
 
 

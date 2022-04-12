@@ -12,6 +12,7 @@ import aiohttp
 import json
 import nest_asyncio
 from db_helper import *
+import psycopg2
 
 class Ranking(interactions.Extension):
 
@@ -310,7 +311,10 @@ class Ranking(interactions.Extension):
         await ctx.defer()
         start = time.time()
         await ctx.send("Fetching newest records ...")
-        old_record = retrieve("0000")
+        try:
+            old_record = retrieve("0000")
+        except psycopg2.Error as e :
+            print(e)
         print("0000")
         players_list = []
         for i in old_record:
