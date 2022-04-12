@@ -313,6 +313,7 @@ class Ranking(interactions.Extension):
         await ctx.send("Fetching newest records ...")
         try:
             old_record = retrieve("0000")
+            print("retrived")
         except psycopg2.Error as e :
             print(e)
         print("0000")
@@ -320,37 +321,42 @@ class Ranking(interactions.Extension):
         for i in old_record:
             players_list.append(i)
         if skill.lower() == 'total':
-            print("1")
+            print("total xp")
             if players_list != []:
-                print("10")
+                print("fetching new records")
                 new_record = asyncio.run(self.makelogT(self,players_list))
+                print("fetched new records")
             else :
-                print("11")
+                print("fetching new records failed")
                 new_record = old_record
-            print("12")
+            print("sorting")
             unranked_data = self.SortUp(self,'total',old_record,new_record)
-
-            result = self.listFormater(self,unranked_data)
-            embeds = self.embedsMaker(self,result,"GoD","Total Xp")
+            print("listifying")
+            result = self.listFormater(unranked_data)
+            print("making embeds")
+            embeds = self.embedsMaker(result,"OwO","Total Xp")
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
-            print("13")
+            print("embeds made")
         else:
-            print("2")
+            print(f"{skill} chosen")
             if players_list != [] :
-                print("20")
+                print("fetching new records")
                 new_record = asyncio.run(self.makelog(skill.lower(),players_list))
+                print("fetched new records")
             else:
-                print("21")
+                print("fetching failed")
                 new_record = old_record
-            unranked_data = self.SortUp(self,skill.lower(),old_record,new_record)
-            print("22")
+            unranked_data = self.SortUp(skill.lower(),old_record,new_record)
+            print("sorted")
 
-            result = self.listFormater(self,unranked_data)
-            embeds = self.embedsMaker(self,result,"OwO",skill.capitalize())
+            result = self.listFormater(unranked_data)
+            print("listefied")
+            embeds = self.embedsMaker(result,"OwO",skill.capitalize())
+            print("embeded")
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
-            print("23")
+            print("making pager")
         user = ctx.author.user.username
         g_m_count = len(result[0])
         self.g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
