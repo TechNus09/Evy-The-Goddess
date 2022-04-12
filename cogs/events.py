@@ -215,7 +215,7 @@ class Ranking(interactions.Extension):
                                 color=0x00ff00)   
         return main_embed, embeds_list
 
-    def pagerMaker(pos,count,id):
+    def pagerMaker(self,pos,count,id):
         options_list = []
         leng = count // 20 + 1
         for i in range(leng-1):
