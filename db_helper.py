@@ -105,8 +105,8 @@ def retrieve(t_date):
     con = conn()
     cur = con.cursor()
     retrieve_query= """
-                    SELECT xp_event 
-                    FROM log
+                    SELECT log 
+                    FROM xp_event
                     WHERE date = %s 
                     """
     cur.execute(retrieve_query,(t_date,))
