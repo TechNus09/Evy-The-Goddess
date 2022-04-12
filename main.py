@@ -198,7 +198,7 @@ async def on_ready():
 async def on_ready():
     print("Logged in discord.py!")
 
-id()
+
 
 
 
