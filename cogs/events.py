@@ -103,20 +103,15 @@ class Ranking(interactions.Extension):
         return event_log
 
     async def makelogT(self,guild_tag) :
-        print("makelogT")
         event_log = {}
         name_list = []
         c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
         c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
         for skill_x in range(9):
-            print(skill_x+1)
             #connector = aiohttp.TCPConnector(limit=80)
             async with aiohttp.ClientSession() as session :
-                print("10")
                 to_do = self.get_tasks(session, Ranking.skill_afx[skill_x])
-                print("11")
                 responses = await asyncio.gather(*to_do)
-                print("12")
                 for response in responses:
                     data = await response.json()
                     if data != []:
@@ -269,7 +264,6 @@ class Ranking(interactions.Extension):
         await ctx.send("logging members xp ... ")
 
         _logs = asyncio.run(self.makelogT("OwO"))
-        print("finished")
         if os.path.exists("logs.json"):
             print("file exist")
             os.remove("logs.json")
@@ -277,7 +271,6 @@ class Ranking(interactions.Extension):
         else:
             await ctx.edit("logging failed.")
         logging = self.create_file(_logs)
-        print("file created")
         if logging:
             await ctx.edit("Logging finished.\Saving to DB")
             _updated = update("0000",self.jsing(_logs))
@@ -366,7 +359,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_component("g_first_button")
     async def g_first_response(self,ctx:CPC):
-        print(str(ctx._json))
+
         data = self.g_pager_reg[str(ctx.author.user.username)] 
         self.g_pager_reg[str(ctx.author.user.username)][0] = 0
         count = data[1]

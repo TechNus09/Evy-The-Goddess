@@ -8,8 +8,8 @@ from interactions import ComponentContext as CPC
 
 import time
 import math
-#import discord
-#from discord.ext import commands
+import discord
+from discord.ext import commands
 
 from db_helper import *
 from evy_helper import *
@@ -185,7 +185,7 @@ def create_file(data):
     log_file = json.dump(data, log_file, indent = 4)
     return True
 
-#client = commands.Bot(command_prefix="+")
+client = commands.Bot(command_prefix="+")
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
 #logging.basicConfig(level=logging.DEBUG)
@@ -194,9 +194,9 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 async def on_ready():
     print("Logged in interaction!")
 
-#@client.event
-#async def on_ready():
-#    print("Logged in discord.py!")
+@client.event
+async def on_ready():
+    print("Logged in discord.py!")
 
 
 
@@ -445,33 +445,32 @@ async def stop_response(ctx:CPC):
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
 """
 
-#@client.command()
-#async def log(ctx):
-#    await ctx.send("logging members xp ... ")
-#    if os.path.exists("data.json"):
-#        await ctx.channel.send('collected data!', file=discord.File("data.json"))
-#    else:
-#        await ctx.send("logs file doesn't exist")
-#
+@client.command()
+async def log(ctx):
+    await ctx.send("logging members xp ... ")
+    if os.path.exists("data.json"):
+        await ctx.channel.send('collected data!', file=discord.File("data.json"))
+    else:
+        await ctx.send("logs file doesn't exist")
+
 
 
 
 bot.load("cogs.events")
 print("events loaded")
 
-bot.start()
+#bot.start()
 
 
 
 
-#async def start():
-#    print("start")
-#    await asyncio.gather(
-#        client.start("ODc5Mzc1NjE0ODQ5NzI4NTIz.YSO0XA.k2NPZpAAvoyp0TUbS5_pyQbuqY4"),
-#        bot._ready()
-#    )
-
-#asyncio.run(start())
+async def start():
+    print("start")
+    await asyncio.gather(
+        client.start("ODc5Mzc1NjE0ODQ5NzI4NTIz.YSO0XA.k2NPZpAAvoyp0TUbS5_pyQbuqY4"),
+        bot._ready()
+    )
+asyncio.run(start())
 
 
 
