@@ -94,7 +94,7 @@ class Ranking(interactions.Extension):
                         player_name = fdata["name"]
                         xp = fdata["xp"]                  
                         if player_name in members:
-                            print(playet_name)
+                            print(player_name)
                             if player_name in name_list:
                                 event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
                             else:
@@ -210,12 +210,12 @@ class Ranking(interactions.Extension):
         total_xp =0
         temp_dic = {k: v for k, v in sorted(log.items(), key=lambda item: item[1],reverse=True)}
         for key, value in temp_dic.items():
-            if value != 0 :
-                total_xp += value
-                test = key + " -- " + "{:,}".format(value)
-                members_sorted.append(test)
-            else:
-                continue
+            
+            total_xp += value
+            test = key + " -- " + "{:,}".format(value)
+            members_sorted.append(test)
+            
+            
         return members_sorted, total_xp
 
     def embedsMaker(self,result,tag,skill):
