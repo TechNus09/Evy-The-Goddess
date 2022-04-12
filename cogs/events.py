@@ -103,7 +103,7 @@ class Ranking(interactions.Extension):
                                 event_log[player_name]["ign"] = player_name
                                 event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
                 elif data == []:
-                    break
+                    pass
         print("search "+skill_name+" done")
 
         return event_log
