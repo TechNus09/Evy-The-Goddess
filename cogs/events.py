@@ -106,6 +106,7 @@ class Ranking(interactions.Extension):
         print("makelogT")
         event_log = {}
         name_list = []
+        c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
         c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
         for skill_x in range(9):
             print(skill_x+1)
@@ -128,11 +129,13 @@ class Ranking(interactions.Extension):
 
                             if tag == guild_tag.upper() :
                                 if player_name in name_list:
+                                    event_log[player_name][c_xp[skill_x]]= xp
                                     event_log[player_name]["total"] += xp
                                 else:
                                     name_list.append(player_name)
                                     event_log[player_name]=member_temp
                                     event_log[player_name]["ign"] = player_name
+                                    event_log[player_name][c_xp[skill_x]]= xp
                                     event_log[player_name]["total"] += xp
                     elif data == []:
                         break
