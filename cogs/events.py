@@ -311,6 +311,7 @@ class Ranking(interactions.Extension):
         start = time.time()
         await ctx.send("Fetching newest records ...")
         old_record = retrieve("0000")
+        print("0000")
         players_list = []
         for i in old_record:
             players_list.append(i)
