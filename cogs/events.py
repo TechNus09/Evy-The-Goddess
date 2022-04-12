@@ -339,7 +339,7 @@ class Ranking(interactions.Extension):
             print("2")
             if players_list != [] :
                 print("20")
-                new_record = asyncio.run(self.makelog(self,skill.lower(),players_list))
+                new_record = asyncio.run(self.makelog(skill.lower(),players_list))
             else:
                 print("21")
                 new_record = old_record
