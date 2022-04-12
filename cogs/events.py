@@ -261,12 +261,11 @@ class Ranking(interactions.Extension):
         scope=839662151010353172
     )
     async def start(self,ctx:CC):
-        logs = {}
+        _logs = {}
         await ctx.defer()
         await ctx.send("logging members xp ... ")
 
-        _process = asyncio.run(self.makelogT("OwO"))
-        logs = _process
+        _logs = asyncio.run(self.makelogT("OwO"))
         print("finished")
         if os.path.exists("logs.json"):
             print("file exist")
@@ -274,12 +273,12 @@ class Ranking(interactions.Extension):
             print("file removed")
         else:
             await ctx.edit("logging failed.")
-        logging = self.create_file(logs)
+        logging = self.create_file(_logs)
         print("file created")
         if logging:
             await ctx.edit("Logging finished.\Saving to DB")
-            saved = insert("0000",self.jsing(logs))
-            if saved:
+            _updated = update("0000",self.jsing(_logs))
+            if _updated:
                 await ctx.edit("Saved.")
             else:
                 await ctx.edit("Saving failed.")
