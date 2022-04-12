@@ -187,7 +187,7 @@ def create_file(data):
 
 #client = commands.Bot(command_prefix="+")
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client("ODc5Mzc1NjE0ODQ5NzI4NTIz.YSO0XA.k2NPZpAAvoyp0TUbS5_pyQbuqY4",presence=it.ClientPresence(activities=[presence]),disable_sync=False)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
 #logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
