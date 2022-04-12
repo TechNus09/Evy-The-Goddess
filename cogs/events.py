@@ -143,7 +143,7 @@ class Ranking(interactions.Extension):
             print("skill done")
         return event_log
 
-async def initLog(self,guild_tag) :
+    async def initLog(self,guild_tag) :
         event_log = {}
         name_list = []
         c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
