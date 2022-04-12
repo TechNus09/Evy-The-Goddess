@@ -212,7 +212,7 @@ async def start(ctx:CC):
     await ctx.send("logging members xp ... ")
 
     _process = asyncio.run(makelogT("OwO"))
-    logs = _process[1]
+    logs = _process
     print("finished")
     if os.path.exists("logs.json"):
         print("file exist")
