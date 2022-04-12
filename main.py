@@ -467,7 +467,7 @@ print("events loaded")
 async def start():
     print("start")
     await asyncio.gather(
-        client.start("ODc5Mzc1NjE0ODQ5NzI4NTIz.YSO0XA.k2NPZpAAvoyp0TUbS5_pyQbuqY4"),
+        client.start(os.getenv("TOKEN")),
         bot._ready()
     )
 asyncio.run(start())
