@@ -1,4 +1,4 @@
-async-timeout==4.0.2
+async-timeout==3.0.1
 discord-py-interactions==4.1.0
 nest-asyncio==1.5.1
 asyncio==3.4.3
