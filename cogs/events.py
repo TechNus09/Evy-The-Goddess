@@ -243,6 +243,10 @@ class Ranking(interactions.Extension):
         log_file = json.dump(data, log_file, indent = 4)
         return True
 
+    def jsing(self,dic):
+        """convert dict variable to json object"""
+        json_object = json.dumps(dic, indent = 4) 
+        return json_object
 #get logs
 #insert logs in db
 
@@ -251,7 +255,34 @@ class Ranking(interactions.Extension):
 
 
 
+    @interactions.extension_command(
+        name="start",
+        description="Initialize logging members' xp for current event",
+        scope=839662151010353172
+    )
+    async def start(self,ctx:CC):
+        logs = {}
+        await ctx.defer()
+        await ctx.send("logging members xp ... ")
 
+        _process = asyncio.run(self.makelogT("OwO"))
+        logs = _process
+        print("finished")
+        if os.path.exists("logs.json"):
+            print("file exist")
+            os.remove("logs.json")
+            print("file removed")
+        else:
+            await ctx.edit("logging failed.")
+        logging = self.create_file(logs)
+        print("file created")
+        if logging:
+            await ctx.edit("Logging finished.\Saving to DB")
+            saved = insert("0000",self.jsing(logs))
+            if saved:
+                await ctx.edit("Saved.")
+            else:
+                await ctx.edit("Saving failed.")
 
 
 
