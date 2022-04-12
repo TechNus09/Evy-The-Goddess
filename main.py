@@ -201,34 +201,7 @@ async def on_ready():
 
 
 
-@bot.command(
-    name="start",
-    description="Initialize logging members' xp for current event",
-    scope=839662151010353172
-)
-async def start(ctx:CC):
-    logs = {}
-    await ctx.defer()
-    await ctx.send("logging members xp ... ")
 
-    _process = asyncio.run(makelogT("OwO"))
-    logs = _process
-    print("finished")
-    if os.path.exists("logs.json"):
-        print("file exist")
-        os.remove("logs.json")
-        print("file removed")
-    else:
-        await ctx.edit("logging failed.")
-    logging = create_file(logs)
-    print("file created")
-    if logging:
-        await ctx.edit("Logging finished.\Saving to DB")
-        saved = insert("0000",jsing(logs))
-        if saved:
-            await ctx.edit("Saved.")
-        else:
-            await ctx.edit("Saving failed.")
 
 
 
