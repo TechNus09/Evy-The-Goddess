@@ -6,7 +6,8 @@ from urllib.parse import urlparse
 
 #Connect to an existing database
 #db_url = os.environ.get("DATABASE_URL")
-db_url = "postgres://unylehihjuqcgh:44ce4b00a69887680646812ba372fa6bbfc1348bc1339bd37649f5e7d8248634@ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/ddelk8o88jn4dn"
+#db_url = "postgres://unylehihjuqcgh:44ce4b00a69887680646812ba372fa6bbfc1348bc1339bd37649f5e7d8248634@ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/ddelk8o88jn4dn"
+db_url = os.getenv("DATABASE_URL")
 result = urlparse(db_url)
 username = result.username
 password = result.password
