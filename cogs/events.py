@@ -355,11 +355,8 @@ class Ranking(interactions.Extension):
         await ctx.defer()
         
         await ctx.send("Fetching newest records ...")
-        try:
-            old_record = retrieve("0000")
-            print("retrived")
-        except psycopg2.Error as e :
-            print(e)
+        old_record = retrieve("0000")
+        print("retrived")
         print("0000")
         players_list = []
         for i in old_record:
@@ -409,6 +406,13 @@ class Ranking(interactions.Extension):
         #end = time.time()
         #t = math.ceil(end - start)
         await ctx.edit(f"Done !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,self.g_b_row])
+        await asyncio.sleep(30)
+        data0 = self.g_pager_reg[str(ctx.author.user.username)]
+        cur_pos0 = data[0]
+        cur_embed0 = data[2][cur_pos0]
+        main_embed0 = data[3]
+        await ctx.edit("Finished !",embeds=[main_embed0,cur_embed0],components=[])
+        
 
     @interactions.extension_component("g_pager_menu")
     async def g_pager_response(self,ctx:CPC,blah):
