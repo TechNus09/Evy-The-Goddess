@@ -299,7 +299,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
         name="start",
         description="Initialize logging members' xp for current event",
-        scope=[839662151010353172]
+        scope=839662151010353172
     )
     async def start(self,ctx:CC):
         _logs = {}
@@ -325,21 +325,21 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
-                                    scope=[839662151010353172])
+                                    scope=839662151010353172)
     async def logs(self,ctx:CC):
-        await ctx.send("please hold on")
+        print("/logs")
         await ctx.defer()
-        await ctx.edit("getting xp log... ")
+        await ctx.send("getting xp log... ")
         if os.path.exists("data.json"):
-            await ctx.get_channel()
-            await ctx.channel.send('collected data!', files=[File("data.json")])
+            channl = await ctx.get_channel()
+            await channel.send('collected data!', files=[File("./data.json")])
         else:
-            await ctx.edit("logs file doesn't exist\ngetting file feom DB")
+            await ctx.edit("logs file doesn't exist\ngetting file from DB")
             log = retrieve("0000")
             created = self.create_file(log)
             if created :
-                await ctx.get_channel()
-                await ctx.channel.send("collected data",files=[File("data.json")])
+                channel = await ctx.get_channel()
+                await channel.send("collected data",files=[File("./data.json")])
             else:
                 await ctx.edit("an error happened while creating file")
 
@@ -349,7 +349,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
                 name="gains",
                 description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
-                scope=[839662151010353172],
+                scope=839662151010353172,
                 options=[
                         it.Option(
                                 name="skill",

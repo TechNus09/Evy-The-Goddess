@@ -187,7 +187,7 @@ def create_file(data):
 
 #client = commands.Bot(command_prefix="+")
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=True)
 logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
@@ -200,7 +200,8 @@ async def on_ready():
 
 @bot.command(
             name="leagues",
-            description="Show members devided into leagues based on their xp"
+            description="Show members devided into leagues based on their xp",
+            scope=839662151010353172
             )        
 async def leagues(ctx:CC):
     await ctx.defer()
