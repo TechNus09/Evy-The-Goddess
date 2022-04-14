@@ -299,7 +299,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
         name="start",
         description="Initialize logging members' xp for current event",
-        scope=[869611702042378250,839662151010353172]
+        scope=[839662151010353172]
     )
     async def start(self,ctx:CC):
         _logs = {}
@@ -359,7 +359,6 @@ class Ranking(interactions.Extension):
             old_record = retrieve("0000")
         except psycopg2.Error as e :
             print(e)
-            old_record = {}
         print("retrived")
         print("0000")
         players_list = []
