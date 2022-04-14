@@ -27,7 +27,7 @@ class Ranking(interactions.Extension):
                     'crafting',
                     'fishing',
                     'cooking',
-                    'tailoring'
+                    'tailoring',
                     'total'
                 ]
 
