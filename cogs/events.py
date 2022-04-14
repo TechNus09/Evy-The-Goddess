@@ -323,6 +323,24 @@ class Ranking(interactions.Extension):
                 await ctx.edit("Saving failed.")
 
 
+    @interactions.extension_command(name="logs",
+                                    description="send a log file containing the initial members xp",
+                                    scope=[839662151010353172])
+    async def log(ctx:CC):
+        await ctx.send("getting xp log... ")
+        if os.path.exists("data.json"):
+            await ctx.get_channel()
+            await ctx.channel.send('collected data!', files=["data.json"])
+        else:
+            await ctx.edit("logs file doesn't exist\ngetting file feom DB")
+            log = retrieve("0000")
+            created = create_file(log)
+            if created :
+                await ctx.get_channel()
+                await ctx.channel.send("collected data",files=["data.json"])
+            else:
+                await ctx.edit("an error happened while creating file")
+
 
 
 

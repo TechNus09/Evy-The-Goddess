@@ -8,8 +8,8 @@ from interactions import ComponentContext as CPC
 
 import time
 import math
-import discord
-from discord.ext import commands
+#import discord
+#from discord.ext import commands
 
 from db_helper import *
 from evy_helper import *
@@ -185,7 +185,7 @@ def create_file(data):
     log_file = json.dump(data, log_file, indent = 4)
     return True
 
-client = commands.Bot(command_prefix="+")
+#client = commands.Bot(command_prefix="+")
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
 #logging.basicConfig(level=logging.DEBUG)
@@ -194,17 +194,9 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 async def on_ready():
     print("Logged in interaction!")
 
-@client.event
-async def on_ready():
-    print("Logged in discord.py!")
-
-
-
-
-
-
-
-
+#@client.event
+#async def on_ready():
+#    print("Logged in discord.py!")
 
 @bot.command(
             name="leagues",
@@ -300,6 +292,14 @@ async def l_stop_response(ctx:CPC):
     cur_embed =  data[3][cur_leag][1][cur_embed_num]
     main_embed = data[3][cur_leag][0]
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
+
+
+
+
+
+
+
+
 
 
 
@@ -445,42 +445,21 @@ async def stop_response(ctx:CPC):
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
 """
 
-@client.command()
-async def log(ctx):
-    msg = await ctx.send("getting xp log... ")
-    if os.path.exists("data.json"):
-        await msg.delete()
-        await ctx.channel.send('collected data!', file=discord.File("data.json"))
-    else:
-        await msg.delete()
-        msg2 = await ctx.send("logs file doesn't exist\ngetting file feom DB")
-        log = retrieve("0000")
-        created = create_file(log)
-        if created :
-            await msg2.delete()
-            await ctx.channel.send("members log",file=discord.File("data.json"))
-        else:
-            await msg2.delete()
-            await ctx.send("an error happened while creating file")
-
-
-
-
 bot.load("cogs.events")
 print("events loaded")
 
-#bot.start()
+bot.start()
 
 
 
 
-async def start():
-    print("start")
-    await asyncio.gather(
-        client.start(os.getenv("TOKEN")),
-        bot._ready()
-    )
-asyncio.run(start())
+#async def start():
+#    print("start")
+#    await asyncio.gather(
+#        client.start(os.getenv("TOKEN")),
+#        bot._ready()
+#    )
+#asyncio.run(start())
 
 
 

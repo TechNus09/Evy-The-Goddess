@@ -1,9 +1,6 @@
 async-timeout==3.0.1
-discord-py-interactions==4.1.0
+-U git+https://github.com/interactions-py/library@unstable
 nest-asyncio==1.5.1
 asyncio==3.4.3
-aiohttp==3.7.4.post0
+aiohttp==3.8.1
 psycopg2==2.9.3
-discord.py==1.7.3
-discord==1.7.3
-
