@@ -1,1 +1,23 @@
-cleared
+
+
+    @interactions.extension_command(name="logs",
+                                    description="send a log file containing the initial members xp",
+                                    scope=839662151010353172)
+    async def logs(self,ctx:CC):
+        print("/logs")
+        await ctx.defer()
+        await ctx.send("getting xp log... ")
+        if os.path.exists("data.json"):
+            channl = await ctx.get_channel()
+            await channel.send('collected data!', files=[File("./data.json")])
+        else:
+            await ctx.edit("logs file doesn't exist\ngetting file from DB")
+            log = retrieve("0000")
+            created = self.create_file(log)
+            if created :
+                channel = await ctx.get_channel()
+                await channel.send("collected data",files=[File("./data.json")])
+            else:
+                await ctx.edit("an error happened while creating file")
+
+
