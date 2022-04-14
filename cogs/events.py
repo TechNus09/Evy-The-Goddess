@@ -338,7 +338,6 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
-                                    #scope=839662151010353172
                                     )
     async def logs(self,ctx:CC):
         print("/logs")
@@ -365,7 +364,6 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
                 name="gains",
                 description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
-                #scope=839662151010353172,
                 options=[
                         it.Option(
                                 name="skill",
@@ -442,8 +440,6 @@ class Ranking(interactions.Extension):
         self.g_pager_reg[str(user)]=[0,g_m_count,ranking_embeds,main_embed]
         g_pager_m = self.pagerMaker(0,g_m_count,"g_pager_menu")
         g_m_row = ActionRow(components=[g_pager_m])
-        #end = time.time()
-        #t = math.ceil(end - start)
         await ctx.edit(f"Done !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,self.g_b_row])
         await asyncio.sleep(60)
         data0 = self.g_pager_reg[str(ctx.author.user.username)]

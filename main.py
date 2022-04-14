@@ -8,8 +8,6 @@ from interactions import ComponentContext as CPC
 
 import time
 import math
-#import discord
-#from discord.ext import commands
 
 from db_helper import *
 from evy_helper import *
@@ -27,8 +25,6 @@ g_pager_reg = {}
 leag_reg = {}
 add_reg = {}
 delete_reg = {}
-#global lock_state
-#lock_state = True     
 
 
 skill_afx = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
@@ -180,14 +176,9 @@ l_b_row = ActionRow(
                             ]
                 )
 
-def create_file(data):
-    log_file = open("data.json", "w")
-    log_file = json.dump(data, log_file, indent = 4)
-    return True
 
-#client = commands.Bot(command_prefix="+")
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=True)
 #logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
@@ -195,14 +186,11 @@ async def on_ready():
     print(f"Logged in as {bot.me.name} !")
     print(f"ping : {round(bot.latency)} ms")
 
-#@client.event
-#async def on_ready():
-#    print("Logged in discord.py!")
+
 
 @bot.command(
             name="leagues",
-            description="Show members devided into leagues based on their xp",
-            #scope=839662151010353172
+            description="Show members devided into leagues based on their xp"
             )        
 async def leagues(ctx:CC):
     await ctx.defer()
@@ -316,7 +304,7 @@ async def l_stop_response(ctx:CPC):
 
 
 
-"""
+
 ###############guild leaderboard in skills########################
 
 @bot.command(name="guildlb",
@@ -445,7 +433,7 @@ async def stop_response(ctx:CPC):
     cur_embed = data[2][cur_pos]
     main_embed = data[3]
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
-"""
+
 
 bot.load("cogs.events")
 print("events loaded")
