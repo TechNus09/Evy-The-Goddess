@@ -1,6 +1,6 @@
 async-timeout
-discord-py-interactions=4.1.0
-nest-asyncio==1.5.1
-asyncio==3.4.3
+discord-py-interactions==4.1.0
+nest-asyncio
+asyncio
 aiohttp
 psycopg2==2.9.3
