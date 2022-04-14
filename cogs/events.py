@@ -1,6 +1,6 @@
 import interactions
 import interactions as it
-from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow, Modal, TextInput, TextStyleType
+from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow, Modal, TextInput, TextStyleType, File
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
 import datetime
@@ -324,6 +324,29 @@ class Ranking(interactions.Extension):
 
 
 
+    @interactions.extension_command(name="logs",
+                                    description="send a log file containing the initial members xp",
+                                    scope=839662151010353172)
+    async def logs(self,ctx:CC):
+        print("/logs")
+        await ctx.defer()
+        await ctx.send("getting xp log... ")
+        if os.path.exists("data.json"):
+            channl = await ctx.get_channel()
+            await channel.send('collected data!', files=[File("./data.json")])
+        else:
+            await ctx.edit("logs file doesn't exist\ngetting file from DB")
+            log = retrieve("0000")
+            created = self.create_file(log)
+            if created :
+                channel = await ctx.get_channel()
+                await channel.send("collected data",files=[File("./data.json")])
+            else:
+                await ctx.edit("an error happened while creating file")
+
+
+
+
 
 
     @interactions.extension_command(
@@ -352,8 +375,8 @@ class Ranking(interactions.Extension):
                         ],		
                 )
     async def gains(self,ctx:CC,skill:str):
+        print("/gains")
         await ctx.defer()
-        print("started /gains")
         await ctx.send("Fetching newest records ...")
         try:
             old_record = retrieve("0000")
@@ -409,7 +432,7 @@ class Ranking(interactions.Extension):
         #end = time.time()
         #t = math.ceil(end - start)
         await ctx.edit(f"Done !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,self.g_b_row])
-        await asyncio.sleep(20)
+        await asyncio.sleep(60)
         data0 = self.g_pager_reg[str(ctx.author.user.username)]
         cur_pos0 = data0[0]
         cur_embed0 = data0[2][cur_pos0]
