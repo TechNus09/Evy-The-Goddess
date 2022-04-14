@@ -95,7 +95,6 @@ class Ranking(interactions.Extension):
                         player_name = fdata["name"]
                         xp = fdata["xp"]                  
                         if player_name in members:
-                            print(player_name)
                             if player_name in name_list:
                                 event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
                             else:
@@ -184,13 +183,17 @@ class Ranking(interactions.Extension):
     def SortUp(self,skill_name,old_log,new_log):
         #sort data from old and new records to give xp gains of each player
         r_dict = {}
+        g_dict = {}
         if skill_name.lower() == 'total' :
             for j in new_log :
                 if j in old_log :
                     new_xp = new_log[j]['total']
                     old_xp = old_log[j]['total']
                     xp = new_xp - old_xp
+                    _gain = (xp/old_xp) * 100
+                    _perc_gain = round(_gain,2)
                     r_dict[j] = xp
+                    g_dict[j] = _perc_gain
                 else:
                     pass
         else :
@@ -202,21 +205,27 @@ class Ranking(interactions.Extension):
                     xp = new_xp - old_xp
                     _gain = (xp/old_xp) * 100
                     _perc_gain = round(_gain,2)
-                    r_dict[j]=[xp,_perc_gain]
+                    r_dict[j] = xp
+                    g_dict[j] = _perc_gain
                 else:
                     pass
+        r_dict = {k: v for k, v in sorted(r_dict.items(), key=lambda item: item[1],reverse=True)}
+        for player in r_dict:
+            temp = r_dict[player]
+            r_dict[player]=[temp,g_dict[player]]
         return r_dict #return dict of unranked [player:xp] for given skill
 
     def listFormater(self,log,skill):#get full log, return ranked list of cetain skill
         temp_dic = {}
         members_sorted = []
-        total_xp =0
-        temp_dic = {k: v for k, v in sorted(log.items(), key=lambda item: item[1],reverse=True)}
-        for key, value in temp_dic.items():
-            gain = ""
-            if skill is not "total" and key in chosen_skill[skill]:
+        total_xp = 0
+        
+        for key, value in log.items():
+            if skill != "total" and key in chosen_skill[skill]:
                 gain = "["+str(value[1])+" %]"
-            total_xp += value
+            else:
+                gain = "\u200b"
+            total_xp += value[0]
             test = key + " -- " + "{:,}".format(value[0]) + gain
             members_sorted.append(test)
             
