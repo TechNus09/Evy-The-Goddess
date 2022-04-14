@@ -359,6 +359,7 @@ class Ranking(interactions.Extension):
             old_record = retrieve("0000")
         except psycopg2.Error as e :
             print(e)
+            old_record = {}
         print("retrived")
         print("0000")
         players_list = []
