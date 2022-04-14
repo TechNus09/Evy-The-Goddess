@@ -13,6 +13,7 @@ import json
 import nest_asyncio
 from db_helper import *
 import psycopg2
+from settings.config import chosen_skill
 
 class Ranking(interactions.Extension):
 
@@ -199,20 +200,24 @@ class Ranking(interactions.Extension):
                     new_xp = new_log[j][skill]
                     old_xp = old_log[j][skill]
                     xp = new_xp - old_xp
-                    r_dict[j]=xp
+                    _gain = (xp/old_xp) * 100
+                    _perc_gain = round(_gain,2)
+                    r_dict[j]=[xp,_perc_gain]
                 else:
                     pass
         return r_dict #return dict of unranked [player:xp] for given skill
 
-    def listFormater(self,log):#get full log, return ranked list of cetain skill
+    def listFormater(self,log,skill):#get full log, return ranked list of cetain skill
         temp_dic = {}
         members_sorted = []
         total_xp =0
         temp_dic = {k: v for k, v in sorted(log.items(), key=lambda item: item[1],reverse=True)}
         for key, value in temp_dic.items():
-            
+            gain = ""
+            if skill is not "total" and key in chosen_skill[skill]:
+                gain = "["+str(value[1])+" %]"
             total_xp += value
-            test = key + " -- " + "{:,}".format(value)
+            test = key + " -- " + "{:,}".format(value[0]) + gain
             members_sorted.append(test)
             
             
@@ -288,10 +293,7 @@ class Ranking(interactions.Extension):
         """convert dict variable to json object"""
         json_object = json.dumps(dic, indent = 4) 
         return json_object
-#get logs
-#insert logs in db
 
-#send logs file
 
 
 
@@ -326,7 +328,8 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
-                                    scope=839662151010353172)
+                                    #scope=839662151010353172
+                                    )
     async def logs(self,ctx:CC):
         print("/logs")
         await ctx.defer()
@@ -399,7 +402,7 @@ class Ranking(interactions.Extension):
             print("sorting")
             unranked_data = self.SortUp('total',old_record,new_record)
             print("listifying")
-            result = self.listFormater(unranked_data)
+            result = self.listFormater(unranked_data,skill.lower())
             print("making embeds")
             embeds = self.embedsMaker(result,"OwO","Total Xp")
             ranking_embeds = embeds[1]
@@ -417,7 +420,7 @@ class Ranking(interactions.Extension):
             unranked_data = self.SortUp(skill.lower(),old_record,new_record)
             print("sorted")# 
 
-            result = self.listFormater(unranked_data)
+            result = self.listFormater(unranked_data,skill.lower())
             print("listefied")
             embeds = self.embedsMaker(result,"OwO",skill.capitalize())
             print("embeded")
