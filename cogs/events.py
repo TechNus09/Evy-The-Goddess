@@ -326,7 +326,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
                                     scope=[839662151010353172])
-    async def log(self,ctx:CC):
+    async def logs(self,ctx:CC):
         await ctx.send("please hold on")
         await ctx.defer()
         await ctx.edit("getting xp log... ")
