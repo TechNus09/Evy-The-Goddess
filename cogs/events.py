@@ -223,6 +223,7 @@ class Ranking(interactions.Extension):
         for key, value in log.items():
             if skill != "total" and key in chosen_skill[skill]:
                 gain = "  ["+str(value[1])+"%]"
+                #xp gains %
             else:
                 gain = "\u200b"
             total_xp += value[0]
