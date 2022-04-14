@@ -329,7 +329,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
                 name="gains",
                 description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
-                scope=839662151010353172,
+                #scope=839662151010353172,
                 options=[
                         it.Option(
                                 name="skill",

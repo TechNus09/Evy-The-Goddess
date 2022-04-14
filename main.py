@@ -201,7 +201,7 @@ async def on_ready():
 @bot.command(
             name="leagues",
             description="Show members devided into leagues based on their xp",
-            scope=839662151010353172
+            #scope=839662151010353172
             )        
 async def leagues(ctx:CC):
     await ctx.defer()
