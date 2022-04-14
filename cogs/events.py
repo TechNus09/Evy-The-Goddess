@@ -409,11 +409,11 @@ class Ranking(interactions.Extension):
         #end = time.time()
         #t = math.ceil(end - start)
         await ctx.edit(f"Done !",embeds=[main_embed,ranking_embeds[0]],components=[g_m_row,self.g_b_row])
-        await asyncio.sleep(30)
+        await asyncio.sleep(20)
         data0 = self.g_pager_reg[str(ctx.author.user.username)]
-        cur_pos0 = data[0]
-        cur_embed0 = data[2][cur_pos0]
-        main_embed0 = data[3]
+        cur_pos0 = data0[0]
+        cur_embed0 = data0[2][cur_pos0]
+        main_embed0 = data0[3]
         await ctx.edit("Finished !",embeds=[main_embed0,cur_embed0],components=[])
         
 
