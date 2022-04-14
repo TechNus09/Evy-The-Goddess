@@ -193,7 +193,7 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.me.name} !")
-    print(f"ping : {math.round(bot.latency)}")
+    print(f"ping : {round(bot.latency)}")
 
 #@client.event
 #async def on_ready():
