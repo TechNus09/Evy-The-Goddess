@@ -327,8 +327,9 @@ class Ranking(interactions.Extension):
                                     description="send a log file containing the initial members xp",
                                     scope=[839662151010353172])
     async def log(self,ctx:CC):
+        await ctx.send("please hold on")
         await ctx.defer()
-        await ctx.send("getting xp log... ")
+        await ctx.edit("getting xp log... ")
         if os.path.exists("data.json"):
             await ctx.get_channel()
             await ctx.channel.send('collected data!', files=[File("data.json")])
