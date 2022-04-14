@@ -188,11 +188,12 @@ def create_file(data):
 #client = commands.Bot(command_prefix="+")
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
-    print("Logged in interaction!")
+    print("Logged in as {bot.me.name} !")
+    print("ping : {math.round(bot.latency)}")
 
 #@client.event
 #async def on_ready():
