@@ -1,6 +1,6 @@
 import interactions
 import interactions as it
-from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow, Modal, TextInput, TextStyleType, File
+from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow, Modal, TextInput, TextStyleType
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
 import datetime
