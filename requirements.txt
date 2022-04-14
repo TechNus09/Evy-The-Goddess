@@ -1,5 +1,5 @@
 async-timeout
-discord-py-interactions==4.1.0
+-e git+https://github.com/interactions-py/library@unstable#egg=discord-py-interactions
 nest-asyncio
 asyncio
 aiohttp
