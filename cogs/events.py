@@ -1,6 +1,6 @@
 import interactions
 import interactions as it
-from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow, Modal, TextInput,TextStyleType
+from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow, Modal, TextInput, TextStyleType, File
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
 import datetime
@@ -326,18 +326,19 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
                                     scope=[839662151010353172])
-    async def log(ctx:CC):
+    async def log(self,ctx:CC):
+        await ctx.defer()
         await ctx.send("getting xp log... ")
         if os.path.exists("data.json"):
             await ctx.get_channel()
-            await ctx.channel.send('collected data!', files=["data.json"])
+            await ctx.channel.send('collected data!', files=[File("data.json")])
         else:
             await ctx.edit("logs file doesn't exist\ngetting file feom DB")
             log = retrieve("0000")
-            created = create_file(log)
+            created = self.create_file(log)
             if created :
                 await ctx.get_channel()
-                await ctx.channel.send("collected data",files=["data.json"])
+                await ctx.channel.send("collected data",files=[File("data.json")])
             else:
                 await ctx.edit("an error happened while creating file")
 
