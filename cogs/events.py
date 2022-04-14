@@ -355,7 +355,10 @@ class Ranking(interactions.Extension):
         await ctx.defer()
         print("started /gains")
         await ctx.send("Fetching newest records ...")
-        old_record = retrieve("0000")
+        try:
+            old_record = retrieve("0000")
+        except psycopg2.Error as e :
+            print(e)
         print("retrived")
         print("0000")
         players_list = []
