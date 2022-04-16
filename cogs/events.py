@@ -221,13 +221,13 @@ class Ranking(interactions.Extension):
         total_xp = 0
         
         for key, value in log.items():
-            if skill != "total" and key in chosen_skill[skill]:
-                gain = "  ["+str(value[1])+"%]"
+            #if skill != "total" and key in chosen_skill[skill]:
+            #    gain = "  ["+str(value[1])+"%]"
                 #xp gains %
-            else:
-                gain = "\u200b"
+            #else:
+            #    gain = "\u200b"
             total_xp += value[0]
-            test = key + " -- " + "{:,}".format(value[0]) + gain
+            test = key + " -- " + "{:,}".format(value[0]) 
             members_sorted.append(test)
             
             
