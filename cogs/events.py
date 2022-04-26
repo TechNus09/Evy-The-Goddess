@@ -81,8 +81,8 @@ class Ranking(interactions.Extension):
         c_skill = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
         c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
 
-        #connector = aiohttp.TCPConnector(limit=80)
-        async with aiohttp.ClientSession() as session :
+        connector = aiohttp.TCPConnector(limit=80)
+        async with aiohttp.ClientSession(connector=connector) as session :
             to_do = self.get_tasks(session, c_skill[Ranking.skillsdic.index(skill_name)])
             print("002")
             responses = await asyncio.gather(*to_do)
@@ -115,8 +115,8 @@ class Ranking(interactions.Extension):
         c_skill = ['-melee','-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
         for skill_x in range(9):
             print(c_skill[skill_x])
-            #connector = aiohttp.TCPConnector(limit=80)
-            async with aiohttp.ClientSession() as session :
+            connector = aiohttp.TCPConnector(limit=80)
+            async with aiohttp.ClientSession(connector=connector) as session :
                 to_do = self.get_tasks(session, Ranking.skill_afx[skill_x])
                 responses = await asyncio.gather(*to_do)
                 for response in responses:
