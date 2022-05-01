@@ -180,19 +180,20 @@ class Ranking(interactions.Extension):
         return event_log
 
     def SortUp(self,skill_name,old_log,new_log):
+        print("sort1")
         #sort data from old and new records to give xp gains of each player
         r_dict = {}
-        g_dict = {}
+        #g_dict = {}
         if skill_name.lower() == 'total' :
             for j in new_log :
                 if j in old_log :
                     new_xp = new_log[j]['total']
                     old_xp = old_log[j]['total']
                     xp = new_xp - old_xp
-                    _gain = (xp/old_xp) * 100
-                    _perc_gain = round(_gain,2)
+                    #_gain = (xp/old_xp) * 100
+                    #_perc_gain = round(_gain,2)
                     r_dict[j] = xp
-                    g_dict[j] = _perc_gain
+                    #g_dict[j] = _perc_gain
                 else:
                     pass
         else :
@@ -202,16 +203,16 @@ class Ranking(interactions.Extension):
                     new_xp = new_log[j][skill]
                     old_xp = old_log[j][skill]
                     xp = new_xp - old_xp
-                    _gain = (xp/old_xp) * 100
-                    _perc_gain = round(_gain,2)
+                    #_gain = (xp/old_xp) * 100
+                    #_perc_gain = round(_gain,2)
                     r_dict[j] = xp
-                    g_dict[j] = _perc_gain
+                    #g_dict[j] = _perc_gain
                 else:
                     pass
         r_dict = {k: v for k, v in sorted(r_dict.items(), key=lambda item: item[1],reverse=True)}
-        for player in r_dict:
-            temp = r_dict[player]
-            r_dict[player]=[temp,g_dict[player]]
+        #for player in r_dict:
+        #    temp = r_dict[player]
+        #    r_dict[player]=[temp,g_dict[player]]
         return r_dict #return dict of unranked [player:xp] for given skill
 
     def listFormater(self,log,skill):#get full log, return ranked list of cetain skill
@@ -225,8 +226,8 @@ class Ranking(interactions.Extension):
                 #xp gains %
             #else:
             #    gain = "\u200b"
-            total_xp += value[0]
-            test = key + " -- " + "{:,}".format(value[0]) 
+            total_xp += value
+            test = key + " -- " + "{:,}".format(value) 
             members_sorted.append(test)
             
             
@@ -343,7 +344,7 @@ class Ranking(interactions.Extension):
         await ctx.defer()
         await ctx.send("getting xp log... ")
         if os.path.exists("data.json"):
-            channl = await ctx.get_channel()
+            channel = await ctx.get_channel()
             await channel.send('collected data!', files=[File("./data.json")])
         else:
             await ctx.edit("logs file doesn't exist\ngetting file from DB")

@@ -19,16 +19,16 @@ nest_asyncio.apply()
 
 skill_afx = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
 skills = ['melee','magic','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking','tailoring']
-skillsdic = [   'melee',
-                'magic',
-                'mining',
-                'smithing',
-                'woodcutting',
-                'crafting',
-                'fishing',
-                'cooking',
-                'tailoring'
-                'total'
+skillsdic =['melee',
+            'magic',
+            'mining',
+            'smithing',
+            'woodcutting',
+            'crafting',
+            'fishing',
+            'cooking',
+            'tailoring'
+            'total'
             ]
 
 
