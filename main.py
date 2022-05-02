@@ -179,14 +179,38 @@ l_b_row = ActionRow(
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
-#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.me.name} !")
     print(f"ping : {round(bot.latency)} ms")
 
-
+@bot.command(
+    name="add",
+    description="added the note",
+    scope=839662151010353172,
+)
+async def add(ctx: it.CommandContext):
+    modal = it.Modal(
+        title="New note",
+        custom_id="New_note",
+        components=[
+            it.TextInput(
+                style=it.TextStyleType.SHORT,
+                label="Note_name(no duplicates)",
+                custom_id="Note_content",
+                min_length=1,
+            ),
+            it.TextInput(
+                style=it.TextStyleType.PARAGRAPH,
+                label="The note content",
+                custom_id="Note_content",
+                min_length=1,
+            )
+        ],
+    )
+    await ctx.popup(modal)
 
 @bot.command(
             name="leagues",
