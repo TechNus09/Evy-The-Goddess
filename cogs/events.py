@@ -386,6 +386,8 @@ class Ranking(interactions.Extension):
 
 
 
+
+
     @interactions.extension_command(
         name="start",
         description="Initialize logging members' xp for current event",
@@ -412,8 +414,6 @@ class Ranking(interactions.Extension):
             else:
                 await ctx.edit("Saving failed.")
 
-
-
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
                                     )
@@ -433,15 +433,6 @@ class Ranking(interactions.Extension):
                 await channel.send("collected data",files=[File("./data.json")])
             else:
                 await ctx.edit("an error happened while creating file")
-
-
-
-
-
-
-
-
-
 
     @interactions.extension_command(   name="add_player",
                     description="add new player to the event database or reset an existing player progress",
@@ -540,13 +531,6 @@ class Ranking(interactions.Extension):
 
 
 
-
-
-
-
-
-
-
     @interactions.extension_command(
                 name="gains",
                 description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
@@ -633,7 +617,6 @@ class Ranking(interactions.Extension):
         cur_embed0 = data0[2][cur_pos0]
         main_embed0 = data0[3]
         await ctx.edit("Finished !",embeds=[main_embed0,cur_embed0],components=[])
-        
 
     @interactions.extension_component("g_pager_menu")
     async def g_pager_response(self,ctx:CPC,blah):
