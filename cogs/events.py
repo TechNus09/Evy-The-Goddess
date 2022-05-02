@@ -34,6 +34,8 @@ class Ranking(interactions.Extension):
 
     def __init__(self,client:Client) -> None:
         self.g_pager_reg = {}
+        self.add_reg = {}
+        self.delete_reg = {}
         self.g_first_b = Button(
                         style=ButtonStyle.PRIMARY, 
                         label="⏪", 
@@ -61,6 +63,35 @@ class Ranking(interactions.Extension):
                                     self.g_stop_b,
                                     self.g_forward_b,
                                     self.g_last_b
+                                    ]
+                        )
+        self.add_row = ActionRow(
+                        components=[
+                                    Button(
+                                        style=ButtonStyle.PRIMARY, 
+                                        label="Yes", 
+                                        custom_id="add_yes_button", 
+                                            ),
+                                    Button(
+                                        style=ButtonStyle.DANGER, 
+                                        label="No", 
+                                        custom_id="add_no_button", 
+                                            )
+                                    ]
+                        )
+
+        self.delete_row = ActionRow(
+                        components=[
+                                    Button(
+                                        style=ButtonStyle.PRIMARY, 
+                                        label="Yes", 
+                                        custom_id="delete_yes_button", 
+                                            ),
+                                    Button(
+                                        style=ButtonStyle.DANGER, 
+                                        label="No", 
+                                        custom_id="delete_no_button", 
+                                            )
                                     ]
                         )
 
@@ -304,7 +335,54 @@ class Ranking(interactions.Extension):
         json_object = json.dumps(dic, indent = 4) 
         return json_object
 
+    async def check_name(self,name):
+        rname = 'none'
+        c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+        for skill_x in range(7):
+            async with aiohttp.ClientSession() as session:
+                to_do = self.get_tasks(session,c_skill[skill_x])
+                responses = await asyncio.gather(*to_do)
+                for response in responses:
+                    data = await response.json()
+                    if data != [] :
+                        for fdata in data :
+                            player_name = fdata["name"]
+                            if player_name.lower() == name :
+                                rname = player_name
+                                break
+                            else:
+                                continue
+                    elif data == [] :
+                        break
+        return rname
 
+    async def update_player(self,name):
+        updated = False
+        c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+        c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
+        member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
+        member_temp['ign']=name
+        for skill_x in range(7):
+            async with aiohttp.ClientSession() as session:
+                to_do = self.get_tasks(session,c_skill[skill_x])
+                responses = await asyncio.gather(*to_do)
+                for response in responses:
+                    data = await response.json()
+                    if data != [] :
+                        for fdata in data :
+                            player_name = fdata["name"]
+                            xp = fdata["xp"]
+                            if player_name.lower() == name :
+                                member_temp[c_xp[skill_x]]=xp
+                                break
+                            else:
+                                continue
+                    elif data == [] :
+                        break
+        log = retrieve('0000')
+        log[name]=member_temp
+        updated = update('0000',log)
+        return updated
 
 
 
@@ -355,6 +433,113 @@ class Ranking(interactions.Extension):
                 await channel.send("collected data",files=[File("./data.json")])
             else:
                 await ctx.edit("an error happened while creating file")
+
+
+
+
+
+
+
+
+
+
+    @interactions.extension_command(   name="add_player",
+                    description="add new player to the event database or reset an existing player progress",
+                    scope=839662151010353172,
+                    options=[
+                        it.Option(
+                                name="player_name",
+                                description="player's name to add the database",
+                                type=it.OptionType.STRING,
+                                required=True,
+                                    ),  
+                        ],		)
+    async def add_player(self,ctx:CC,player_name:str):
+        exist = False
+        await ctx.send(f'checking if {player_name} exist ...')
+        log = retrieve('0000')
+        for player in log:
+            if player.lower() == player_name.lower():
+                exist = True
+                await ctx.edit(f"{player} already exist in database")
+                break
+            else :
+                pass
+        if not exist:
+            name = asyncio.run(self.check_name(player_name.lower()))
+            if name == 'none':
+                await ctx.edit(f"Player {name} not found.\nMake sure the pronounciation is correct.")
+            else :
+                self.add_reg[str(ctx.user.username)]=name
+                await ctx.edit(f"found player {name}\nWanna add him/her to event database ?",components=self.add_row)
+
+    @interactions.extension_command(   name="delete_player",
+                    description="delete player  the event database",
+                    scope=839662151010353172,
+                    options=[
+                        it.Option(
+                                name="player_name",
+                                description="player's name to detele from database",
+                                type=it.OptionType.STRING,
+                                required=True,
+                                    ),  
+                        ],		)
+    async def delete_player(self,ctx:CC,player_name:str):
+        await ctx.send(f'checking if {player_name} exist ...')
+        log = retrieve('0000')
+        exist = False
+        for player in log:
+            if player.lower() == player_name.lower():
+                self.delete_reg[str(ctx.author.user.username)]=player
+                exist = True
+                await ctx.edit(f"found player {player_name}\nWanna add him/her to event database ?",components=self.delete_row)
+                break
+            else :
+                pass
+        if not exist :
+            await ctx.edit(f"Player {player_name} not found.\nMake sure the pronounciation is correct.")
+
+    @interactions.extension_component("add_yes_button")
+    async def add_yes(self,ctx:CPC):
+        update = False
+        player_name = self.add_reg[ctx.user.username]
+        self.add_reg.pop(str(ctx.author.user.username))
+        await ctx.edit(f"adding player {player_name} ....",components=[])
+        update = self.update_player(player_name)
+        if update :
+            await ctx.edit(f"player {player_name} added/resetted successfully")
+        else:
+            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+        self.add_reg.pop(str(ctx.author.user.username))
+
+    @interactions.extension_component("add_no_button")
+    async def add_no(self,ctx:CPC):
+        player_name = self.add_reg[ctx.user.username]
+        self.add_reg.pop(str(ctx.author.user.username))
+        await ctx.edit(f"you canceled adding player {player_name} ",components=[])
+
+    @interactions.extension_component("delete_yes_button")
+    async def delete_yes(self,ctx:CPC):
+        player_name = self.delete_reg[str(ctx.author.user.username)]    
+        self.delete_reg.pop(str(ctx.author.user.username))
+        await ctx.edit(f"deleting player {player_name} ....",components=[])
+        log = retrieve('0000')
+        log.pop(player_name)
+        state = update('0000',log)
+        if state :
+            await ctx.edit(f"player {player_name} deleted successfully")
+        else:
+            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
+
+    @interactions.extension_component("delete_no_button")
+    async def delete_no(self,ctx:CPC):
+        player_name = self.delete_reg[str(ctx.author.user.username)]
+        self.delete_reg.pop(str(ctx.author.user.username))
+        await ctx.edit(f"you canceled deleting player {player_name} ",components=[])
+
+
+
+
 
 
 
