@@ -10,7 +10,6 @@ import math
 import asyncio
 import aiohttp
 import json
-import nest_asyncio
 from db_helper import *
 import psycopg2
 from settings.config import chosen_skill
@@ -106,7 +105,6 @@ class Ranking(interactions.Extension):
         return tasks
 
     async def makelog(self,skill_name,members) :
-        print("001")
         event_log = {}
         name_list = []
         c_skill = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
@@ -114,9 +112,7 @@ class Ranking(interactions.Extension):
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
             to_do = self.get_tasks(session, c_skill[Ranking.skillsdic.index(skill_name)])
-            print("002")
             responses = await asyncio.gather(*to_do)
-            print("003")
             for response in responses:
                 data = await response.json()
                 if data != []:
@@ -337,30 +333,34 @@ class Ranking(interactions.Extension):
 
     async def check_name(self,name):
         rname = 'none'
-        c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
+        found = False
+        c_skill = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
         for skill_x in range(7):
-            async with aiohttp.ClientSession() as session:
-                to_do = self.get_tasks(session,c_skill[skill_x])
-                responses = await asyncio.gather(*to_do)
-                for response in responses:
-                    data = await response.json()
-                    if data != [] :
-                        for fdata in data :
-                            player_name = fdata["name"]
-                            if player_name.lower() == name :
-                                rname = player_name
-                                break
-                            else:
-                                continue
-                    elif data == [] :
-                        break
+            if not found:
+                async with aiohttp.ClientSession() as session:
+                    to_do = self.get_tasks(session,c_skill[skill_x])
+                    responses = await asyncio.gather(*to_do)
+                    for response in responses:
+                        data = await response.json()
+                        if data != [] :
+                            for fdata in data :
+                                player_name = fdata["name"]
+                                if player_name.lower() == name :
+                                    rname = player_name
+                                    break
+                                else:
+                                    continue
+                        elif data == [] :
+                            break
+            elif found :
+                break
         return rname
 
     async def update_player(self,name):
         updated = False
-        c_skill = ["",'-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking']
-        c_xp = ['combat_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp']
-        member_temp = { 'ign' : 'name' , 'combat_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'total': 0}
+        c_skill = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
+        c_xp = ['melee_xp','magic_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
+        member_temp = { 'ign' : 'name' , 'melee_xp' : 0  , 'magic_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'tailoring_xp' : 0 , 'total': 0}
         member_temp['ign']=name
         for skill_x in range(7):
             async with aiohttp.ClientSession() as session:
@@ -491,8 +491,9 @@ class Ranking(interactions.Extension):
         for player in log:
             if player.lower() == player_name.lower():
                 self.delete_reg[str(ctx.author.user.username)]=player
+                player_name = player
                 exist = True
-                await ctx.edit(f"found player {player_name}\nWanna add him/her to event database ?",components=self.delete_row)
+                await ctx.edit(f"found player {player_name}\nWanna delete him/her from event database ?",components=self.delete_row)
                 break
             else :
                 pass
