@@ -31,121 +31,6 @@ skill_afx = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-craftin
 skills = ['melee','magic','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking','tailoring']
 
 
-
-
-first_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="⏪", 
-                custom_id="first_button", )               
-backward_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="◀", 
-                custom_id="backward_button", )
-stop_b = Button(
-                style=ButtonStyle.DANGER, 
-                label="◼",
-                custom_id="stop_button", )
-forward_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="▶", 
-                custom_id="forward_button", )
-last_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="⏩", 
-                custom_id="last_button", )
-b_row = ActionRow(
-                components=[
-                            first_b,
-                            backward_b,
-                            stop_b,
-                            forward_b,
-                            last_b
-                            ]
-                )
-
-
-g_first_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="⏪", 
-                custom_id="g_first_button", )               
-g_backward_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="◀", 
-                custom_id="g_backward_button", )
-g_stop_b = Button(
-                style=ButtonStyle.DANGER, 
-                label="◼",
-                custom_id="g_stop_button", )
-g_forward_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="▶", 
-                custom_id="g_forward_button", )
-g_last_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="⏩", 
-                custom_id="g_last_button", )
-g_b_row = ActionRow(
-                components=[
-                            g_first_b,
-	                        g_backward_b,
-	                        g_stop_b,
-	                        g_forward_b,
-	                        g_last_b
-                            ]
-                )
-
-
-add_row = ActionRow(
-                components=[
-                            Button(
-                                style=ButtonStyle.PRIMARY, 
-                                label="Yes", 
-                                custom_id="add_yes_button", 
-                                    ),
-	                        Button(
-                                style=ButtonStyle.DANGER, 
-                                label="No", 
-                                custom_id="add_no_button", 
-                                    )
-                            ]
-                )
-
-delete_row = ActionRow(
-                components=[
-                            Button(
-                                style=ButtonStyle.PRIMARY, 
-                                label="Yes", 
-                                custom_id="delete_yes_button", 
-                                    ),
-	                        Button(
-                                style=ButtonStyle.DANGER, 
-                                label="No", 
-                                custom_id="delete_no_button", 
-                                    )
-                            ]
-                )
-
-txt = it.TextInput(
-    style=it.TextStyleType.PARAGRAPH,
-    label="Why you chosed our guild among the others ?",
-    custom_id="join_reason",
-    min_length=3,
-    max_length=900,
-)
-txt2 = it.TextInput(
-    style=it.TextStyleType.PARAGRAPH,
-    label="Explain your sense of humor : ",
-    custom_id="humore_sense",
-    min_length=3,
-    max_length=900,
-)
-
-tt_b = Button(
-                style=ButtonStyle.PRIMARY, 
-                label="update id", 
-                custom_id="tt_b", )
-
-
 l_first_b = Button(
                 style=ButtonStyle.PRIMARY, 
                 label="⏪", 
@@ -168,49 +53,24 @@ l_last_b = Button(
                 custom_id="l_last_button", )
 l_b_row = ActionRow(
                 components=[
-                          l_first_b,
-                          l_backward_b,
-                          l_stop_b,
-                          l_forward_b,
-                          l_last_b
+                            l_first_b,
+                            l_backward_b,
+                            l_stop_b,
+                            l_forward_b,
+                            l_last_b
                             ]
                 )
 
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
 bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.me.name} !")
     print(f"ping : {round(bot.latency)} ms")
 
-@bot.command(
-    name="add",
-    description="added the note",
-    scope=839662151010353172,
-)
-async def add(ctx: it.CommandContext):
-    modal = it.Modal(
-        title="New note",
-        custom_id="New_note",
-        components=[
-            it.TextInput(
-                style=it.TextStyleType.SHORT,
-                label="Note_name(no duplicates)",
-                custom_id="Note_content",
-                min_length=1,
-            ),
-            it.TextInput(
-                style=it.TextStyleType.PARAGRAPH,
-                label="The note content",
-                custom_id="Note_content",
-                min_length=1,
-            )
-        ],
-    )
-    await ctx.popup(modal)
 
 @bot.command(
             name="leagues",
