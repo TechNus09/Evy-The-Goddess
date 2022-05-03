@@ -394,25 +394,28 @@ class Ranking(interactions.Extension):
         scope=839662151010353172
     )
     async def start(self,ctx:CC):
-        _logs = {}
-        await ctx.defer()
-        await ctx.send("logging members xp ... ")
+        if int(ctx.author.permissions) & 8:
+            _logs = {}
+            await ctx.defer()
+            await ctx.send("logging members xp ... ")
 
-        _logs = asyncio.run(self.initLog("OwO"))
-        if os.path.exists("data.json"):
-            print("file exist")
-            os.remove("data.json")
-            print("file removed")
-        else:
-            await ctx.edit("logging failed.")
-        logging = self.create_file(_logs)
-        if logging:
-            await ctx.edit("Logging finished.\Saving to DB")
-            _updated = update("0000",self.jsing(_logs))
-            if _updated:
-                await ctx.edit("Saved.")
+            _logs = asyncio.run(self.initLog("OwO"))
+            if os.path.exists("data.json"):
+                print("file exist")
+                os.remove("data.json")
+                print("file removed")
             else:
-                await ctx.edit("Saving failed.")
+                await ctx.edit("logging failed.")
+            logging = self.create_file(_logs)
+            if logging:
+                await ctx.edit("Logging finished.\Saving to DB")
+                _updated = update("0000",self.jsing(_logs))
+                if _updated:
+                    await ctx.edit("Saved.")
+                else:
+                    await ctx.edit("Saving failed.")
+        else:
+            await ctx.send("you dont have the power",ephemeral=True)
 
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
@@ -446,23 +449,26 @@ class Ranking(interactions.Extension):
                                     ),  
                         ],		)
     async def add_player(self,ctx:CC,player_name:str):
-        exist = False
-        await ctx.send(f'checking if {player_name} exist ...')
-        log = retrieve('0000')
-        for player in log:
-            if player.lower() == player_name.lower():
-                exist = True
-                await ctx.edit(f"{player} already exist in database")
-                break
-            else :
-                pass
-        if not exist:
-            name = asyncio.run(self.check_name(player_name.lower()))
-            if name == 'none':
-                await ctx.edit(f"Player {name} not found.\nMake sure the pronounciation is correct.")
-            else :
-                self.add_reg[str(ctx.user.username)]=name
-                await ctx.edit(f"found player {name}\nWanna add him/her to event database ?",components=self.add_row)
+        if int(ctx.author.permissions) & 8:
+            exist = False
+            await ctx.send(f'checking if {player_name} exist ...')
+            log = retrieve('0000')
+            for player in log:
+                if player.lower() == player_name.lower():
+                    exist = True
+                    await ctx.edit(f"{player} already exist in database")
+                    break
+                else :
+                    pass
+            if not exist:
+                name = asyncio.run(self.check_name(player_name.lower()))
+                if name == 'none':
+                    await ctx.edit(f"Player {name} not found.\nMake sure the pronounciation is correct.")
+                else :
+                    self.add_reg[str(ctx.user.username)]=name
+                    await ctx.edit(f"found player {name}\nWanna add him/her to event database ?",components=self.add_row)
+        else:
+            await ctx.send("you don't have the power",ephemeral=True)
 
     @interactions.extension_command(   name="delete_player",
                     description="delete player  the event database",
@@ -476,59 +482,73 @@ class Ranking(interactions.Extension):
                                     ),  
                         ],		)
     async def delete_player(self,ctx:CC,player_name:str):
-        await ctx.send(f'checking if {player_name} exist ...')
-        log = retrieve('0000')
-        exist = False
-        for player in log:
-            if player.lower() == player_name.lower():
-                self.delete_reg[str(ctx.author.user.username)]=player
-                player_name = player
-                exist = True
-                await ctx.edit(f"found player {player_name}\nWanna delete him/her from event database ?",components=self.delete_row)
-                break
-            else :
-                pass
-        if not exist :
-            await ctx.edit(f"Player {player_name} not found.\nMake sure the pronounciation is correct.")
+        if int(ctx.author.permissions) & 8:
+            await ctx.send(f'checking if {player_name} exist ...')
+            log = retrieve('0000')
+            exist = False
+            for player in log:
+                if player.lower() == player_name.lower():
+                    self.delete_reg[str(ctx.author.user.username)]=player
+                    player_name = player
+                    exist = True
+                    await ctx.edit(f"found player {player_name}\nWanna delete him/her from event database ?",components=self.delete_row)
+                    break
+                else :
+                    pass
+            if not exist :
+                await ctx.edit(f"Player {player_name} not found.\nMake sure the pronounciation is correct.")
+        else:
+            await ctx.send("you don't have the power")
 
     @interactions.extension_component("add_yes_button")
     async def add_yes(self,ctx:CPC):
-        update = False
-        player_name = self.add_reg[ctx.user.username]
-        self.add_reg.pop(str(ctx.author.user.username))
-        await ctx.edit(f"adding player {player_name} ....",components=[])
-        update = self.update_player(player_name)
-        if update :
-            await ctx.edit(f"player {player_name} added/resetted successfully")
+        if int(ctx.user.permissions) & 8:
+            update = False
+            player_name = self.add_reg[ctx.user.username]
+            self.add_reg.pop(str(ctx.author.user.username))
+            await ctx.edit(f"adding player {player_name} ....",components=[])
+            update = self.update_player(player_name)
+            if update :
+                await ctx.edit(f"player {player_name} added/resetted successfully")
+            else:
+                await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+            self.add_reg.pop(str(ctx.author.user.username))
         else:
-            await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
-        self.add_reg.pop(str(ctx.author.user.username))
+            await ctx.send("you don't have th power")
 
     @interactions.extension_component("add_no_button")
     async def add_no(self,ctx:CPC):
-        player_name = self.add_reg[ctx.user.username]
-        self.add_reg.pop(str(ctx.author.user.username))
-        await ctx.edit(f"you canceled adding player {player_name} ",components=[])
+        if int(ctx.user.permissions) & 8:
+            player_name = self.add_reg[ctx.user.username]
+            self.add_reg.pop(str(ctx.author.user.username))
+            await ctx.edit(f"you canceled adding player {player_name} ",components=[])
+        else:
+            await ctx.send("you don't have the power")
 
     @interactions.extension_component("delete_yes_button")
     async def delete_yes(self,ctx:CPC):
-        player_name = self.delete_reg[str(ctx.author.user.username)]    
-        self.delete_reg.pop(str(ctx.author.user.username))
-        await ctx.edit(f"deleting player {player_name} ....",components=[])
-        log = retrieve('0000')
-        log.pop(player_name)
-        state = update('0000',log)
-        if state :
-            await ctx.edit(f"player {player_name} deleted successfully")
+        if int(ctx.user.permissions) & 8:
+            player_name = self.delete_reg[str(ctx.author.user.username)]    
+            self.delete_reg.pop(str(ctx.author.user.username))
+            await ctx.edit(f"deleting player {player_name} ....",components=[])
+            log = retrieve('0000')
+            log.pop(player_name)
+            state = update('0000',log)
+            if state :
+                await ctx.edit(f"player {player_name} deleted successfully")
+            else:
+                await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
         else:
-            await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
+            await ctx.send("you don't have the power")
 
     @interactions.extension_component("delete_no_button")
     async def delete_no(self,ctx:CPC):
-        player_name = self.delete_reg[str(ctx.author.user.username)]
-        self.delete_reg.pop(str(ctx.author.user.username))
-        await ctx.edit(f"you canceled deleting player {player_name} ",components=[])
-
+        if int(ctx.user.permissions) & 8:
+            player_name = self.delete_reg[str(ctx.author.user.username)]
+            self.delete_reg.pop(str(ctx.author.user.username))
+            await ctx.edit(f"you canceled deleting player {player_name} ",components=[])
+        else:
+            await ctx.send("you don't have the power")
 
 
     @interactions.extension_command(
