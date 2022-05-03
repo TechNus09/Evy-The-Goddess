@@ -389,10 +389,10 @@ class Ranking(interactions.Extension):
 
 
     @interactions.extension_command(
-        name="start",
-        description="Initialize logging members' xp for current event",
-        scope=839662151010353172
-    )
+                                    name="start",
+                                    description="Initialize logging members' xp for current event",
+                                    scope=[839662151010353172,869611702042378250],
+                                    )
     async def start(self,ctx:CC):
         if int(ctx.author.permissions) & 8:
             _logs = {}
@@ -439,7 +439,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(   name="add_player",
                     description="add new player to the event database or reset an existing player progress",
-                    scope=839662151010353172,
+                    scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
@@ -472,7 +472,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(   name="delete_player",
                     description="delete player  the event database",
-                    scope=839662151010353172,
+                    scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
