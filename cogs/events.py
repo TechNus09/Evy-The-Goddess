@@ -498,7 +498,7 @@ class Ranking(interactions.Extension):
             if not exist :
                 await ctx.edit(f"Player {player_name} not found.\nMake sure the pronounciation is correct.")
         else:
-            await ctx.send("you don't have the power")
+            await ctx.send("you don't have the power",ephemeral=True)
 
     @interactions.extension_component("add_yes_button")
     async def add_yes(self,ctx:CPC):
@@ -514,7 +514,7 @@ class Ranking(interactions.Extension):
                 await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
             self.add_reg.pop(str(ctx.author.user.username))
         else:
-            await ctx.send("you don't have th power")
+            await ctx.send("you don't have th power",ephemeral=True)
 
     @interactions.extension_component("add_no_button")
     async def add_no(self,ctx:CPC):
@@ -523,7 +523,7 @@ class Ranking(interactions.Extension):
             self.add_reg.pop(str(ctx.author.user.username))
             await ctx.edit(f"you canceled adding player {player_name} ",components=[])
         else:
-            await ctx.send("you don't have the power")
+            await ctx.send("you don't have the power",ephemeral=True)
 
     @interactions.extension_component("delete_yes_button")
     async def delete_yes(self,ctx:CPC):
@@ -539,7 +539,7 @@ class Ranking(interactions.Extension):
             else:
                 await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
         else:
-            await ctx.send("you don't have the power")
+            await ctx.send("you don't have the power",ephemeral=True)
 
     @interactions.extension_component("delete_no_button")
     async def delete_no(self,ctx:CPC):
@@ -548,33 +548,33 @@ class Ranking(interactions.Extension):
             self.delete_reg.pop(str(ctx.author.user.username))
             await ctx.edit(f"you canceled deleting player {player_name} ",components=[])
         else:
-            await ctx.send("you don't have the power")
+            await ctx.send("you don't have the power",ephemeral=True)
 
 
     @interactions.extension_command(
-                name="gains",
-                description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
-                options=[
-                        it.Option(
-                                name="skill",
-                                description="The Leaderboard Skill",
-                                type=it.OptionType.STRING,
-                                required=True,
-                                choices=[
-                                        it.Choice(name="Total",value="total"),
-                                        it.Choice(name="Melee",value="melee"),
-                                        it.Choice(name="Magic",value="magic"),
-                                        it.Choice(name="Mining",value="mining"),
-                                        it.Choice(name="Smithing",value="smithing"),
-                                        it.Choice(name="Woodcutting",value="woodcutting"),
-                                        it.Choice(name="Crafting",value="crafting"),              
-                                        it.Choice(name="Fishing",value="fishing"),
-                                        it.Choice(name="Cooking",value="cooking"),
-                                        it.Choice(name="Tailoring",value="tailoring"),
-                                        ],
-                                    ),  
-                        ],		
-                )
+                    name="gains",
+                    description="Show Guild's Leaderboard In (Total/Specific Skill)'s Xp Gain",
+                    options=[
+                            it.Option(
+                                    name="skill",
+                                    description="The Leaderboard Skill",
+                                    type=it.OptionType.STRING,
+                                    required=True,
+                                    choices=[
+                                            it.Choice(name="Total",value="total"),
+                                            it.Choice(name="Melee",value="melee"),
+                                            it.Choice(name="Magic",value="magic"),
+                                            it.Choice(name="Mining",value="mining"),
+                                            it.Choice(name="Smithing",value="smithing"),
+                                            it.Choice(name="Woodcutting",value="woodcutting"),
+                                            it.Choice(name="Crafting",value="crafting"),              
+                                            it.Choice(name="Fishing",value="fishing"),
+                                            it.Choice(name="Cooking",value="cooking"),
+                                            it.Choice(name="Tailoring",value="tailoring"),
+                                            ],
+                                        ),  
+                            ],		
+                    )
     async def gains(self,ctx:CC,skill:str):
         print("/gains")
         await ctx.defer()
