@@ -502,7 +502,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_component("add_yes_button")
     async def add_yes(self,ctx:CPC):
-        if int(ctx.user.permissions) & 8:
+        if int(ctx.member.permissions) & 8:
             update = False
             player_name = self.add_reg[ctx.user.username]
             self.add_reg.pop(str(ctx.author.user.username))
@@ -518,7 +518,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_component("add_no_button")
     async def add_no(self,ctx:CPC):
-        if int(ctx.user.permissions) & 8:
+        if int(ctx.member.permissions) & 8:
             player_name = self.add_reg[ctx.user.username]
             self.add_reg.pop(str(ctx.author.user.username))
             await ctx.edit(f"you canceled adding player {player_name} ",components=[])
@@ -527,7 +527,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_component("delete_yes_button")
     async def delete_yes(self,ctx:CPC):
-        if int(ctx.user.permissions) & 8:
+        if int(ctx.member.permissions) & 8:
             player_name = self.delete_reg[str(ctx.author.user.username)]    
             self.delete_reg.pop(str(ctx.author.user.username))
             await ctx.edit(f"deleting player {player_name} ....",components=[])
@@ -543,7 +543,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_component("delete_no_button")
     async def delete_no(self,ctx:CPC):
-        if int(ctx.user.permissions) & 8:
+        if int(ctx.member.permissions) & 8:
             player_name = self.delete_reg[str(ctx.author.user.username)]
             self.delete_reg.pop(str(ctx.author.user.username))
             await ctx.edit(f"you canceled deleting player {player_name} ",components=[])
