@@ -61,9 +61,39 @@ l_b_row = ActionRow(
                             ]
                 )
 
+first_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏪", 
+                custom_id="first_button", )               
+backward_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="◀", 
+                custom_id="backward_button", )
+stop_b = Button(
+                style=ButtonStyle.DANGER, 
+                label="◼",
+                custom_id="stop_button", )
+forward_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="▶", 
+                custom_id="forward_button", )
+last_b = Button(
+                style=ButtonStyle.PRIMARY, 
+                label="⏩", 
+                custom_id="last_button", )
+b_row = ActionRow(
+                components=[
+                            first_b,
+                            backward_b,
+                            stop_b,
+                            forward_b,
+                            last_b
+                            ]
+                )
+
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=True)
 #logging.basicConfig(level=logging.DEBUG)
 
 @bot.event
@@ -197,27 +227,27 @@ async def l_stop_response(ctx:CPC):
                     it.Option(
                             name="skill",
                             description="The Leaderboard Skill",
-             		        type=it.OptionType.STRING,
-             		        required=True,
-             		        choices=[
-             			        it.Choice(name="Total",value="total"),
-                	                it.Choice(name="Melee",value="melee"),
+                            type=it.OptionType.STRING,
+                            required=True,
+                            choices=[
+                                    it.Choice(name="Total",value="total"),
+                                    it.Choice(name="Melee",value="melee"),
                                     it.Choice(name="Magic",value="magic"),
-            	                    it.Choice(name="Mining",value="mining"),
-           	                        it.Choice(name="Smithing",value="smithing"),
-             	                    it.Choice(name="Woodcutting",value="woodcutting"),
-           	                        it.Choice(name="Crafting",value="crafting"),              
-             	                    it.Choice(name="Fishing",value="fishing"),
-           	                        it.Choice(name="Cooking",value="cooking"),
+                                    it.Choice(name="Mining",value="mining"),
+                                    it.Choice(name="Smithing",value="smithing"),
+                                    it.Choice(name="Woodcutting",value="woodcutting"),
+                                    it.Choice(name="Crafting",value="crafting"),              
+                                    it.Choice(name="Fishing",value="fishing"),
+                                    it.Choice(name="Cooking",value="cooking"),
                                     it.Choice(name="Tailoring",value="tailoring"),
-             	                    ],
-              	              	),
-              	    it.Option(
-              	       	    name="tag",
-              	       	    description="Guild Tag To Look For",
-              	       	    type=it.OptionType.STRING,
-              	       	    required=True,
-              	       	    ),   
+                                    ],
+                            ),
+                    it.Option(
+                                name="tag",
+                                description="Guild Tag To Look For",
+                                type=it.OptionType.STRING,
+                                required=True,
+                                ),   
                     ],		
             )
 async def guildlb(ctx:CC,skill:str,tag:str):
@@ -323,17 +353,6 @@ bot.load("cogs.events")
 print("events loaded")
 
 bot.start()
-
-
-
-
-#async def start():
-#    print("start")
-#    await asyncio.gather(
-#        client.start(os.getenv("TOKEN")),
-#        bot._ready()
-#    )
-#asyncio.run(start())
 
 
 
