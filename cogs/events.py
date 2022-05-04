@@ -419,6 +419,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
+                                    scope=[869611702042378250,839662151010353172]
                                     )
     async def logs(self,ctx:CC):
         print("/logs")
@@ -573,7 +574,8 @@ class Ranking(interactions.Extension):
                                             it.Choice(name="Tailoring",value="tailoring"),
                                             ],
                                         ),  
-                            ],		
+                            ],	
+                    scope=[869611702042378250,839662151010353172]
                     )
     async def gains(self,ctx:CC,skill:str):
         print("/gains")

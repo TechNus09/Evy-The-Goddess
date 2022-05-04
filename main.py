@@ -93,7 +93,7 @@ b_row = ActionRow(
 
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=True)
 #
 #logging.basicConfig(level=logging.DEBUG)
 
@@ -105,7 +105,8 @@ async def on_ready():
 
 @bot.command(
             name="leagues",
-            description="Show members devided into leagues based on their xp"
+            description="Show members devided into leagues based on their xp",
+            scope=[869611702042378250,839662151010353172]
             )        
 async def leagues(ctx:CC):
     await ctx.defer()
@@ -249,7 +250,8 @@ async def l_stop_response(ctx:CPC):
                                 type=it.OptionType.STRING,
                                 required=True,
                                 ),   
-                    ],		
+                    ],	
+            scope=[869611702042378250,839662151010353172]
             )
 async def guildlb(ctx:CC,skill:str,tag:str):
     await ctx.defer()
