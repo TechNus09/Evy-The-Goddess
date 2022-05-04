@@ -391,7 +391,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
                                     name="start",
                                     description="Initialize logging members' xp for current event",
-                                    scope=[839662151010353172,869611702042378250,922854662141526037],
+                                    scope=[839662151010353172,869611702042378250],
                                     )
     async def start(self,ctx:CC):
         if int(ctx.author.permissions) & 8:
@@ -439,7 +439,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(   name="add_player",
                     description="add new player to the event database or reset an existing player progress",
-                    scope=[839662151010353172,869611702042378250,922854662141526037],
+                    scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
@@ -472,7 +472,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(   name="delete_player",
                     description="delete player  the event database",
-                    scope=[839662151010353172,869611702042378250,922854662141526037],
+                    scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
@@ -511,10 +511,10 @@ class Ranking(interactions.Extension):
             if update :
                 await ctx.edit(f"player {player_name} added/resetted successfully")
             else:
-                await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+                await ctx.edit(f"an error happened while adding {player_name}.\ntry again or later")
             self.add_reg.pop(str(ctx.author.user.username))
         else:
-            await ctx.send("you don't have th power",ephemeral=True)
+            await ctx.send("you don't have the power",ephemeral=True)
 
     @interactions.extension_component("add_no_button")
     async def add_no(self,ctx:CPC):
@@ -537,7 +537,7 @@ class Ranking(interactions.Extension):
             if state :
                 await ctx.edit(f"player {player_name} deleted successfully")
             else:
-                await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
+                await ctx.edit(f"an error happened while deleting {player_name}.\ntry again or later")
         else:
             await ctx.send("you don't have the power",ephemeral=True)
 
