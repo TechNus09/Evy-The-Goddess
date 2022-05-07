@@ -438,9 +438,10 @@ class Ranking(interactions.Extension):
             else:
                 await ctx.edit("an error happened while creating file")
 
-    @interactions.extension_command(   name="add_player",
+    @interactions.extension_command(   
+                    name="add_player",
                     description="add new player to the event database or reset an existing player progress",
-                    scope=[839662151010353172,869611702042378250],
+                    #scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
@@ -448,7 +449,9 @@ class Ranking(interactions.Extension):
                                 type=it.OptionType.STRING,
                                 required=True,
                                     ),  
-                        ],		)
+                            ],	
+                    scope=[869611702042378250,839662151010353172]
+                        )
     async def add_player(self,ctx:CC,player_name:str):
         if int(ctx.author.permissions) & 8:
             exist = False
@@ -471,9 +474,10 @@ class Ranking(interactions.Extension):
         else:
             await ctx.send("you don't have the power",ephemeral=True)
 
-    @interactions.extension_command(   name="delete_player",
+    @interactions.extension_command(   
+                    name="delete_player",
                     description="delete player  the event database",
-                    scope=[839662151010353172,869611702042378250],
+                    #scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
@@ -481,7 +485,9 @@ class Ranking(interactions.Extension):
                                 type=it.OptionType.STRING,
                                 required=True,
                                     ),  
-                        ],		)
+                            ],	
+                    scope=[869611702042378250,839662151010353172]
+                        )
     async def delete_player(self,ctx:CC,player_name:str):
         if int(ctx.author.permissions) & 8:
             await ctx.send(f'checking if {player_name} exist ...')
