@@ -477,7 +477,6 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(   
                     name="delete_player",
                     description="delete player  the event database",
-                    #scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
