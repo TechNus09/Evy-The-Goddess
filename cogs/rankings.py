@@ -191,9 +191,6 @@ class Ranking(interactions.Extension):
 
 
 
-== 
-
-
 
 def setup(client:Client):
     Ranking(client)
