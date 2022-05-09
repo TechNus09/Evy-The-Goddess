@@ -80,6 +80,7 @@ class Ranking(interactions.Extension):
         """create a log with all guilds and their total xp (top 100k players in each skill)"""
         skills_log = {}
         _skill_log = {}
+        _total_log = {}
         c_skill = ['melee','magic','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking','tailoring']
         for skill_x in range(9):
             #connector = aiohttp.TCPConnector(limit=80)
@@ -95,14 +96,22 @@ class Ranking(interactions.Extension):
                             if len(tag) in range(2,6):
                                 xp = fdata["xp"]
                                 tag = tag.upper()
-                                if tag in skill_log:
+                                
+                                if tag in _skill_log:
                                     _skill_log[tag] += xp 
                                 else:
                                     _skill_log[tag] = xp
+                                    
+                                if tag in _total_log:
+                                    _total_log[tag] += xp 
+                                else:
+                                    _total_log[tag] = xp 
+                                    
                     elif data == []:
                         break
             skills_log[Ranking.skills[skill_x]]=_skill_log
             _skill_log.clear()
+        skills_log["total"] = _total_log
         return skills_log
 
     def listify(self,entities_dict:dict) -> list:
@@ -181,7 +190,8 @@ class Ranking(interactions.Extension):
         _ordered_results = {}
         
         if skill == "total":
-            results = asyncio.run(self.search_total())
+            results0 = asyncio.run(self.search_total())
+            results = results0["total"]
         else:
             results = asyncio.run(self.search(skill.lower()))
             
