@@ -105,23 +105,24 @@ class Ranking(interactions.Extension):
             _skill_log.clear()
         return skills_log
 
-    def listify(self,log:dict):
+    def listify(self,entities_dict:dict) -> list:
         """convert {key,value} dict in 'key -- value' string"""
-        members_sorted = []
-        for key, value in log.items():
+        entities_list = []
+        for key, value in entities_dict.items():
             entity = key + " -- " + "{:,}".format(value) 
-            members_sorted.append(entity)
-        return members_sorted
+            entities_list.append(entity)
+        return entities_list
         
-    def order_dict(self,dic:dict) -> dict:
+    def order_dict(self,unordered_dict:dict) -> dict:
         """order a given dictionnary"""
-        dic = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1],reverse=True)}
+        _ordered_dict = {k: v for k, v in sorted(unordered_dict.items(), key=lambda item: item[1],reverse=True)}
+        return _ordered_dict
         
     def embed_maker(self,result:list,ranks:int,skill:str):
         """make guild ranking embed in specific skill with certain count"""
         fields_list = []
         for i in range(ranks):
-            rank = ranks + 1
+            rank = i + 1
             field = it.EmbedField(name=f"Rank#{rank}", value=result[i])
             fields_list.append(field)
         ranking_embed = it.Embed(
@@ -183,8 +184,8 @@ class Ranking(interactions.Extension):
         else:
             results = asyncio.run(self.search(skill.lower()))
             
-        self.order_dict(results)
-        _guilds_list = self.listify(results)
+        _ordered_results = self.order_dict(results)
+        _guilds_list = self.listify(_ordered_results)
         _embed = self.embed_maker(_guilds_list,int(ranks),skill)
                     
         await ctx.edit("Finished !",embeds=_embed)
