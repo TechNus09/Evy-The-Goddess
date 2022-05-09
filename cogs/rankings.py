@@ -178,6 +178,7 @@ class Ranking(interactions.Extension):
         await ctx.defer()
         await ctx.send(f"Fetching {skill.capitalize()} Xp ... ")
         results = []
+        _ordered_results = {}
         
         if skill == "total":
             results = asyncio.run(self.search_total())
