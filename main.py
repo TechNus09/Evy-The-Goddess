@@ -354,6 +354,8 @@ async def stop_response(ctx:CPC):
 
 bot.load("cogs.events")
 print("events loaded")
+bot.load("cogs.rankings")
+print("rankings loaded")
 
 bot.start()
 

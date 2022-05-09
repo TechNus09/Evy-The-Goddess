@@ -14,7 +14,7 @@ from db_helper import *
 import psycopg2
 from settings.config import chosen_skill
 
-class Ranking(interactions.Extension):
+class Event(interactions.Extension):
 
     skill_afx = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
     skills = ['melee','magic','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking','tailoring']
@@ -111,7 +111,7 @@ class Ranking(interactions.Extension):
         c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
-            to_do = self.get_tasks(session, c_skill[Ranking.skillsdic.index(skill_name)])
+            to_do = self.get_tasks(session, c_skill[Event.skillsdic.index(skill_name)])
             responses = await asyncio.gather(*to_do)
             for response in responses:
                 data = await response.json()
@@ -122,12 +122,12 @@ class Ranking(interactions.Extension):
                         xp = fdata["xp"]                  
                         if player_name in members:
                             if player_name in name_list:
-                                event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
+                                event_log[player_name][c_xp[Event.skillsdic.index(skill_name)]]=xp
                             else:
                                 name_list.append(player_name)
                                 event_log[player_name]=member_temp
                                 event_log[player_name]["ign"] = player_name
-                                event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
+                                event_log[player_name][c_xp[Event.skillsdic.index(skill_name)]]=xp
                 elif data == []:
                     pass
         print("search "+skill_name+" done")
@@ -143,7 +143,7 @@ class Ranking(interactions.Extension):
             print(c_skill[skill_x])
             #connector = aiohttp.TCPConnector(limit=80)
             async with aiohttp.ClientSession() as session :
-                to_do = self.get_tasks(session, Ranking.skill_afx[skill_x])
+                to_do = self.get_tasks(session, Event.skill_afx[skill_x])
                 responses = await asyncio.gather(*to_do)
                 for response in responses:
                     data = await response.json()
@@ -722,5 +722,5 @@ class Ranking(interactions.Extension):
 
 
 
-def setup(client : Client):
-    Ranking(client)
+def setup(client:Client):
+    Event(client)
