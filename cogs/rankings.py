@@ -179,9 +179,9 @@ class Ranking(interactions.Extension):
         results = []
         
         if skill == "total":
-            results = asyncio.run(search_total())
+            results = asyncio.run(self.search_total())
         else:
-            results = asyncio.run(search(skill))
+            results = asyncio.run(self.search(skill.lower()))
             
         self.order_dict(results)
         _guilds_list = self.listify(results)
@@ -191,7 +191,7 @@ class Ranking(interactions.Extension):
 
 
 
-
+== 
 
 
 
