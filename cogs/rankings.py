@@ -165,15 +165,13 @@ class Ranking(interactions.Extension):
                                             it.Option(
                                                 name="ranks",
                                                 description="How many guilds to show \nshould be in [1 - 25], default to 10",
-                                                type=it.OptionType.INTEGER,
-                                                min_value=1,
-                                                max_value=25,
+                                                type=it.OptionType.STRING,
                                                 required=True
                                                       )
                                             ],	
                                     scope=[869611702042378250,839662151010353172]
                                     )
-    async def guilds(ctx:CC,skill:str,ranks:int):
+    async def guilds(ctx:CC,skill:str,ranks:str):
         await ctx.defer()
         await ctx.send(f"Fetching {skill.capitalize()} Xp ... ")
         results = []
