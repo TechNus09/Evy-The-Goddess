@@ -165,7 +165,7 @@ class Ranking(interactions.Extension):
                                             it.Option(
                                                 name="ranks",
                                                 description="How many guilds to show \nshould be in [1 - 25], default to 10",
-                                                type=it.OptionType.INTIGER,
+                                                type=it.OptionType.INTEGER,
                                                 min_value=1,
                                                 max_value=25,
                                                 required=False
