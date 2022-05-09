@@ -160,7 +160,7 @@ class Ranking(interactions.Extension):
                                                         it.Choice(name="Fishing",value="fishing"),
                                                         it.Choice(name="Cooking",value="cooking"),
                                                         it.Choice(name="Tailoring",value="tailoring"),
-                                                        ]
+                                                        ],
                                                     ),
                                             it.option=(
                                                 name="ranks",
@@ -168,7 +168,7 @@ class Ranking(interactions.Extension):
                                                 type=it.OptionType.INTIGER,
                                                 min_value=1,
                                                 max_value=25,
-                                                required=False
+                                                required=False,
                                                       ),
                                             ],	
                                     scope=[869611702042378250,839662151010353172]
