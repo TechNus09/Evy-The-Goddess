@@ -162,16 +162,17 @@ class Ranking(interactions.Extension):
                                                         it.Choice(name="Tailoring",value="tailoring")
                                                         ]
                                                     ),
-                                            it.Option(
-                                                name="ranks",
-                                                description="How many guilds to show \nshould be in [1 - 25], default to 10",
-                                                type=it.OptionType.STRING,
-                                                required=True
-                                                      )
+                                            #it.Option(
+                                            #    name="ranks",
+                                            #    description="How many guilds to show \nshould be in [1 - 25], default to 10",
+                                            #    type=it.OptionType.STRING,
+                                            #    required=True
+                                            #          )
                                             ],	
                                     scope=[869611702042378250,839662151010353172]
                                     )
-    async def guilds(ctx:CC,skill:str,ranks:str):
+    async def guilds(ctx:CC,skill:str):
+        ranks = 10
         await ctx.defer()
         await ctx.send(f"Fetching {skill.capitalize()} Xp ... ")
         results = []
