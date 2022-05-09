@@ -185,7 +185,7 @@ class Ranking(interactions.Extension):
             
         self.order_dict(results)
         _guilds_list = self.listify(results)
-        _embed = self.embed_maker(_guild_list,int(ranks),skill)
+        _embed = self.embed_maker(_guilds_list,int(ranks),skill)
                     
         await ctx.edit("Finished !",embeds=_embed)
 
