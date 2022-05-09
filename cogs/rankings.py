@@ -113,7 +113,7 @@ class Ranking(interactions.Extension):
             members_sorted.append(entity)
         return members_sorted
         
-    def order_dict(dic:dict): -> dict
+    def order_dict(dic:dict): -> dict:
         """order a given dictionnary"""
         dic = {k: v for k, v in sorted(dic.items(), key=lambda item: item[1],reverse=True)}
         
