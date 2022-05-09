@@ -162,7 +162,7 @@ class Ranking(interactions.Extension):
                                                         it.Choice(name="Tailoring",value="tailoring"),
                                                         ],
                                                     ),
-                                            it.option=(
+                                            it.Option=(
                                                 name="ranks",
                                                 description="How many guilds to show \nshould be in [1 - 25], default to 10",
                                                 type=it.OptionType.INTIGER,
