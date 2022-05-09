@@ -159,7 +159,7 @@ class Ranking(interactions.Extension):
                                                         it.Choice(name="Crafting",value="crafting"),              
                                                         it.Choice(name="Fishing",value="fishing"),
                                                         it.Choice(name="Cooking",value="cooking"),
-                                                        it.Choice(name="Tailoring",value="tailoring"),
+                                                        it.Choice(name="Tailoring",value="tailoring")
                                                         ]
                                                     ),
                                             it.Option(
@@ -168,12 +168,12 @@ class Ranking(interactions.Extension):
                                                 type=it.OptionType.INTEGER,
                                                 min_value=1,
                                                 max_value=25,
-                                                required=False
+                                                required=True
                                                       )
                                             ],	
                                     scope=[869611702042378250,839662151010353172]
                                     )
-    async def guilds(ctx:CC,skill:str,ranks=10):
+    async def guilds(ctx:CC,skill:str,ranks:int):
         await ctx.defer()
         await ctx.send(f"Fetching {skill.capitalize()} Xp ... ")
         results = []
