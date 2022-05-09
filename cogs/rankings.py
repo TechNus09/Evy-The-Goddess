@@ -101,7 +101,7 @@ class Ranking(interactions.Extension):
                                     _skill_log[tag] = xp
                     elif data == []:
                         break
-            skills_log[Ranking.skills[skill_x]=_skill_log
+            skills_log[Ranking.skills[skill_x]]=_skill_log
             _skill_log.clear()
         return skills_log
 
