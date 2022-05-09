@@ -169,8 +169,8 @@ class Ranking(interactions.Extension):
                                                 min_value=1,
                                                 max_value=25,
                                                 required=False
-                                                      )
-                                        ],	
+                                                      ),
+                                            ],	
                                     scope=[869611702042378250,839662151010353172]
              
                                     )
