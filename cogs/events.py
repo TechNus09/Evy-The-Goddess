@@ -381,7 +381,8 @@ class Event(interactions.Extension):
                         break
         log = retrieve('0000')
         log[name]=member_temp
-        updated = update('0000',log)
+        _log = self.jsing(log)
+        updated = update('0000',_log)
         return updated
 
 
@@ -539,7 +540,8 @@ class Event(interactions.Extension):
             await ctx.edit(f"deleting player {player_name} ....",components=[])
             log = retrieve('0000')
             log.pop(player_name)
-            state = update('0000',log)
+            n_log = self.jsing(log)
+            state = update('0000',n_log)
             if state :
                 await ctx.edit(f"player {player_name} deleted successfully")
             else:
