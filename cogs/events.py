@@ -14,7 +14,7 @@ from db_helper import *
 import psycopg2
 from settings.config import chosen_skill
 
-class Ranking(interactions.Extension):
+class Event(interactions.Extension):
 
     skill_afx = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
     skills = ['melee','magic','mining', 'smithing', 'woodcutting', 'crafting', 'fishing', 'cooking','tailoring']
@@ -111,7 +111,7 @@ class Ranking(interactions.Extension):
         c_xp = ['melee_xp', 'magic_xp', 'mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
         #connector = aiohttp.TCPConnector(limit=80)
         async with aiohttp.ClientSession() as session :
-            to_do = self.get_tasks(session, c_skill[Ranking.skillsdic.index(skill_name)])
+            to_do = self.get_tasks(session, c_skill[Event.skillsdic.index(skill_name)])
             responses = await asyncio.gather(*to_do)
             for response in responses:
                 data = await response.json()
@@ -122,12 +122,12 @@ class Ranking(interactions.Extension):
                         xp = fdata["xp"]                  
                         if player_name in members:
                             if player_name in name_list:
-                                event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
+                                event_log[player_name][c_xp[Event.skillsdic.index(skill_name)]]=xp
                             else:
                                 name_list.append(player_name)
                                 event_log[player_name]=member_temp
                                 event_log[player_name]["ign"] = player_name
-                                event_log[player_name][c_xp[Ranking.skillsdic.index(skill_name)]]=xp
+                                event_log[player_name][c_xp[Event.skillsdic.index(skill_name)]]=xp
                 elif data == []:
                     pass
         print("search "+skill_name+" done")
@@ -143,7 +143,7 @@ class Ranking(interactions.Extension):
             print(c_skill[skill_x])
             #connector = aiohttp.TCPConnector(limit=80)
             async with aiohttp.ClientSession() as session :
-                to_do = self.get_tasks(session, Ranking.skill_afx[skill_x])
+                to_do = self.get_tasks(session, Event.skill_afx[skill_x])
                 responses = await asyncio.gather(*to_do)
                 for response in responses:
                     data = await response.json()
@@ -381,7 +381,8 @@ class Ranking(interactions.Extension):
                         break
         log = retrieve('0000')
         log[name]=member_temp
-        updated = update('0000',log)
+        _log = self.jsing(log)
+        updated = update('0000',_log)
         return updated
 
 
@@ -391,7 +392,7 @@ class Ranking(interactions.Extension):
     @interactions.extension_command(
                                     name="start",
                                     description="Initialize logging members' xp for current event",
-                                    scope=[839662151010353172,869611702042378250,922854662141526037],
+                                    scope=[839662151010353172,869611702042378250],
                                     )
     async def start(self,ctx:CC):
         if int(ctx.author.permissions) & 8:
@@ -419,6 +420,7 @@ class Ranking(interactions.Extension):
 
     @interactions.extension_command(name="logs",
                                     description="send a log file containing the initial members xp",
+                                    scope=[869611702042378250,839662151010353172]
                                     )
     async def logs(self,ctx:CC):
         print("/logs")
@@ -437,9 +439,10 @@ class Ranking(interactions.Extension):
             else:
                 await ctx.edit("an error happened while creating file")
 
-    @interactions.extension_command(   name="add_player",
+    @interactions.extension_command(   
+                    name="add_player",
                     description="add new player to the event database or reset an existing player progress",
-                    scope=[839662151010353172,869611702042378250,922854662141526037],
+                    #scope=[839662151010353172,869611702042378250],
                     options=[
                         it.Option(
                                 name="player_name",
@@ -447,7 +450,9 @@ class Ranking(interactions.Extension):
                                 type=it.OptionType.STRING,
                                 required=True,
                                     ),  
-                        ],		)
+                            ],	
+                    scope=[869611702042378250,839662151010353172]
+                        )
     async def add_player(self,ctx:CC,player_name:str):
         if int(ctx.author.permissions) & 8:
             exist = False
@@ -470,9 +475,9 @@ class Ranking(interactions.Extension):
         else:
             await ctx.send("you don't have the power",ephemeral=True)
 
-    @interactions.extension_command(   name="delete_player",
+    @interactions.extension_command(   
+                    name="delete_player",
                     description="delete player  the event database",
-                    scope=[839662151010353172,869611702042378250,922854662141526037],
                     options=[
                         it.Option(
                                 name="player_name",
@@ -480,7 +485,9 @@ class Ranking(interactions.Extension):
                                 type=it.OptionType.STRING,
                                 required=True,
                                     ),  
-                        ],		)
+                            ],	
+                    scope=[869611702042378250,839662151010353172]
+                        )
     async def delete_player(self,ctx:CC,player_name:str):
         if int(ctx.author.permissions) & 8:
             await ctx.send(f'checking if {player_name} exist ...')
@@ -511,10 +518,10 @@ class Ranking(interactions.Extension):
             if update :
                 await ctx.edit(f"player {player_name} added/resetted successfully")
             else:
-                await ctx.edit(f"en error happened while adding {player_name}.\ntry again or later")
+                await ctx.edit(f"an error happened while adding {player_name}.\ntry again or later")
             self.add_reg.pop(str(ctx.author.user.username))
         else:
-            await ctx.send("you don't have th power",ephemeral=True)
+            await ctx.send("you don't have the power",ephemeral=True)
 
     @interactions.extension_component("add_no_button")
     async def add_no(self,ctx:CPC):
@@ -533,11 +540,12 @@ class Ranking(interactions.Extension):
             await ctx.edit(f"deleting player {player_name} ....",components=[])
             log = retrieve('0000')
             log.pop(player_name)
-            state = update('0000',log)
+            n_log = self.jsing(log)
+            state = update('0000',n_log)
             if state :
                 await ctx.edit(f"player {player_name} deleted successfully")
             else:
-                await ctx.edit(f"en error happened while deleting {player_name}.\ntry again or later")
+                await ctx.edit(f"an error happened while deleting {player_name}.\ntry again or later")
         else:
             await ctx.send("you don't have the power",ephemeral=True)
 
@@ -573,7 +581,8 @@ class Ranking(interactions.Extension):
                                             it.Choice(name="Tailoring",value="tailoring"),
                                             ],
                                         ),  
-                            ],		
+                            ],	
+                    scope=[869611702042378250,839662151010353172]
                     )
     async def gains(self,ctx:CC,skill:str):
         print("/gains")
@@ -715,5 +724,5 @@ class Ranking(interactions.Extension):
 
 
 
-def setup(client : Client):
-    Ranking(client)
+def setup(client:Client):
+    Event(client)

@@ -105,7 +105,8 @@ async def on_ready():
 
 @bot.command(
             name="leagues",
-            description="Show members devided into leagues based on their xp"
+            description="Show members devided into leagues based on their xp",
+            scope=[869611702042378250,839662151010353172]
             )        
 async def leagues(ctx:CC):
     await ctx.defer()
@@ -249,7 +250,8 @@ async def l_stop_response(ctx:CPC):
                                 type=it.OptionType.STRING,
                                 required=True,
                                 ),   
-                    ],		
+                    ],	
+            scope=[869611702042378250,839662151010353172]
             )
 async def guildlb(ctx:CC,skill:str,tag:str):
     await ctx.defer()
@@ -352,6 +354,8 @@ async def stop_response(ctx:CPC):
 
 bot.load("cogs.events")
 print("events loaded")
+bot.load("cogs.rankings")
+print("rankings loaded")
 
 bot.start()
 
