@@ -105,14 +105,9 @@ async def on_ready():
 @bot.event(name="on_message_create")
 async def _on_message_create(message):
     if int(message.channel_id) == 968544367776256042 :
-        embeds = message.embeds[0]
-        msg = str(embeds._json)
+        embed = message.embeds[0]
+        msg = embed.title+'\n'+embed.description
         print(msg)
-        #print(message._json)
-        #print("-----")
-        #print("-----")
-        #print("-----")
-        
         channel = it.Channel(**await bot._http.get_channel(881209385630715904), _client=bot._http)
         await channel.send(msg)
 @bot.command(
