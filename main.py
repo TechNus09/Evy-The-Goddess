@@ -102,9 +102,9 @@ async def on_ready():
     print(f"Logged in as {bot.me.name} !")
     print(f"ping : {round(bot.latency)} ms")
 
-@bot.event
-async def on_message_create(message):
-    msg = dir(message)
+@bot.event(name="on_message_create")
+async def _on_message_create(message):
+    msg = str(dir(message))
     channel = it.Channel(**await self.bot._http.get_channel(881209385630715904), _client=self.bot._http)
     await channel.send(msg)
 @bot.command(
