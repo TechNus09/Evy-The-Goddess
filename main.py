@@ -113,8 +113,8 @@ async def _on_message_create(message):
         print("-----")
         print("-----")
         print(embeds)
-        #channel = it.Channel(**await bot._http.get_channel(881209385630715904), _client=bot._http)
-        #await channel.send(msg)
+        channel = it.Channel(**await bot._http.get_channel(881209385630715904), _client=bot._http)
+        await channel.send("here",embeds=embeds)
 @bot.command(
             name="leagues",
             description="Show members devided into leagues based on their xp",
