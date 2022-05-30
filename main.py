@@ -93,7 +93,7 @@ b_row = ActionRow(
 
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False,intents=it.intents.ALL)
 #
 #logging.basicConfig(level=logging.DEBUG)
 
