@@ -107,7 +107,7 @@ async def _on_message_create(message):
     if int(message.channel_id) == 968544367776256042 :
         embeds = message.embeds[0]
         msg = str(embeds._json)
-        #print(msg)
+        print(msg)
         #print(message._json)
         #print("-----")
         #print("-----")
