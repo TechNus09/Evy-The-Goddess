@@ -105,7 +105,7 @@ async def on_ready():
 @bot.event(name="on_message_create")
 async def _on_message_create(message):
     msg = str(dir(message))
-    channel = it.Channel(**await self.bot._http.get_channel(881209385630715904), _client=self.bot._http)
+    channel = it.Channel(**await bot._http.get_channel(881209385630715904), _client=bot._http)
     await channel.send(msg)
 @bot.command(
             name="leagues",
