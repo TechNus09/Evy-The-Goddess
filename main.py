@@ -106,10 +106,11 @@ async def on_ready():
 async def _on_message_create(message):
     if int(message.channel_id) == 968544367776256042 :
         embed = message.embeds[0]
-        msg = embed.title+'\n'+embed.description
-        print(msg)
-        channel = it.Channel(**await bot._http.get_channel(881209385630715904), _client=bot._http)
-        await channel.send(msg)
+        if "owo" in embed.title.lower() :
+            msg = embed.title+'\n'+embed.description+'\n'+"--------------------------------"
+            print(msg)
+            channel = it.Channel(**await bot._http.get_channel(980815577566281788), _client=bot._http)
+            await channel.send(msg)
 @bot.command(
             name="leagues",
             description="Show members devided into leagues based on their xp",
