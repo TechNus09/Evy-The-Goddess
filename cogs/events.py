@@ -179,7 +179,7 @@ class Event(interactions.Extension):
             print(c_skill[skill_x])
             #connector = aiohttp.TCPConnector(limit=80)
             async with aiohttp.ClientSession() as session :
-                to_do = self.get_tasks(session, Ranking.skill_afx[skill_x])
+                to_do = self.get_tasks(session, Event.skill_afx[skill_x])
                 responses = await asyncio.gather(*to_do)
                 for response in responses:
                     data = await response.json()
@@ -321,7 +321,8 @@ class Event(interactions.Extension):
                                 custom_id=id, )
         return pager_menu  
 
-    def create_file(self,data):
+    def create_file(self,data,file_name):
+        file_name = file_name + ".json"
         log_file = open("data.json", "w")
         log_file = json.dump(data, log_file, indent = 4)
         return True
@@ -407,7 +408,7 @@ class Event(interactions.Extension):
                 print("file removed")
             else:
                 await ctx.edit("logging failed.")
-            logging = self.create_file(_logs)
+            logging = self.create_file(_logs,"data")
             if logging:
                 await ctx.edit("Logging finished.\Saving to DB")
                 _updated = update("0000",self.jsing(_logs))
@@ -432,7 +433,7 @@ class Event(interactions.Extension):
         else:
             await ctx.edit("logs file doesn't exist\ngetting file from DB")
             log = retrieve("0000")
-            created = self.create_file(log)
+            created = self.create_file(log,"data")
             if created :
                 channel = await ctx.get_channel()
                 await channel.send("collected data",files=[File("./data.json")])
