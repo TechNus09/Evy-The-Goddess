@@ -99,7 +99,7 @@ class Event(interactions.Extension):
 
     def get_tasks(self,session,skill_name):
         tasks = []
-        for k in range(0,5000):  
+        for k in range(0,7500):  
             url='https://www.curseofaros.com/highscores'
             tasks.append(asyncio.create_task(session.get(url+skill_name+'.json?p='+str(k))))
         return tasks
