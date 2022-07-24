@@ -357,8 +357,8 @@ class Event(interactions.Extension):
                 break
         return rname
 
-    async def update_player(self,name):
-        updated = False
+    async def add_player_to_db(self,name):
+        added = False
         c_skill = ["-melee",'-magic','-mining', '-smithing', '-woodcutting', '-crafting', '-fishing', '-cooking','-tailoring']
         c_xp = ['melee_xp','magic_xp','mining_xp','smithing_xp','woodcutting_xp','crafting_xp','fishing_xp','cooking_xp','tailoring_xp']
         member_temp = { 'ign' : 'name' , 'melee_xp' : 0  , 'magic_xp' : 0 , 'mining_xp' : 0 , 'smithing_xp' : 0 , 'woodcutting_xp': 0 , 'crafting_xp' : 0 , 'fishing_xp' : 0 , 'cooking_xp' : 0 , 'tailoring_xp' : 0 , 'total': 0}
@@ -383,8 +383,8 @@ class Event(interactions.Extension):
         log = retrieve('0000')
         log[name]=member_temp
         _log = self.jsing(log)
-        updated = update('0000',_log)
-        return updated
+        added = update('0000',_log)
+        return added
 
 
 
@@ -515,8 +515,8 @@ class Event(interactions.Extension):
             player_name = self.add_reg[ctx.user.username]
             self.add_reg.pop(str(ctx.author.user.username))
             await ctx.edit(f"adding player {player_name} ....",components=[])
-            update = self.update_player(player_name)
-            if update :
+            added = self.add_player_to_db(player_name)
+            if added :
                 await ctx.edit(f"player {player_name} added/resetted successfully")
             else:
                 await ctx.edit(f"an error happened while adding {player_name}.\ntry again or later")
