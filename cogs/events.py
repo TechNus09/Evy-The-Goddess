@@ -515,12 +515,11 @@ class Event(interactions.Extension):
             player_name = self.add_reg[ctx.user.username]
             self.add_reg.pop(str(ctx.author.user.username))
             await ctx.edit(f"adding player {player_name} ....",components=[])
-            added = self.add_player_to_db(player_name)
+            added = await self.add_player_to_db(player_name)
             if added :
                 await ctx.edit(f"player {player_name} added/resetted successfully")
             else:
                 await ctx.edit(f"an error happened while adding {player_name}.\ntry again or later")
-            self.add_reg.pop(str(ctx.author.user.username))
         else:
             await ctx.send("you don't have the power",ephemeral=True)
 
