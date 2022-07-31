@@ -108,10 +108,11 @@ async def my_task():
     current_log = await searchtotal("OwO")
     print("2")
     init_log = retrieve("0000")
+    print(init_log["OwO TechNus"]
     print("3")
     for player in init_log:
         if player in current_log:
-            total_gain = init_log[player]["total_xp"] - current_log[player]
+            total_gain = init_log[player]["total"] - current_log[player]
             if total_gain > 0:
                 gains[player]=total_gain
     print("4")
