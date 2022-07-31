@@ -1,6 +1,6 @@
 async-timeout
 discord-py-interactions==4.3.0
-interactions.ext.tasks
+interactions-tasks
 nest-asyncio
 asyncio
 aiohttp
