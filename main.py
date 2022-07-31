@@ -101,7 +101,7 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 #
 #logging.basicConfig(level=logging.DEBUG)
 
-@create_task(IntervalTrigger(10))
+@create_task(IntervalTrigger(360))
 async def my_task():
     gains = {}
     print("1")
