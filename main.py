@@ -101,31 +101,25 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 #
 #logging.basicConfig(level=logging.DEBUG)
 
-@create_task(IntervalTrigger(300))
+@create_task(IntervalTrigger(150))
 async def my_task():
     start = time.time()
     gains = {}
-    print("1")
     current_log = await searchtotal("OwO")
-    print("2")
     init_log = retrieve("0000")
-    print(init_log["OwO TechNus09"])
-    print("3")
     for player in init_log:
         if player in current_log:
-            print(player)
             total_gain = init_log[player]["total"] - current_log[player]
             if total_gain > 0:
                 gains[player]=total_gain
-    print("4")
     updated = update("4444",jsing(gains))
-    print("5")
     if updated :
         print("updated") 
     else :
         print("not updated")
     time_taken = time.time() - start
-    print(round(time_taken))
+    print(f"time taken {round(time_taken)} s.")
+    print(gains)
 
 my_task.start()
 
