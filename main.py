@@ -109,7 +109,7 @@ async def my_task():
     current_log = await searchtotal("OwO")
     print("2")
     init_log = retrieve("0000")
-    print(init_log["OwO TechNus"]
+    print(init_log["OwO TechNus"])
     print("3")
     for player in init_log:
         if player in current_log:
