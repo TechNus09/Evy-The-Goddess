@@ -101,8 +101,9 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 #
 #logging.basicConfig(level=logging.DEBUG)
 
-@create_task(IntervalTrigger(360))
+@create_task(IntervalTrigger(300))
 async def my_task():
+    start = time.time()
     gains = {}
     print("1")
     current_log = await searchtotal("OwO")
@@ -112,6 +113,7 @@ async def my_task():
     print("3")
     for player in init_log:
         if player in current_log:
+            print(player)
             total_gain = init_log[player]["total"] - current_log[player]
             if total_gain > 0:
                 gains[player]=total_gain
@@ -122,6 +124,8 @@ async def my_task():
         print("updated") 
     else :
         print("not updated")
+    time_taken = time.time() - start
+    print(round(time_taken))
 
 my_task.start()
 
