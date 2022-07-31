@@ -126,6 +126,7 @@ my_task.start()
 
 
 
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.me.name} !")
