@@ -597,6 +597,7 @@ class Event(interactions.Extension):
         players_list = []
         for i in old_record:
             players_list.append(i)
+
         if skill.lower() == 'total':
             print("total xp")
             if players_list != []:
@@ -615,6 +616,7 @@ class Event(interactions.Extension):
             ranking_embeds = embeds[1]
             main_embed = embeds[0]
             print("embeds made")
+            
         else:
             print(f"{skill} chosen")
             if players_list != [] :

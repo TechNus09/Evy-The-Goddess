@@ -14,5 +14,3 @@ def insert_player(player_name:str,data:dict):
         updated = False
     return updated
 
-x = retrieve("0000")
-pprint(x)

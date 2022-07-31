@@ -15,6 +15,7 @@ from db_helper import *
 from evy_helper import *
 from test import insert_player
 from test_helper import *
+from api_helper import *
 import logging
 
 
@@ -102,7 +103,24 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 
 @create_task(IntervalTrigger(10))
 async def my_task():
-    print('hi')
+    gains = {}
+    print("1")
+    current_log = await searchtotal("OwO")
+    print("2")
+    init_log = retrieve("0000")
+    print("3")
+    for player in init_log:
+        if player in current_log:
+            total_gain = init_log[player]["total_xp"] - current_log[player]
+            if total_gain > 0:
+                gains[player]=total_gain
+    print("4")
+    updated = update("4444",jsing(gains))
+    print("5")
+    if updated :
+        print("updated") 
+    else :
+        print("not updated")
 
 my_task.start()
 
