@@ -109,7 +109,7 @@ async def my_task():
     init_log = retrieve("0000")
     for player in init_log:
         if player in current_log:
-            total_gain = init_log[player]["total"] - current_log[player]
+            total_gain = current_log[player] - init_log[player]["total"]
             if total_gain > 0:
                 gains[player]=total_gain
     updated = update("4444",jsing(gains))
