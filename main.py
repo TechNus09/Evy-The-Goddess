@@ -206,12 +206,12 @@ async def on_ready():
 async def update_player(ctx:CC,player_name:str,melee_xp:str,magic_xp:str,mining_xp:str,smithing_xp:str,woodcutting_xp:str,crafting_xp:str,fishing_xp:str,cooking_xp:str,tailoring_xp:str ):
     player_model = {}
     player_model["ign"]=player_name
-    player_model["total_xp"]=0
+    player_model["total"]=0
     xps = ["melee_xp","magic_xp","mining_xp","smithing_xp","woodcutting_xp","crafting_xp","fishing_xp","cooking_xp","tailoring_xp"]
     inputs = [melee_xp,magic_xp,mining_xp,smithing_xp,woodcutting_xp,crafting_xp,fishing_xp,cooking_xp,tailoring_xp]
     for i in range(9):
         player_model[xps[i]]=int(inputs[i])
-        player_model["total_xp"] += int(inputs[i])
+        player_model["total"] += int(inputs[i])
     inserted = insert_player(player_name,player_model)
     state = "success" if inserted else "fail"
     await ctx.send(f"updating {player_name} was {state}")
