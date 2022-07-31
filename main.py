@@ -5,12 +5,15 @@ import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow
 from interactions import CommandContext as CC
 from interactions import ComponentContext as CPC
+import interactions.ext.tasks
+from interactions.ext.tasks import IntervalTrigger, create_task
 
 import time
 import math
 
 from db_helper import *
 from evy_helper import *
+from test import insert_player
 from test_helper import *
 import logging
 
@@ -97,20 +100,110 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 #
 #logging.basicConfig(level=logging.DEBUG)
 
+@create_task(IntervalTrigger(10))
+async def my_task():
+    print('hi')
+
+my_task.start()
+
+
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.me.name} !")
     print(f"ping : {round(bot.latency)} ms")
 
-@bot.event(name="on_message_create")
-async def _on_message_create(message):
-    if int(message.channel_id) == 968544367776256042 :
-        embed = message.embeds[0]
-        title = " "+embed.title
-        if " owo " in title.lower() :
-            msg = embed.title+'\n'+embed.description+'\n'+"--------------------------------"
-            channel = it.Channel(**await bot._http.get_channel(980815577566281788), _client=bot._http)
-            await channel.send(msg)
+
+
+@bot.command(
+    name="update_player",
+    description="manually update initial player's xp",
+    scope=[839662151010353172,869611702042378250],
+    options=[
+        it.Option(
+            name="player_name",
+            description="targeted player name",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="melee_xp",
+            description="the updated xp of melee",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="magic_xp",
+            description="the updated xp of magic",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="mining_xp",
+            description="the updated xp of mining",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="smithing_xp",
+            description="the updated xp of smithing",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="woodcutting_xp",
+            description="the updated xp of woodcutting",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="crafting_xp",
+            description="the updated xp of crafting",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="fishing_xp",
+            description="the updated xp of fishing",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="cooking_xp",
+            description="the updated xp of cooking",
+            type=it.OptionType.STRING,
+            required=True
+        ),
+        it.Option(
+            name="tailoring_xp",
+            description="the updated xp of tailoring",
+            type=it.OptionType.STRING,
+            required=True
+        )
+            ],
+        default_member_permissions=it.Permissions.ADMINISTRATOR
+        
+    
+)
+async def update_player(ctx:CC,player_name:str,melee_xp:str,magic_xp:str,mining_xp:str,smithing_xp:str,woodcutting_xp:str,crafting_xp:str,fishing_xp:str,cooking_xp:str,tailoring_xp:str ):
+    player_model = {}
+    player_model["ign"]=player_name
+    player_model["total_xp"]=0
+    xps = ["melee_xp","magic_xp","mining_xp","smithing_xp","woodcutting_xp","crafting_xp","fishing_xp","cooking_xp","tailoring_xp"]
+    inputs = [melee_xp,magic_xp,mining_xp,smithing_xp,woodcutting_xp,crafting_xp,fishing_xp,cooking_xp,tailoring_xp]
+    for i in range(9):
+        player_model[xps[i]]=int(inputs[i])
+        player_model["total_xp"] += int(inputs[i])
+    inserted = insert_player(player_name,player_model)
+    state = "success" if inserted else "fail"
+    await ctx.send(f"updating {player_name} was {state}")
+
+
+
+
+
+
+
 @bot.command(
             name="leagues",
             description="Show members devided into leagues based on their xp",
