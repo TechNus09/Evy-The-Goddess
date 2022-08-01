@@ -101,6 +101,20 @@ bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]
 #
 #logging.basicConfig(level=logging.DEBUG)
 
+
+def fix_mess():
+    names = ["OwO Rush","OwO Tsunami","OwO TheWitcher","OwO Tantrid","OwO Krieger","OwO AJ","OwO Herzog"]
+    temp_log = retrieve("0000")
+    for name in names:
+        if "total_xp" in temp_log[name]:
+            temp = 0
+            temp = temp_log[name]["total_xp"]
+            temp_log[name]["total"]=temp
+            temp_log[name].pop("total_xp")
+fix_mess()
+
+
+
 @create_task(IntervalTrigger(150))
 async def my_task():
     start = time.time()
@@ -123,16 +137,7 @@ async def my_task():
 
 my_task.start()
 
-def fix_mess():
-    names = ["OwO Rush","OwO Tsunami","OwO TheWitcher","OwO Tantrid","OwO Krieger","OwO AJ","OwO Herzog"]
-    temp_log = retrieve("0000")
-    for name in names:
-        if "total_xp" in temp_log[name]:
-            temp = 0
-            temp = temp_log[name]["total_xp"]
-            temp_log[name]["total"]=temp
-            temp_log[name].pop("total_xp")
-fix_mess()
+
 
 
 
