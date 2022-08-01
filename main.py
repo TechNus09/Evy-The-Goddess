@@ -123,7 +123,7 @@ async def my_task():
 
 my_task.start()
 
-def fix_mess()
+def fix_mess():
     names = ["OwO Rush","OwO Tsunami","OwO TheWitcher","OwO Tantrid","OwO Krieger","OwO AJ","OwO Herzog"]
     temp_log = retrieve("0000")
     for name in names:
