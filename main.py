@@ -111,6 +111,8 @@ def fix_mess():
             temp = temp_log[name]["total_xp"]
             temp_log[name]["total"]=temp
             temp_log[name].pop("total_xp")
+    temp_log.pop("testing")
+    update("0000",jsing(temp_log))
 fix_mess()
 
 
