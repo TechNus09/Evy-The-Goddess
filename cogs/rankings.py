@@ -40,7 +40,7 @@ class GuildsRanking():
         _ordered_dict = {k: v for k, v in sorted(unordered_dict.items(), key=lambda item: item[1],reverse=True)}
         return _ordered_dict
         
-    def guildlb_search(self,guild_tag):        
+    def async guildlb_search(self,guild_tag):        
         async with aiohttp.ClientSession() as session :
             to_do = self.get_task(session)
             responses = await asyncio.gather(*to_do)
