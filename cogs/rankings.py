@@ -264,7 +264,7 @@ class Ranking(interactions.Extension):
 
 
 
-    @interactions.command(name="guildlb",
+    @interactions.extension_command(name="guildlb",
                 description="Show Guild's Leaderboard In Overall Xp Or Specific Skill",
                 options=[
                         it.Option(
