@@ -121,7 +121,7 @@ async def my_task():
     print(f"time taken {round(time_taken)} s.")
     print(gains)
 
-my_task.start()
+#my_task.start()
 
 
 
@@ -343,60 +343,60 @@ async def l_stop_response(ctx:CPC):
 
 ###############guild leaderboard in skills########################
 
-@bot.command(name="guildlb",
-            description="Show Guild's Leaderboard In Total Xp Or Specific Skill",
-            options=[
-                    it.Option(
-                            name="skill",
-                            description="The Leaderboard Skill",
-                            type=it.OptionType.STRING,
-                            required=True,
-                            choices=[
-                                    it.Choice(name="Total",value="total"),
-                                    it.Choice(name="Melee",value="melee"),
-                                    it.Choice(name="Magic",value="magic"),
-                                    it.Choice(name="Mining",value="mining"),
-                                    it.Choice(name="Smithing",value="smithing"),
-                                    it.Choice(name="Woodcutting",value="woodcutting"),
-                                    it.Choice(name="Crafting",value="crafting"),              
-                                    it.Choice(name="Fishing",value="fishing"),
-                                    it.Choice(name="Cooking",value="cooking"),
-                                    it.Choice(name="Tailoring",value="tailoring"),
-                                    ],
-                            ),
-                    it.Option(
-                                name="tag",
-                                description="Guild Tag To Look For",
-                                type=it.OptionType.STRING,
-                                required=True,
-                                ),   
-                    ],	
-            scope=[869611702042378250,839662151010353172]
-            )
-async def guildlb(ctx:CC,skill:str,tag:str):
-    await ctx.defer()
-    g_tag = tag.upper()
-    if len(g_tag) > 5 or len(g_tag) < 2:
-        ctx.send("Invalid tag.\nValid tags length is between 2-5")
-    else :
-        await ctx.send("Fetching Data ...")
-        if skill.lower() == "total":
-            result = asyncio.run(searchtagtotal(g_tag)) 
-            embeds = makeEmbeds(result,g_tag,"Total Xp")
-            ranking_embeds = embeds[1]
-            main_embed = embeds[0]
-        else :
-            skill_order = skills.index(skill.lower())
-            result = asyncio.run(searchtag(skill_afx[skill_order],g_tag))
-            embeds = makeEmbeds(result,g_tag,skill.capitalize())
-            ranking_embeds = embeds[1]
-            main_embed = embeds[0]
-        user = ctx.author.user.username
-        m_count = len(result[0])
-        pager_reg[str(user)]=[0,m_count,ranking_embeds,main_embed]
-        pager_m = pagerMaker(0,m_count,"pager_menu")
-        m_row = ActionRow(components=[pager_m])
-        await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[m_row,b_row])
+#@bot.command(name="guildlb",
+#            description="Show Guild's Leaderboard In Total Xp Or Specific Skill",
+#            options=[
+#                    it.Option(
+#                            name="skill",
+#                            description="The Leaderboard Skill",
+#                            type=it.OptionType.STRING,
+#                            required=True,
+#                            choices=[
+#                                    it.Choice(name="Total",value="total"),
+#                                    it.Choice(name="Melee",value="melee"),
+#                                    it.Choice(name="Magic",value="magic"),
+#                                    it.Choice(name="Mining",value="mining"),
+#                                    it.Choice(name="Smithing",value="smithing"),
+#                                    it.Choice(name="Woodcutting",value="woodcutting"),
+#                                    it.Choice(name="Crafting",value="crafting"),              
+#                                    it.Choice(name="Fishing",value="fishing"),
+#                                    it.Choice(name="Cooking",value="cooking"),
+#                                    it.Choice(name="Tailoring",value="tailoring"),
+#                                    ],
+#                            ),
+#                    it.Option(
+#                                name="tag",
+#                                description="Guild Tag To Look For",
+#                                type=it.OptionType.STRING,
+#                                required=True,
+#                                ),   
+#                    ],	
+#            scope=[869611702042378250,839662151010353172]
+#            )
+#async def guildlb(ctx:CC,skill:str,tag:str):
+#    await ctx.defer()
+#    g_tag = tag.upper()
+#    if len(g_tag) > 5 or len(g_tag) < 2:
+#        ctx.send("Invalid tag.\nValid tags length is between 2-5")
+#    else :
+#        await ctx.send("Fetching Data ...")
+#        if skill.lower() == "total":
+#            result = asyncio.run(searchtagtotal(g_tag)) 
+#            embeds = makeEmbeds(result,g_tag,"Total Xp")
+#            ranking_embeds = embeds[1]
+#            main_embed = embeds[0]
+#        else :
+#            skill_order = skills.index(skill.lower())
+#            result = asyncio.run(searchtag(skill_afx[skill_order],g_tag))
+#            embeds = makeEmbeds(result,g_tag,skill.capitalize())
+#            ranking_embeds = embeds[1]
+#            main_embed = embeds[0]
+#        user = ctx.author.user.username
+#        m_count = len(result[0])
+#        pager_reg[str(user)]=[0,m_count,ranking_embeds,main_embed]
+#        pager_m = pagerMaker(0,m_count,"pager_menu")
+#        m_row = ActionRow(components=[pager_m])
+#        await ctx.edit("Finished !",embeds=[main_embed,ranking_embeds[0]],components=[m_row,b_row])
 
 @bot.component("pager_menu")
 async def pager_response(ctx:CPC,blah):

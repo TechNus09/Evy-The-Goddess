@@ -1,5 +1,7 @@
 async-timeout
-discord-py-interactions==4.3.0
+discord-py-interactions
+interactions-wait-for
+dinteractions-Paginator
 interactions-tasks
 nest-asyncio
 asyncio

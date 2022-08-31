@@ -12,7 +12,67 @@ import aiohttp
 import json
 from db_helper import *
 import psycopg2
+from interactions.ext.paginator import Page, Paginator
 
+class GuildsRanking():
+    def __init__(self):
+        self.overall = {}
+        self.melee = {}
+        self.magic = {}
+        self.mining = {}
+        self.smithing = {}
+        self.woodcutting = {}
+        self.crafting = {}
+        self.fishing = {}
+        self.cooking = {}
+        self.tailoring = {}
+        self.all_xps = [self.melee,self.magic,self.mining,self.smithing,self.woodcutting,self.crafting,self.fishing,self.cooking,self.tailoring,self.overall]
+    
+    def get_task(self,session):
+        tasks = []
+        for k in range(0,100):  
+            url='https://www.curseofaros.com/highscores-overall.json?p='
+            tasks.append(asyncio.create_task(session.get(url+str(k)+'&lw=1')))
+        return tasks
+        
+    def order_dict(self,unordered_dict:dict) -> dict:
+        """order a given dictionnary"""
+        _ordered_dict = {k: v for k, v in sorted(unordered_dict.items(), key=lambda item: item[1],reverse=True)}
+        return _ordered_dict
+        
+    def guildlb_search(self,guild_tag):        
+        async with aiohttp.ClientSession() as session :
+            to_do = self.get_task(session)
+            responses = await asyncio.gather(*to_do)
+            for response in responses:
+                data = await response.json()
+                if data != []:
+                    for fdata in data :
+                        player_name = fdata["name"]
+                        tag = player_name.split()[0]
+                        if len(tag) in range(2,6) and tag.upper() == guild_tag.upper():
+                            self.overall[player_name] = fdata["xp"]
+                            self.melee[player_name] = fdata["xps"][0]
+                            self.magic[player_name] = fdata["xps"][1]
+                            self.mining[player_name] = fdata["xps"][2]
+                            self.smithing[player_name] = fdata["xps"][3]
+                            self.woodcutting[player_name] = fdata["xps"][4]
+                            self.crafting[player_name] = fdata["xps"][5]
+                            self.fishing[player_name] = fdata["xps"][6]
+                            self.cooking[player_name] = fdata["xps"][6]
+                            self.tailoring[player_name] = fdata["xps"][8]
+                elif data == []:
+                    break
+            
+        for xp in self.all_xps :
+            xp = self.order_dict(xp)
+    
+    
+    
+    
+    
+    
+    
 class Ranking(interactions.Extension):
     skills = ['melee',
               'magic',
@@ -22,7 +82,8 @@ class Ranking(interactions.Extension):
               'crafting',
               'fishing',
               'cooking',
-              'tailoring'                 
+              'tailoring',
+              'overall'
              ]
     color_hex = {
                 'melee': 0xff0000,
@@ -34,7 +95,7 @@ class Ranking(interactions.Extension):
                 'fishing': 0x00ffff,
                 'cooking': 0xff4500,
                 'tailoring': 0xffffff,
-                'total': 0x000000    
+                'overall': 0x000000    
                 }
 
     def __init__(self,client:Client) -> None:
@@ -142,8 +203,7 @@ class Ranking(interactions.Extension):
         
         return ranking_embed
 
-
-
+    
 
 
 
@@ -200,6 +260,62 @@ class Ranking(interactions.Extension):
         _embed = self.embed_maker(_guilds_list,int(ranks),skill)
                     
         await ctx.edit("Finished !",embeds=_embed)
+
+
+
+
+    @interactions.command(name="guildlb",
+                description="Show Guild's Leaderboard In Overall Xp Or Specific Skill",
+                options=[
+                        it.Option(
+                                name="skill",
+                                description="The Leaderboard Skill",
+                                type=it.OptionType.STRING,
+                                required=True,
+                                choices=[
+                                        it.Choice(name="Overall",value="overall"),
+                                        it.Choice(name="Melee",value="melee"),
+                                        it.Choice(name="Magic",value="magic"),
+                                        it.Choice(name="Mining",value="mining"),
+                                        it.Choice(name="Smithing",value="smithing"),
+                                        it.Choice(name="Woodcutting",value="woodcutting"),
+                                        it.Choice(name="Crafting",value="crafting"),              
+                                        it.Choice(name="Fishing",value="fishing"),
+                                        it.Choice(name="Cooking",value="cooking"),
+                                        it.Choice(name="Tailoring",value="tailoring"),
+                                        ],
+                                ),
+                        it.Option(
+                                    name="tag",
+                                    description="Guild Tag To Look For",
+                                    type=it.OptionType.STRING,
+                                    required=True,
+                                    ),   
+                        ],	
+                scope=[869611702042378250,839662151010353172]
+                )
+    async def guildlb(ctx:CC,skill:str,guild_tag:str):
+        await ctx.defer()
+        g_tag = tag.upper()
+        if len(g_tag) > 5 or len(g_tag) < 2:
+            await ctx.send("Invalid tag.\nValid tags length is between 2-5",ephemeral=True)
+        else:
+            guild_ranking = GuildsRanking()
+            await guild_ranking.guildlb_search(guild_tag)
+            skill_index = Ranking.skills.index(skill)
+            await guild_ranking.guildlb_search(guild_tag)
+            skill_lb = guild_ranking.all_xps
+            skill_lb_listed = listify(skill_lb)
+            lb_embeds = makeEmbeds(skill_lb_listed,guild_tag,skill.capitalize())
+            lb_pages = []
+            for embed in range(lb_embeds[1]):
+                lb_pages.append(Page(embeds=[lb_embeds[0],embed]))
+            await Paginator(
+                    client=client,
+                    ctx=ctx,
+                    pages=lb_pages
+                ).run()
+            
 
 
 
