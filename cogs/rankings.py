@@ -101,6 +101,7 @@ class Ranking(interactions.Extension):
     def __init__(self,client:Client) -> None:
         self.g_pager_reg = {}
         self.add_reg = {}
+        self.client = client
         return
 
 
@@ -296,7 +297,7 @@ class Ranking(interactions.Extension):
                 )
     async def guildlb(ctx:CC,skill:str,guild_tag:str):
         await ctx.defer()
-        g_tag = tag.upper()
+        g_tag = guild_tag.upper()
         if len(g_tag) > 5 or len(g_tag) < 2:
             print("no")
             await ctx.send("Invalid tag.\nValid tags length is between 2-5",ephemeral=True)
@@ -304,13 +305,12 @@ class Ranking(interactions.Extension):
             print("yes")
             guild_ranking = GuildsRanking()
             print("1")
-            await guild_ranking.guildlb_search(guild_tag)
+            await guild_ranking.guildlb_search(g_tag)
             print("2")
             skill_index = Ranking.skills.index(skill)
             print("3")
-            await guild_ranking.guildlb_search(guild_tag)
             print("4")
-            skill_lb = guild_ranking.all_xps
+            skill_lb = guild_ranking.all_xps[skill_index]
             print("5")
             skill_lb_listed = listify(skill_lb)
             print("6")
@@ -321,7 +321,7 @@ class Ranking(interactions.Extension):
                 lb_pages.append(Page(embeds=[lb_embeds[0],embed]))
             print("8")
             await Paginator(
-                    client=client,
+                    client=self.client,
                     ctx=ctx,
                     pages=lb_pages
                 ).run()
