@@ -298,23 +298,34 @@ class Ranking(interactions.Extension):
         await ctx.defer()
         g_tag = tag.upper()
         if len(g_tag) > 5 or len(g_tag) < 2:
+            print("no")
             await ctx.send("Invalid tag.\nValid tags length is between 2-5",ephemeral=True)
         else:
+            print("yes")
             guild_ranking = GuildsRanking()
+            print("1")
             await guild_ranking.guildlb_search(guild_tag)
+            print("2")
             skill_index = Ranking.skills.index(skill)
+            print("3")
             await guild_ranking.guildlb_search(guild_tag)
+            print("4")
             skill_lb = guild_ranking.all_xps
+            print("5")
             skill_lb_listed = listify(skill_lb)
+            print("6")
             lb_embeds = makeEmbeds(skill_lb_listed,guild_tag,skill.capitalize())
+            print("7")
             lb_pages = []
             for embed in range(lb_embeds[1]):
                 lb_pages.append(Page(embeds=[lb_embeds[0],embed]))
+            print("8")
             await Paginator(
                     client=client,
                     ctx=ctx,
                     pages=lb_pages
                 ).run()
+            print("done")
             
 
 
