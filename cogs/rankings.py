@@ -295,7 +295,7 @@ class Ranking(interactions.Extension):
                         ],	
                 scope=[869611702042378250,839662151010353172]
                 )
-    async def guildlb(ctx:CC,skill:str,guild_tag:str):
+    async def guildlb(self,ctx:CC,skill:str,guild_tag:str):
         await ctx.defer()
         await ctx.send("searching ...")
         print("0")
