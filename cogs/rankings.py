@@ -297,13 +297,14 @@ class Ranking(interactions.Extension):
                 )
     async def guildlb(ctx:CC,skill:str,guild_tag:str):
         await ctx.defer()
+        await ctx.send("searching ...")
         print("0")
         g_tag = guild_tag.upper()
         if len(g_tag) > 5 or len(g_tag) < 2:
             print("no")
             await ctx.send("Invalid tag.\nValid tags length is between 2-5",ephemeral=True)
         else:
-            await ctx.send("searching...")
+            await ctx.edit("searching...")
             print("yes")
             guild_ranking = GuildsRanking()
             print("1")
