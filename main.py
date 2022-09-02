@@ -97,7 +97,7 @@ b_row = ActionRow(
 
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False,intents=it.Intents.DEFAULT | it.Intents.GUILD_MESSAGE_CONTENT)
+bot = Client("ODgxMTc4MzEzMTYxMzEwMjI4.GMyIOD.ERPORg90diVigV2-kpDK_BHmtwYVVUQBW2F1uk",presence=it.ClientPresence(activities=[presence]),disable_sync=False,intents=it.Intents.DEFAULT | it.Intents.GUILD_MESSAGE_CONTENT)
 #
 #logging.basicConfig(level=logging.DEBUG)
 

@@ -160,9 +160,9 @@ def makeEmbeds(result,tag,skill):
             fields_list.append(field)
         embed = it.Embed(
                         title="\u200b",
-        	            description="\u200b",       
-        	            fields=fields_list,
-        	            color=0x00ff00)
+                        description="\u200b",       
+                        fields=fields_list,
+                        color=0x00ff00)
         embeds_list.append(embed)
     left = members_count % 20
     start = len(embeds_list)*20
@@ -179,9 +179,9 @@ def makeEmbeds(result,tag,skill):
     embeds_list.append(last_embed)   	   
     main_embed = it.Embed(
                             title=f"{tag}'s {skill} Leaderboard",
-        	                description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
-        	                fields=[],
-        	                color=0x00ff00)   
+                            description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
+                            fields=[],
+                            color=0x00ff00)   
     return main_embed, embeds_list
 
 def pagerMaker(pos,count,id):
@@ -202,8 +202,8 @@ def pagerMaker(pos,count,id):
     options_list.append(last_option)
     pager_menu = SelectMenu(
                             options=options_list,
-	                        placeholder=f"Page ({pos+1}/{leng})",
-	                        custom_id=id, )
+                            placeholder=f"Page ({pos+1}/{leng})",
+                            custom_id=id, )
     return pager_menu   
 
 def ToZero(dicc):

@@ -1,3 +1,4 @@
+from pprint import pprint
 import interactions
 import interactions as it
 from interactions import Client, Button, ButtonStyle, SelectMenu, SelectOption, ActionRow, Modal, TextInput, TextStyleType, File
@@ -13,6 +14,7 @@ import json
 from db_helper import *
 import psycopg2
 from interactions.ext.paginator import Page, Paginator
+
 
 class GuildsRanking():
     def __init__(self):
@@ -64,27 +66,28 @@ class GuildsRanking():
                 elif data == []:
                     break
             
-        for xp in self.all_xps :
-            xp = self.order_dict(xp)
+        for xp_order in range(len(self.all_xps)) :
+            xp = self.order_dict(self.all_xps[xp_order])
+            self.all_xps[xp_order] = xp
     
     
     
-    
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     
     
     
 class Ranking(interactions.Extension):
     skills = ['melee',
-              'magic',
-              'mining',
-              'smithing',
-              'woodcutting',
-              'crafting',
-              'fishing',
-              'cooking',
-              'tailoring',
-              'overall'
-             ]
+            'magic',
+            'mining',
+            'smithing',
+            'woodcutting',
+            'crafting',
+            'fishing',
+            'cooking',
+            'tailoring',
+            'overall'
+            ]
     color_hex = {
                 'melee': 0xff0000,
                 'magic': 0x800080,
@@ -112,6 +115,44 @@ class Ranking(interactions.Extension):
             tasks.append(asyncio.create_task(session.get(url+skill_name+'.json?p='+str(k))))
         return tasks
     
+    def makeEmbeds(self,result,tag,skill):
+        embeds_list = []
+        fields_list = []
+        last_fields_list = []
+        members_count = len(result[0]) 
+        embeds_count = math.ceil(members_count/10)
+        total_xp = result[1]
+        for i in range(embeds_count-1):
+            fields_list = []
+            for j in range(10):
+                rank = (i*10)+j+1
+                field = it.EmbedField(name=f"Rank#{rank}", value=result[0][rank-1])
+                fields_list.append(field)
+            embed = it.Embed(
+                            title="\u200b",
+                            description="\u200b",       
+                            fields=fields_list,
+                            color=0x00ff00)
+            embeds_list.append(embed)
+        left = members_count % 10
+        start = len(embeds_list)*10
+        end = start + left
+        for j in range(start,end):
+            rank = j+1
+            field = it.EmbedField(name=f"Rank#{rank}", value=result[0][j])
+            last_fields_list.append(field)
+        last_embed = it.Embed(
+                            title="\u200b",
+                            description="\u200b",       
+                            fields=last_fields_list,
+                            color=0x00ff00)
+        embeds_list.append(last_embed)   	   
+        main_embed = it.Embed(
+                                title=f"{tag}'s {skill} Leaderboard",
+                                description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
+                                fields=[],
+                                color=0x00ff00)   
+        return main_embed, embeds_list
     
     async def search(self,skill_name:str) :
         """create a log with all guilds and their total xp in specific skill (top 100k in specified skill)"""
@@ -240,7 +281,7 @@ class Ranking(interactions.Extension):
                                                 min_value=1,
                                                 max_value=25,
                                                 required=False
-                                                      )
+                                                    )
                                             ],	
                                     scope=[869611702042378250,839662151010353172]
                                     )
@@ -287,7 +328,7 @@ class Ranking(interactions.Extension):
                                         ],
                                 ),
                         it.Option(
-                                    name="tag",
+                                    name="guild_tag",
                                     description="Guild Tag To Look For",
                                     type=it.OptionType.STRING,
                                     required=True,
@@ -297,38 +338,28 @@ class Ranking(interactions.Extension):
                 )
     async def guildlb(self,ctx:CC,skill:str,guild_tag:str):
         await ctx.defer()
-        await ctx.send("searching ...")
-        print("0")
         g_tag = guild_tag.upper()
         if len(g_tag) > 5 or len(g_tag) < 2:
-            print("no")
             await ctx.send("Invalid tag.\nValid tags length is between 2-5",ephemeral=True)
         else:
-            await ctx.edit("searching...")
-            print("yes")
+            await ctx.send("searching...")
             guild_ranking = GuildsRanking()
-            print("1")
-            await guild_ranking.guildlb_search(g_tag)
-            print("2")
+            asyncio.run(guild_ranking.guildlb_search(g_tag))
             skill_index = Ranking.skills.index(skill)
-            print("3")
-            print("4")
             skill_lb = guild_ranking.all_xps[skill_index]
-            print("5")
-            skill_lb_listed = listify(skill_lb)
-            print("6")
-            lb_embeds = makeEmbeds(skill_lb_listed,guild_tag,skill.capitalize())
-            print("7")
+            total_xp = 0
+            for player in skill_lb:
+                total_xp += skill_lb[player]
+            skill_lb_listed = [self.listify(skill_lb),total_xp]
+            lb_embeds = self.makeEmbeds(skill_lb_listed,guild_tag,skill.capitalize())
             lb_pages = []
-            for embed in range(lb_embeds[1]):
-                lb_pages.append(Page(embeds=[lb_embeds[0],embed]))
-            print("8")
+            for embed_page in lb_embeds[1]:
+                lb_pages.append(Page(embeds=[lb_embeds[0],embed_page]))
             await Paginator(
                     client=self.client,
                     ctx=ctx,
                     pages=lb_pages
                 ).run()
-            print("done")
             
 
 
