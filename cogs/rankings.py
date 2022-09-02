@@ -342,7 +342,7 @@ class Ranking(interactions.Extension):
         if len(g_tag) > 5 or len(g_tag) < 2:
             await ctx.send("Invalid tag.\nValid tags length is between 2-5",ephemeral=True)
         else:
-            await ctx.send("searching...")
+            await ctx.send("scanning ...")
             guild_ranking = GuildsRanking()
             asyncio.run(guild_ranking.guildlb_search(g_tag))
             skill_index = Ranking.skills.index(skill)
@@ -355,6 +355,7 @@ class Ranking(interactions.Extension):
             lb_pages = []
             for embed_page in lb_embeds[1]:
                 lb_pages.append(Page(embeds=[lb_embeds[0],embed_page]))
+                await ctx.edit("done !")
             await Paginator(
                     client=self.client,
                     ctx=ctx,
