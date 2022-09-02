@@ -72,7 +72,7 @@ class GuildsRanking():
     
     
     
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+#asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     
     
     
@@ -115,13 +115,13 @@ class Ranking(interactions.Extension):
             tasks.append(asyncio.create_task(session.get(url+skill_name+'.json?p='+str(k))))
         return tasks
     
-    def makeEmbeds(self,result,tag,skill):
+    def makeEmbeds(self,result,tag:str,skill):
         embeds_list = []
         fields_list = []
         last_fields_list = []
         members_count = len(result[0]) 
         embeds_count = math.ceil(members_count/10)
-        total_xp = result[1]
+        total_xp = "{:,}".format(result[1])
         for i in range(embeds_count-1):
             fields_list = []
             for j in range(10):
@@ -148,7 +148,7 @@ class Ranking(interactions.Extension):
                             color=0x00ff00)
         embeds_list.append(last_embed)   	   
         main_embed = it.Embed(
-                                title=f"{tag}'s {skill} Leaderboard",
+                                title=f"{tag.upper()}'s {skill} Leaderboard",
                                 description=f"Members Count : {members_count}\nTotal Xp : {total_xp}",       
                                 fields=[],
                                 color=0x00ff00)   
