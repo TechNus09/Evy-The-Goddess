@@ -267,12 +267,8 @@ class Event(interactions.Extension):
         embeded_results = self.embeds_maker(xp_formatted,"OwO",skill.capitalize())
         pages = []
         for index in range(len(embeded_results[1])):
-            pages.append(embeded_results[0],embeded_results[index])
-        await Paginator(
-            client=self.client,
-            ctx=ctx,
-            pages=pages,
-        ).run()
+            pages.append(embeds=[embeded_results[0],embeded_results[index]])
+        await Paginator(client=self.client,ctx=ctx,pages=pages,).run()
 
 def setup(client:Client):
     Event(client)
