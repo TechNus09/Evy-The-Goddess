@@ -472,7 +472,7 @@ async def stop_response(ctx:CPC):
     await ctx.edit("Finished !",embeds=[main_embed,cur_embed],components=[])
 
 
-bot.load("cogs.events")
+bot.load("cogs.new_events")
 print("events loaded")
 bot.load("cogs.rankings")
 print("rankings loaded")
