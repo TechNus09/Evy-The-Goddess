@@ -119,5 +119,6 @@ def retrieve(t_date) -> list[dict] :
     con.commit()
     cur.close()
     con.close()
+    print(log)
     return json.loads(log)
 
