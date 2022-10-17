@@ -159,7 +159,16 @@ class Event(interactions.Extension):
                                 color=0x00ff00)   
         return main_embed, embeds_list
 
+    def create_file(self,data,file_name):
+        file_name = file_name + ".json"
+        log_file = open("data.json", "w")
+        log_file = json.dump(data, log_file, indent = 4)
+        return True
 
+    def jsing(self,dic):
+        """convert dict variable to json object"""
+        json_object = json.dumps(dic, indent = 4) 
+        return json_object
 
 
 
@@ -174,12 +183,13 @@ class Event(interactions.Extension):
             await ctx.send("logging members xp ... ")
             initScrap = Scrapper()
             asyncio.run(initScrap.guildlb_search("OwO",0))
+
             if os.path.exists("data.json"):
                 print("file exist")
                 os.remove("data.json")
                 print("file removed")
-            else:
-                await ctx.edit("logging failed.")
+
+
             logging = self.create_file(initScrap.all_xps,"data")
             if logging:
                 await ctx.edit("Logging finished.\Saving to DB")
