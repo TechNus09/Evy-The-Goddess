@@ -249,21 +249,18 @@ class Event(interactions.Extension):
     async def gains(self,ctx:CC,skill:str):
         await ctx.defer()
         await ctx.send("Fetching initial records ...")
-        try:
-            old_record = retrieve("0000")
-        except psycopg2.Error as e :
-            print(e)
+        old_record = retrieve("0000")
         print("retrived")
-        print("0000")
+        
         await ctx.edit("fetching newest records ..." )
-
         try:
             eventScrap = Scrapper()
             asyncio.run(eventScrap.guildlb_search("OwO",0))
-        except e:
+        except Exception as e:
             print(e)
         else:
             await ctx.edit("calculating ...")
+
         xp_gains = eventScrap.sort_up(old_record,skill)
         xp_formatted = self.list_formater(xp_gains)
         embeded_results = self.embeds_maker(xp_formatted,"OwO",skill.capitalize())
