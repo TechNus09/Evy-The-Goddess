@@ -34,6 +34,7 @@ class Scrapper():
         self.tailoring = {}
         self.all_xps = [self.melee,self.magic,self.mining,self.smithing,self.woodcutting,self.crafting,self.fishing,self.cooking,self.tailoring,self.overall]
         self.skills = ["melee","magic","mining","smithing","woodcutting","crafting","fishing","cooking","tailoring","total"]
+        self.skills_xps = {"melee" : self.melee,"magic" : self.magic,"mining" : self.mining,"smithing" : self.smithing,"woodcutting" : self.woodcutting,"crafting" : self.crafting,"fishing" : self.fishing,"cooking" : self.cooking,"tailoring" : self.tailoring,"total" : self.overall}
     
     def sort_up(self,initial_xp:dict,skill:str):
         """get xp difference from initial and current xp values"""
@@ -251,7 +252,7 @@ class Event(interactions.Extension):
         await ctx.send("Fetching initial records ...")
         old_record = retrieve("0000")
         print("retrived")
-        
+
         await ctx.edit("fetching newest records ..." )
         try:
             eventScrap = Scrapper()
@@ -260,8 +261,8 @@ class Event(interactions.Extension):
             print(e)
         else:
             await ctx.edit("calculating ...")
-
-        xp_gains = eventScrap.sort_up(old_record,skill)
+        initial_record = old_record[eventScrap.skills.index(skill.lower())]
+        xp_gains = eventScrap.sort_up(initial_record,skill)
         xp_formatted = self.list_formater(xp_gains)
         embeded_results = self.embeds_maker(xp_formatted,"OwO",skill.capitalize())
         pages = []

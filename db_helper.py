@@ -1,3 +1,4 @@
+import json
 import psycopg2
 from psycopg2 import Error
 import os
@@ -101,7 +102,7 @@ def update(t_date,e_log):
     finally:
         return updated
 
-def retrieve(t_date):
+def retrieve(t_date) -> list[dict] :
     con = conn()
     cur = con.cursor()
     retrieve_query= """
@@ -114,8 +115,9 @@ def retrieve(t_date):
     while row is not None:
         log = row
         row = cur.fetchone()
+
     con.commit()
     cur.close()
     con.close()
-    return dict(log[0])
+    return json.loads(log)
 
