@@ -265,3 +265,6 @@ class Event(interactions.Extension):
             ctx=ctx,
             pages=pages,
         ).run()
+
+def setup(client:Client):
+    Event(client)
