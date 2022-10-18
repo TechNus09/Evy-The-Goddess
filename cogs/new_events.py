@@ -271,7 +271,7 @@ class Event(interactions.Extension):
         #    pages.append(Page(embeds=[embeded_results[0],embeded_results[index]]))
         #paginator = Paginator(client=self.client,ctx=ctx,pages=pages,)
         #await paginator.run()
-        await ctx.edit("done",embeds=[embeded_results[1]])
+        await ctx.edit("done",embeds=[embeded_results[0]])
 
 def setup(client:Client):
     Event(client)
