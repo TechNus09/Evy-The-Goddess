@@ -268,12 +268,11 @@ class Event(interactions.Extension):
         xp_gains = eventScrap.sort_up(initial_record,skill)
         xp_formatted = self.list_formater(xp_gains)
         embeded_results = self.embeds_maker(xp_formatted,"OwO",skill.capitalize())
-        #pages = []
-        #for index in range(len(embeded_results[1])):
-        #    pages.append(Page(embeds=[embeded_results[0],embeded_results[index]]))
-        #paginator = Paginator(client=self.client,ctx=ctx,pages=pages,)
-        #await paginator.run()
-        await ctx.edit("done",embeds=embeded_results[1])
+        lb_pages = []
+        for embed_page in embeded_results[1]:
+            lb_pages.append(Page(embeds=[embeded_results[0],embed_page]))
+        paginator = Paginator(client=self.client,ctx=ctx,pages=lb_pages)
+        await paginator.run()
 
 def setup(client:Client):
     Event(client)
