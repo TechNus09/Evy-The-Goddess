@@ -37,15 +37,7 @@ class Scrapper():
         self.skills = ["melee","magic","mining","smithing","woodcutting","crafting","fishing","cooking","tailoring","total"]
         self.skills_xps = {"melee" : self.melee,"magic" : self.magic,"mining" : self.mining,"smithing" : self.smithing,"woodcutting" : self.woodcutting,"crafting" : self.crafting,"fishing" : self.fishing,"cooking" : self.cooking,"tailoring" : self.tailoring,"total" : self.overall}
     
-    def sort_up(self,initial_xp:dict,skill:str):
-        """get xp difference from initial and current xp values"""
-        xp_diff = {}
-        current_xp = self.all_xps[self.skills.index(skill.lower())]
-        for player in initial_xp:
-            xp_gain = current_xp[player] - initial_xp[player]
-            xp_diff[player] = xp_gain
-        self.order_dict(xp_diff)
-        return xp_diff
+
 
     def get_task(self,session,lw:int):
         tasks = []
@@ -58,6 +50,16 @@ class Scrapper():
         """order a given dictionnary"""
         _ordered_dict = {k: v for k, v in sorted(unordered_dict.items(), key=lambda item: item[1],reverse=True)}
         return _ordered_dict
+
+    def sort_up(self,initial_xp:dict,skill:str):
+        """get xp difference from initial and current xp values"""
+        xp_diff = {}
+        current_xp = self.all_xps[self.skills.index(skill.lower())]
+        for player in initial_xp:
+            xp_gain = current_xp[player] - initial_xp[player]
+            xp_diff[player] = xp_gain
+        xp_diff = self.order_dict(xp_diff)
+        return xp_diff
 
     async def guildlb_search(self,guild_tag:str,lw:int):        
         async with aiohttp.ClientSession() as session :
