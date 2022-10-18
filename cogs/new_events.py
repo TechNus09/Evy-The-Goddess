@@ -41,7 +41,7 @@ class Scrapper():
 
     def get_task(self,session,lw:int):
         tasks = []
-        for k in range(0,100):  
+        for k in range(0,5000):  
             url='https://www.curseofaros.com/highscores-overall.json?p='
             tasks.append(asyncio.create_task(session.get(url+str(k)+'&lw='+str(lw))))
         return tasks

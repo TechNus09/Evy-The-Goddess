@@ -30,11 +30,11 @@ class GuildsRanking():
         self.tailoring = {}
         self.all_xps = [self.melee,self.magic,self.mining,self.smithing,self.woodcutting,self.crafting,self.fishing,self.cooking,self.tailoring,self.overall]
     
-    def get_task(self,session):
+    def get_task(self,session,mode:int):
         tasks = []
-        for k in range(0,100):  
+        for k in range(0,5000):  
             url='https://www.curseofaros.com/highscores-overall.json?p='
-            tasks.append(asyncio.create_task(session.get(url+str(k)+'&lw=1')))
+            tasks.append(asyncio.create_task(session.get(url+str(k)+'&lw='+str(mode))))
         return tasks
         
     def order_dict(self,unordered_dict:dict) -> dict:
@@ -42,9 +42,9 @@ class GuildsRanking():
         _ordered_dict = {k: v for k, v in sorted(unordered_dict.items(), key=lambda item: item[1],reverse=True)}
         return _ordered_dict
         
-    async def guildlb_search(self,guild_tag):        
+    async def guildlb_search(self,guild_tag,mode:int):        
         async with aiohttp.ClientSession() as session :
-            to_do = self.get_task(session)
+            to_do = self.get_task(session,mode)
             responses = await asyncio.gather(*to_do)
             for response in responses:
                 data = await response.json()
@@ -332,19 +332,30 @@ class Ranking(interactions.Extension):
                                     description="Guild Tag To Look For",
                                     type=it.OptionType.STRING,
                                     required=True,
-                                    ),   
+                                    ),  
+                        it.Option(
+                                name="mode",
+                                description="The Leaderboard's Mode",
+                                type=it.OptionType.STRING,
+                                required=False,
+                                choices=[
+                                        it.Choice(name="normal",value="normal"),
+                                        it.Choice(name="lonewolf",value="lonewolf")
+                                        ],
+                                )
                         ],	
                 scope=[869611702042378250,839662151010353172]
                 )
-    async def guildlb(self,ctx:CC,skill:str,guild_tag:str):
+    async def guildlb(self,ctx:CC,skill:str,guild_tag:str,mode:str="normal"):
         await ctx.defer()
         g_tag = guild_tag.upper()
+        mode_state = 0 if mode == "normal" else  1
         if len(g_tag) > 5 or len(g_tag) < 2:
             await ctx.send("Invalid tag.\nValid tags length is between 2-5",ephemeral=True)
         else:
             await ctx.send("scanning ...")
             guild_ranking = GuildsRanking()
-            asyncio.run(guild_ranking.guildlb_search(g_tag))
+            asyncio.run(guild_ranking.guildlb_search(g_tag,mode_state))
             skill_index = Ranking.skills.index(skill)
             skill_lb = guild_ranking.all_xps[skill_index]
             total_xp = 0
