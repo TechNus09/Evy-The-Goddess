@@ -27,7 +27,7 @@ class Event(interactions.Extension):
     @interactions.extension_command(
                     name="start",
                     description="Start recording the starting event xp",
-                    scope=[839662151010353172],
+                    scope=[839662151010353172,869611702042378250],
                     default_member_permissions=it.Permissions.ADMINISTRATOR
                     )
     async def start(self,ctx:CC):
@@ -68,7 +68,7 @@ class Event(interactions.Extension):
                                             ],
                                         ),  
                             ],	
-                    scope=[839662151010353172],
+                    scope=[839662151010353172,869611702042378250],
                     )
     async def gains(self,ctx:CC,skill:str):
         await ctx.defer()
