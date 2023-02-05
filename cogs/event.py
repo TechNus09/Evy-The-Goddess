@@ -17,8 +17,6 @@ from interactions.ext.paginator import Page, Paginator
 from tools.evy_helper import *
 from tools.db_helper import *
 
-from dotenv import load_dotenv 
-load_dotenv() 
 
 
 class Event(interactions.Extension):
