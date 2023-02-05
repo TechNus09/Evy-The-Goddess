@@ -18,7 +18,7 @@ import logging
 
 
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=True)
+bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
 #
 #logging.basicConfig(level=logging.DEBUG)
 
