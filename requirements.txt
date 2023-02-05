@@ -6,4 +6,4 @@ interactions-tasks
 nest-asyncio
 asyncio
 aiohttp
-psycopg2==2.9.3
+pymongo
