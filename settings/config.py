@@ -1,1 +1,0 @@
-DB_URL = "mongodb+srv://pegatech9:pega11963112@guild.502ado8.mongodb.net/?retryWrites=true&w=majority"

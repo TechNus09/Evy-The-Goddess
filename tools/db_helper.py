@@ -5,8 +5,7 @@ from pymongo import MongoClient
 from pymongo.database import Database
 from pymongo.collection import Collection
 
-from dotenv import load_dotenv 
-load_dotenv() 
+
 
 
 

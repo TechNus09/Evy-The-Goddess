@@ -12,8 +12,7 @@ import time
 import math
 import logging
 
-from dotenv import load_dotenv 
-load_dotenv() 
+
 
 
 
