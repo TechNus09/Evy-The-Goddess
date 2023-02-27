@@ -1,11 +1,3 @@
-
-#start
-
-#add player
-#remove player
-
-#event[skill]
-
 import interactions
 from interactions import *
 import interactions as it
@@ -16,12 +8,14 @@ from interactions.ext.paginator import Page, Paginator
 
 from tools.evy_helper import *
 from tools.db_helper import *
+from settings.config import *
 
 
 
 class Event(interactions.Extension):
     def __init__(self,client : Client) -> None:
-        super().__init__()
+        self.bot = client
+        return None
 
 
     @interactions.extension_command(

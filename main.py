@@ -1,6 +1,4 @@
 import os
-#import asyncio
-#import nest_asyncio
 import interactions as it
 from interactions import Client
 from interactions import CommandContext as CC
@@ -17,8 +15,10 @@ import logging
 
 
 
+
+
 presence = it.PresenceActivity(name="Leaderboard", type=it.PresenceActivityType.WATCHING)
-bot = Client(os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
+bot = Client(token=os.getenv("TOKEN"),presence=it.ClientPresence(activities=[presence]),disable_sync=False)
 #
 #logging.basicConfig(level=logging.DEBUG)
 
@@ -31,7 +31,7 @@ async def on_ready():
 
 bot.load("cogs.event")
 print("events loaded")
-#bot.load("cogs.rankings")
-#print("rankings loaded")
+bot.load("cogs.guilds")
+print("guilds loaded")
 
 bot.start()
