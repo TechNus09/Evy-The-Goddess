@@ -5,7 +5,7 @@ import select
 
 def keepalive():
     TCP_IP = '127.0.0.1'
-    TCP_PORT = 8080
+    TCP_PORT = 80
     BUFFER_SIZE = 1024
     param = []
     print('Listening for client...')
