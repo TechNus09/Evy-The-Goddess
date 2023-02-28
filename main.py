@@ -10,7 +10,7 @@ import time
 import math
 import logging
 
-from life import keepalive
+
 
 
 
@@ -36,4 +36,3 @@ bot.load("cogs.guilds")
 print("guilds loaded")
 
 bot.start()
-keepalive()
