@@ -199,11 +199,6 @@ class Analyser():
         json_object = json.dumps(dic) 
         return json_object
 
-    def get_total_xp(self,guilds:dict[dict]) -> dict:
-        for guild in guilds :
-            guild.pop("members",None)
-        return None
-
     def clean_up(self,old_dict:dict,skill_name:str) -> dict:
         new_dict = {}
         for elem in old_dict:
